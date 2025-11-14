@@ -1,0 +1,61 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: "Noto Sans KR", sans-serif;
+	color: #ffffff;
+	background: linear-gradient(180deg, #0a1a2f 0%, #000000 100%);
+	min-width: 320px;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background: rgba(255, 255, 255, 0.2);
+}
+
+@layer utilities {
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Hide scrollbar for IE, Edge and Firefox */
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+}
+
+/* 스크롤바 숨김 */
+.scrollbar-hide {
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+	display: none;  /* Chrome, Safari, Opera */
+  }
+
+  /* projects 스냅: 기본은 OFF, 터치(포인터가 coarse) 환경에서만 활성화 */
+.projects-snap {
+	/* 기본: nothing */
+  }
+  
+  /* 터치(모바일) 환경에서만 scroll-snap 적용 */
+  @media (pointer: coarse), (hover: none) {
+	.projects-snap {
+	  scroll-snap-type: y proximity; /* proximity가 mandatory보다 덜 민감함 */
+	}
+	.projects-snap > section {
+	  scroll-snap-align: start;
+	}
+  }
