@@ -1,24 +1,8 @@
 export default function ChanneltalkOptimization() {
 	return (
 		<div className="space-y-6">
-			{/* 프로젝트 개요 */}
-			<div>
-				<h3 className="text-sm font-semibold text-gray-400 mb-2">프로젝트 개요</h3>
-				<ul className="space-y-2">
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						채널톡 사용 패턴을 데이터 기반으로 분석하고, 고객 경험을 유지하면서 점진적으로 비용을 절감하는 실험을 설계하고 리드
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						10개월간 지속적인 모니터링과 최적화를 통해 77.6%의 비용 절감을 달성
-					</li>
-				</ul>
-			</div>
-
 			{/* 주요 성과 */}
 			<div>
-				<h3 className="text-sm font-semibold text-gray-400 mb-2">주요 성과</h3>
 				<ul className="space-y-2">
 					<li className="text-gray-300 flex items-start gap-2">
 						<span className="text-blue-400">•</span>
@@ -35,6 +19,21 @@ export default function ChanneltalkOptimization() {
 					<li className="text-gray-300 flex items-start gap-2">
 						<span className="text-blue-400">•</span>
 						고객 응대 품질 유지 및 만족도 하락 없음
+					</li>
+				</ul>
+			</div>
+
+			{/* 프로젝트 개요 */}
+			<div>
+				<h3 className="text-sm font-semibold text-gray-400 mb-2">프로젝트 개요</h3>
+				<ul className="space-y-2">
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						채널톡 사용 패턴을 데이터 기반으로 분석하고, 고객 경험을 유지하면서 점진적으로 비용을 절감하는 실험을 설계하고 리드
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						10개월간 지속적인 모니터링과 최적화를 통해 77.6%의 비용 절감을 달성
 					</li>
 				</ul>
 			</div>

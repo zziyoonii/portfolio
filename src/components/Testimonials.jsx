@@ -1,36 +1,30 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const TESTIMONIALS = [
 	{
+		quote: '지금 회사에 가장 필요하고, 누군가는 해야 하는 중요한 역할을 맡아주고 있어요',
+		role: 'Communication Group Leader'
+	},
+	{
 		quote: '고객의 불편을 누구보다 빠르게 발견하고 해결책을 제시해요',
-		author: 'Mari',
-		role: '팀원, CX Manager',
+		role: 'CX Manager'
 	},
 	{
 		quote: '체계화의 달인. 없던 프로세스도 만들어내죠',
-		author: 'Esther',
-		role: '동료, Product Owner',
+		role: 'Product Owner'
 	},
 	{
 		quote: '쿠를 보면, 업무 본질을 향한 열정이 남다르다고 느껴집니다',
-		author: '동료',
-		role: '동료, Content Manager',
+		role: 'Content Manager'
 	},
 	{
 		quote: '같은 CXM으로써 솔선수범 책임감을 보여주셔서 동기부여 받고 있습니다',
-		author: 'CX 팀원',
-		role: '',
+		role: 'CX Manager'
 	},
 	{
-		quote: '[동료 평가 내용 5]',
-		author: '동료 이름',
-		role: '직책',
-	},
-	{
-		quote: '[동료 평가 내용 6]',
-		author: '동료 이름',
-		role: '직책',
+		quote: '기술·운영·사용자를 동시에 이해하는 CXM',
+		role: 'Full Stack Developer'
 	},
 ]
 
@@ -39,20 +33,114 @@ export default function Testimonials() {
 	const [isPaused, setIsPaused] = useState(false)
 	const total = TESTIMONIALS.length
 	const intervalRef = useRef(null)
+	const sectionRef = useRef(null)
+	const swipeStartX = useRef(null)
+	const swipeThreshold = 50 // 최소 스와이프 거리
+	const isScrollingRef = useRef(false) // 스크롤 중 플래그
 
-	const next = useMemo(
-		() => () => setCurrentIndex((prev) => (prev + 1) % total),
-		[total],
-	)
-	const goTo = (idx) => setCurrentIndex(idx)
+	const pauseAndResume = useCallback(() => {
+		setIsPaused(true)
+		// 3초 후 자동 슬라이드 재개
+		setTimeout(() => setIsPaused(false), 3000)
+	}, [])
+
+	const next = useCallback(() => {
+		setCurrentIndex((prev) => (prev + 1) % total)
+		pauseAndResume()
+	}, [total, pauseAndResume])
+
+	const prev = useCallback(() => {
+		setCurrentIndex((prev) => (prev - 1 + total) % total)
+		pauseAndResume()
+	}, [total, pauseAndResume])
+
+	const goTo = (idx) => {
+		setCurrentIndex(idx)
+		pauseAndResume()
+	}
 
 	useEffect(() => {
 		if (isPaused) return
 		intervalRef.current = setInterval(() => {
-			next()
+			setCurrentIndex((prev) => (prev + 1) % total)
 		}, 4500)
 		return () => clearInterval(intervalRef.current)
-	}, [isPaused, next])
+	}, [isPaused, total])
+
+	// 좌우 스크롤/스와이프로 슬라이드 전환
+	useEffect(() => {
+		const handleWheel = (e) => {
+			// 좌우 스크롤만 감지 (상하 스크롤은 무시)
+			if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 10) {
+				// 이미 스크롤 중이면 무시 (한 번의 제스처에 한 번만 전환)
+				if (isScrollingRef.current) {
+					return
+				}
+
+				if (e.deltaX > 0) {
+					// 오른쪽 스크롤: 다음
+					e.preventDefault()
+					isScrollingRef.current = true
+					next()
+					setTimeout(() => {
+						isScrollingRef.current = false
+					}, 500)
+				} else if (e.deltaX < 0) {
+					// 왼쪽 스크롤: 이전
+					e.preventDefault()
+					isScrollingRef.current = true
+					prev()
+					setTimeout(() => {
+						isScrollingRef.current = false
+					}, 500)
+				}
+			}
+		}
+
+		const handleTouchStart = (e) => {
+			swipeStartX.current = e.touches[0].clientX
+		}
+
+		const handleTouchMove = (e) => {
+			// 터치 이동 중에는 아무것도 하지 않음
+		}
+
+		const handleTouchEnd = (e) => {
+			if (swipeStartX.current === null) return
+
+			const swipeEndX = e.changedTouches[0].clientX
+			const swipeDistance = swipeStartX.current - swipeEndX
+
+			if (Math.abs(swipeDistance) > swipeThreshold) {
+				if (swipeDistance > 0) {
+					// 오른쪽 스와이프: 다음
+					next()
+				} else {
+					// 왼쪽 스와이프: 이전
+					prev()
+				}
+			}
+
+			swipeStartX.current = null
+		}
+
+		const section = sectionRef.current
+		if (section) {
+			section.addEventListener('wheel', handleWheel, { passive: false })
+			section.addEventListener('touchstart', handleTouchStart, { passive: true })
+			section.addEventListener('touchmove', handleTouchMove, { passive: true })
+			section.addEventListener('touchend', handleTouchEnd, { passive: true })
+		}
+
+		return () => {
+			if (section) {
+				section.removeEventListener('wheel', handleWheel)
+				section.removeEventListener('touchstart', handleTouchStart)
+				section.removeEventListener('touchmove', handleTouchMove)
+				section.removeEventListener('touchend', handleTouchEnd)
+			}
+		}
+	}, [next, prev])
 
 	const transitionProps = {
 		initial: { opacity: 0, x: 40 },
@@ -62,7 +150,7 @@ export default function Testimonials() {
 	}
 
 	return (
-		<section id="testimonials" className="min-h-screen snap-start bg-white pt-20 md:pt-24">
+		<section ref={sectionRef} id="testimonials" className="min-h-screen snap-start bg-white pt-20 md:pt-24">
 			<div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-4xl flex-col px-8">
 				<header className="flex min-h-[30vh] flex-col items-center justify-end text-center">
 					<motion.h2
@@ -72,7 +160,7 @@ export default function Testimonials() {
 						transition={{ duration: 0.6, ease: 'easeOut' }}
 						className="font-serif text-3xl font-bold text-gray-900 md:text-4xl"
 					>
-						Qoo는 이런 사람입니다
+						Who Qoo Is
 					</motion.h2>
 					<motion.p
 						initial={{ opacity: 0, y: 8 }}
@@ -81,7 +169,7 @@ export default function Testimonials() {
 						transition={{ duration: 0.6, ease: 'easeOut', delay: 0.05 }}
 						className="mt-2 text-lg text-gray-600 md:mb-16 md:text-xl"
 					>
-						동료들이 말하는 Qoo
+						함께 일한 사람들이 말하는 Qoo
 					</motion.p>
 				</header>
 
@@ -95,11 +183,11 @@ export default function Testimonials() {
 							<AnimatePresence mode="wait" initial={false}>
 								<motion.div key={currentIndex} {...transitionProps}>
 									<p className="mb-6 font-serif text-2xl leading-relaxed text-gray-900 md:text-3xl lg:text-4xl">
-										&quot;{TESTIMONIALS[currentIndex].quote}
+										&quot;{TESTIMONIALS[currentIndex].quote}&quot;
 									</p>
 									<div className="text-lg text-gray-600 md:text-xl">
-										— {TESTIMONIALS[currentIndex].author}
-										{TESTIMONIALS[currentIndex].role ? `, ${TESTIMONIALS[currentIndex].role}` : ''}
+										— 
+										{TESTIMONIALS[currentIndex].role ? ` ${TESTIMONIALS[currentIndex].role}` : ''}
 									</div>
 								</motion.div>
 							</AnimatePresence>

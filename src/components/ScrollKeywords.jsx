@@ -30,19 +30,25 @@ export default function ScrollKeywords() {
 	const totalProjects = allProjects.length
 
 	const handleNext = () => {
-		if (currentIndex < allProjects.length - 1) {
-			const nextIndex = currentIndex + 1
-			setCurrentIndex(nextIndex)
-			setSelectedProject(allProjects[nextIndex])
-		}
+		setCurrentIndex((prevIndex) => {
+			if (prevIndex < allProjects.length - 1) {
+				const nextIndex = prevIndex + 1
+				setSelectedProject(allProjects[nextIndex])
+				return nextIndex
+			}
+			return prevIndex
+		})
 	}
 
 	const handlePrev = () => {
-		if (currentIndex > 0) {
-			const prevIndex = currentIndex - 1
-			setCurrentIndex(prevIndex)
-			setSelectedProject(allProjects[prevIndex])
-		}
+		setCurrentIndex((prevIndex) => {
+			if (prevIndex > 0) {
+				const prevIndexNew = prevIndex - 1
+				setSelectedProject(allProjects[prevIndexNew])
+				return prevIndexNew
+			}
+			return prevIndex
+		})
 	}
 
 	return (
@@ -80,19 +86,22 @@ export default function ScrollKeywords() {
 									viewport={{ once: true }}
 									transition={{ duration: 0.5, delay: index * 0.1 }}
 									whileHover={{ scale: 1.05 }}
+									whileTap={{ scale: 0.98 }}
 									onClick={() => openModal(project.id)}
-									className="bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30"
+									className="bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full touch-manipulation"
 								>
 									<h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
 									<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>
-									<p className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-3">{project.description}</p>
-									<div className="text-xs text-gray-400 mb-4">{project.metrics}</div>
-									<div className="flex flex-wrap gap-2">
-										{project.tags.map((tag, i) => (
-											<span key={i} className="px-3 py-1 bg-white/10 text-gray-300 text-xs rounded-full">
-												#{tag}
-											</span>
-										))}
+									<p className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-3 flex-grow">{project.description}</p>
+									<div className="mt-auto">
+										<div className="text-xs text-gray-400 mb-4">{project.metrics}</div>
+										<div className="flex flex-wrap gap-2">
+											{project.tags.map((tag, i) => (
+												<span key={i} className="px-3 py-1 bg-white/10 text-gray-300 text-xs rounded-full">
+													#{tag}
+												</span>
+											))}
+										</div>
 									</div>
 								</motion.div>
 							))}

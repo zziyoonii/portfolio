@@ -11,6 +11,32 @@ export default function CxTranslator() {
 			{/* 이미지 갤러리 - 최상단 */}
 			<ImageGallery images={images} />
 
+			{/* 주요 성과 */}
+			<div>
+				<ul className="space-y-2">
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						🏆 사내 아이디어톤 선정 (2024.07 주제 : 업무 효율성 개선)
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						Claude, Cursor, ChatGPT 등 AI 도구를 조합하여 2-3일 만에 MVP 개발 및 배포
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						개발자의 답변 작성 시간 50% 단축
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						일관된 고객 커뮤니케이션 톤 유지
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						개발자-고객 간 소통 장벽 해소
+					</li>
+				</ul>
+			</div>
+
 			{/* 서비스 링크 */}
 			<div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
 				<div className="flex items-center justify-between">
@@ -40,34 +66,6 @@ export default function CxTranslator() {
 					<li className="text-gray-300 flex items-start gap-2">
 						<span className="text-blue-400">•</span>
 						Claude API를 활용하여 구름 CX팀의 톤앤매너를 학습시키고, 3가지 톤 옵션(기본형, 간결형, 정중형)을 제공
-					</li>
-				</ul>
-			</div>
-
-
-			{/* 주요 성과 */}
-			<div>
-				<h3 className="text-sm font-semibold text-gray-400 mb-2">주요 성과</h3>
-				<ul className="space-y-2">
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						🏆 사내 아이디어톤 선정 (2024.07 주제 : 업무 효율성 개선)
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						Claude, Cursor, ChatGPT 등 AI 도구를 조합하여 2-3일 만에 MVP 개발 및 배포
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						개발자의 답변 작성 시간 50% 단축
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						일관된 고객 커뮤니케이션 톤 유지
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						개발자-고객 간 소통 장벽 해소
 					</li>
 				</ul>
 			</div>

@@ -30,14 +30,14 @@ function App() {
 	}, [])
 
 	return (
-		<>
+		<div className="w-full overflow-x-hidden">
 			<Nav />
 			<Hero showArrow={currentSection !== 'contact'} />
 			<About />
 			<ScrollKeywords />
 			<Testimonials />
 			<Contact />
-		</>
+		</div>
 	)
 }
 

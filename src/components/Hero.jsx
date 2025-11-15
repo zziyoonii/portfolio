@@ -65,7 +65,7 @@ export default function Hero({ showArrow = true }) {
 						transition={{ duration: 0.6, ease: 'easeOut', delay: 0.16 }}
 						className="mt-3 text-xl text-gray-300 md:text-2xl"
 					>
-						고객 경험을 설계하고, 기술로 구현하는 CX Designer
+						경험을 읽고, 기술로 구현합니다.
 					</motion.p>
 				</motion.div>
 			</div>

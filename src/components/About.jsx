@@ -59,9 +59,11 @@ export default function About() {
 					<p className="mb-3 font-serif text-xl text-white md:text-2xl">
 						&ldquo;작은 벽돌부터 옮겨야 거대한 도시를 만들 수 있어요&rdquo;
 					</p>
-					<p className="mx-auto max-w-3xl text-sm leading-relaxed text-gray-300 md:text-base">
-						고객과 프로덕트, 고객과 조직을 잇는 커뮤니케이션 허브. <br />
-                        문의 응대를 넘어 고객 관점에서 프로덕트를 개선하고, <br />
+					<p className="mx-auto max-w-3xl text-sm leading-relaxed text-gray-300 md:text-base px-2">
+						고객과 프로덕트, 고객과 조직을 잇는 커뮤니케이션 허브.{' '}
+						<span className="hidden md:inline"><br /></span>
+						문의 응대를 넘어 고객 관점에서 프로덕트를 개선하고,{' '}
+						<span className="hidden md:inline"><br /></span>
 						고객의 목소리를 기반으로 진화의 방향을 잡습니다.
 					</p>
 				</motion.div>
@@ -75,7 +77,7 @@ export default function About() {
 				>
 					<div className="rounded-xl border border-white/20 bg-gradient-to-br from-navy-800/50 to-navy-900/50 p-4 transition-transform duration-300 hover:scale-105 md:p-6">
 						<h3 className="text-lg font-bold text-white md:text-xl">고객의 목소리로 프로덕트를 개선하는 CX 매니저</h3>
-						<p className="">Goorm Blog Interview</p>
+						<p className="">goorm Blog Interview</p>
 						<div className="mt-4">
 							<a
 								href="https://blog.goorm.io/goormeeinterview_cxmanager/"

@@ -2,6 +2,28 @@ export default function TeamBuilding() {
 	return (
 		
 		<div className="space-y-6">
+			{/* 주요 성과 */}
+			<div>
+				<ul className="space-y-2">
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						18개월 만에 0명 → 3인 팀 구축 (3차례 채용, 21명 인터뷰)
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						CX Team Culture Deck & Rules 수립 — 팀 비전과 운영 원칙 정립
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						CX 101 워크북 27개 문서 — 지식 체계화 및 온보딩 기반 마련
+					</li>
+					<li className="text-gray-300 flex items-start gap-2">
+						<span className="text-blue-400">•</span>
+						정기 스크럼 운영 (Daily/Weekly/1on1) — 팀 커뮤니케이션 체계 확립
+					</li>
+				</ul>
+			</div>
+
 						{/* 팀 성장 여정 */}
 						<div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
 				<h3 className="text-sm font-semibold text-purple-400 mb-3">🚀 팀 성장 여정</h3>
@@ -45,29 +67,6 @@ export default function TeamBuilding() {
 					<li className="text-gray-300 flex items-start gap-2">
 						<span className="text-blue-400">•</span>
 						채용부터 온보딩, 업무 루틴, 자동화까지 팀이 독립적으로 성장할 수 있는 시스템을 만들었습니다.
-					</li>
-				</ul>
-			</div>
-
-			{/* 주요 성과 */}
-			<div>
-				<h3 className="text-sm font-semibold text-gray-400 mb-2">주요 성과</h3>
-				<ul className="space-y-2">
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						18개월 만에 0명 → 3인 팀 구축 (3차례 채용, 21명 인터뷰)
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						CX Team Culture Deck & Rules 수립 — 팀 비전과 운영 원칙 정립
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						CX 101 워크북 27개 문서 — 지식 체계화 및 온보딩 기반 마련
-					</li>
-					<li className="text-gray-300 flex items-start gap-2">
-						<span className="text-blue-400">•</span>
-						정기 스크럼 운영 (Daily/Weekly/1on1) — 팀 커뮤니케이션 체계 확립
 					</li>
 				</ul>
 			</div>
