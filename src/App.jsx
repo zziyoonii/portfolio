@@ -4,6 +4,7 @@ import Nav from './components/Nav'
 import About from './components/About'
 import ScrollKeywords from './components/ScrollKeywords'
 import Testimonials from './components/Testimonials'
+import SideProjects from './components/SideProjects'
 import Contact from './components/Contact'
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
 			<Hero showArrow={currentSection !== 'contact'} />
 			<About />
 			<ScrollKeywords />
+			<SideProjects />
 			<Testimonials />
 			<Contact />
 		</div>

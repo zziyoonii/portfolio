@@ -49,7 +49,7 @@ export const SECTIONS = [
                 id: 'edu-activation',
                 title: 'EDU 플랫폼 활성화',
                 subtitle: '데이터 기반 월간 액션플랜',
-                description: '사용 데이터 분석 기반 월간 액션플랜 수립 및 실행, 1년 간 지속적 개선 사이클 운영',
+                description: '사용자 행동 데이터로 월간 액션 플랜을 설계하고, 1년간 지속 가능한 개선 사이클을 운영했습니다.',
                 metrics: '메일 오픈율 16% • 재로그인율 1.6%',
                 tags: ['데이터분석', '리텐션', '그로스'],
                 component: 'EduActivation',

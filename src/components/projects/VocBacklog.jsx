@@ -1,9 +1,11 @@
 import ImageGallery from './ImageGallery'
 import backlog1 from '../../assets/projects/vocbacklog/backlog1.png'
+import backlog2 from '../../assets/projects/vocbacklog/backlog2.png'
 
 export default function VocBacklog() {
   const images = [
     { src: backlog1, alt: 'voc backlog 1', caption: 'VoC 기반 백로그 흐름도 설계' },
+    { src: backlog2, alt: 'voc backlog 2', caption: '내부 VoC 수집 시스템 설계' },
   ]
 
   const prevCreated = 90

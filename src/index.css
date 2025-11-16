@@ -74,3 +74,17 @@ body {
 	  scroll-snap-align: start;
 	}
   }
+
+  /* Recharts 그래프 배경 투명화 */
+  .recharts-wrapper {
+	background: transparent !important;
+  }
+  
+  .recharts-surface {
+	background: transparent !important;
+  }
+  
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+	stroke: rgba(156, 163, 175, 0.3) !important;
+  }

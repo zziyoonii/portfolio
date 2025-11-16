@@ -5,6 +5,7 @@ const sections = [
 	{ id: 'hero', label: 'Home' },
 	{ id: 'about', label: 'About' },
 	{ id: 'projects', label: 'Project' },
+	{ id: 'side-projects', label: 'More' },
 	{ id: 'testimonials', label: 'Who Qoo Is' },
 	{ id: 'contact', label: 'Contact' },
 ]

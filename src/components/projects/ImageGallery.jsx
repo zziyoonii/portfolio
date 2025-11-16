@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-export default function ImageGallery({ images }) {
+export default function ImageGallery({ images, customItems = [], onButtonClick }) {
 	const scrollRef = useRef(null)
 	const [activePage, setActivePage] = useState(0)
 	const [itemsPerPage, setItemsPerPage] = useState(2)
@@ -18,7 +18,11 @@ export default function ImageGallery({ images }) {
 		return () => window.removeEventListener('resize', updateItemsPerPage)
 	}, [])
 
-	const totalPages = Math.ceil(images.length / itemsPerPage)
+	const allItems = [...customItems, ...images]
+	// 커스텀 아이템은 각각 하나의 페이지, 이미지는 itemsPerPage 개씩 묶어서 페이지
+	const customCount = customItems.length
+	const imagePages = Math.ceil(images.length / itemsPerPage)
+	const totalPages = customCount + imagePages
 
 	// pageRefs 초기화
 	useEffect(() => {
@@ -38,23 +42,28 @@ export default function ImageGallery({ images }) {
 			
 			const scrollLeft = scrollRef.current.scrollLeft
 			const containerRect = scrollRef.current.getBoundingClientRect()
-			const imageElements = scrollRef.current.querySelectorAll('[data-page]')
+			const elements = scrollRef.current.querySelectorAll('[data-page]')
 			
-			// 각 페이지의 첫 번째 이미지 위치를 확인하여 현재 페이지 찾기
+			// 각 페이지의 첫 번째 요소 위치를 확인하여 현재 페이지 찾기
 			let closestPage = 0
 			let minDistance = Infinity
 			
-			for (let i = 0; i < totalPages; i++) {
-				const firstImageIndex = i * itemsPerPage
-				if (imageElements[firstImageIndex]) {
-					const imageRect = imageElements[firstImageIndex].getBoundingClientRect()
-					// 컨테이너 왼쪽 가장자리와 이미지 왼쪽 가장자리 사이의 거리
-					const distance = Math.abs(imageRect.left - containerRect.left)
-					
-					// 더 가까운 페이지로 업데이트
-					if (distance < minDistance) {
-						minDistance = distance
-						closestPage = i
+			// 각 페이지 번호에 대해 해당 페이지의 첫 번째 요소 찾기
+			for (let pageNum = 0; pageNum < totalPages; pageNum++) {
+				// 해당 페이지 번호를 가진 첫 번째 요소 찾기
+				for (let i = 0; i < elements.length; i++) {
+					const elementPage = parseInt(elements[i].getAttribute('data-page'))
+					if (elementPage === pageNum) {
+						const elementRect = elements[i].getBoundingClientRect()
+						// 컨테이너 왼쪽 가장자리와 요소 왼쪽 가장자리 사이의 거리
+						const distance = Math.abs(elementRect.left - containerRect.left)
+						
+						// 더 가까운 페이지로 업데이트
+						if (distance < minDistance) {
+							minDistance = distance
+							closestPage = pageNum
+						}
+						break // 해당 페이지의 첫 번째 요소만 확인
 					}
 				}
 			}
@@ -127,37 +136,52 @@ export default function ImageGallery({ images }) {
 				if (observer) observer.disconnect()
 			})
 		}
-	}, [totalPages, itemsPerPage, images.length])
+	}, [totalPages, itemsPerPage, allItems.length])
 
 	const scrollToPage = (page) => {
 		if (!scrollRef.current) return
 		
-		// 해당 페이지의 첫 번째 이미지 요소 찾기
-		const firstImageIndex = page * itemsPerPage
-		const imageElements = scrollRef.current.querySelectorAll('[data-page]')
+		// 해당 페이지의 첫 번째 요소 찾기 (커스텀 아이템 또는 이미지)
+		const elements = scrollRef.current.querySelectorAll('[data-page]')
+		let targetElement = null
 		
-		if (imageElements[firstImageIndex]) {
-			const targetElement = imageElements[firstImageIndex]
-			// 부모 컨테이너 내에서의 상대 위치 계산
+		// data-page 속성이 page와 일치하는 첫 번째 요소 찾기
+		for (let i = 0; i < elements.length; i++) {
+			const elementPage = parseInt(elements[i].getAttribute('data-page'))
+			if (elementPage === page) {
+				targetElement = elements[i]
+				break
+			}
+		}
+		
+		if (targetElement) {
 			const container = scrollRef.current
-			const containerScrollLeft = container.scrollLeft
-			const containerOffsetLeft = container.offsetLeft
-			const targetOffsetLeft = targetElement.offsetLeft
+			if (!container) return
 			
-			// 스크롤할 위치 = 타겟 요소의 offsetLeft - 컨테이너의 padding
-			const targetScroll = targetOffsetLeft - containerOffsetLeft + containerScrollLeft
+			// 타겟 요소의 부모 컨테이너 내에서의 상대 위치 계산
+			const targetRect = targetElement.getBoundingClientRect()
+			const containerRect = container.getBoundingClientRect()
 			
-			container.scrollTo({
-				left: targetScroll,
-				behavior: 'smooth',
+			// 스크롤할 위치 = 현재 스크롤 위치 + (타겟 요소의 왼쪽 위치 - 컨테이너의 왼쪽 위치)
+			const currentScroll = container.scrollLeft
+			const targetScroll = currentScroll + (targetRect.left - containerRect.left)
+			
+			// requestAnimationFrame을 사용하여 스크롤이 확실히 실행되도록 함
+			requestAnimationFrame(() => {
+				container.scrollTo({
+					left: targetScroll,
+					behavior: 'smooth',
+				})
 			})
 		} else {
 			// 폴백: 컨테이너 너비 기반 계산
 			const containerWidth = scrollRef.current.offsetWidth
 			const targetScroll = containerWidth * page
-			scrollRef.current.scrollTo({
-				left: targetScroll,
-				behavior: 'smooth',
+			requestAnimationFrame(() => {
+				scrollRef.current.scrollTo({
+					left: targetScroll,
+					behavior: 'smooth',
+				})
 			})
 		}
 		
@@ -183,22 +207,56 @@ export default function ImageGallery({ images }) {
 				{/* 왼쪽 화살표 */}
 				{activePage > 0 && (
 					<button
-						onClick={goToPrev}
-						className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-navy-900/80 hover:bg-navy-900 rounded-full text-white/70 hover:text-white transition-colors"
+						onClick={(e) => {
+							e.stopPropagation()
+							goToPrev()
+							// 모달의 플로팅 버튼 표시를 위한 콜백 호출
+							if (onButtonClick) {
+								onButtonClick()
+							}
+							// 커스텀 이벤트 발생 (모달에서 감지)
+							window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+						}}
+						onMouseDown={(e) => {
+							e.stopPropagation()
+							// preventDefault 제거 - 클릭 이벤트가 정상 작동하도록
+						}}
+						onTouchStart={(e) => {
+							e.stopPropagation()
+						}}
+						className="absolute left-2 top-1/2 -translate-y-1/2 z-[50] p-2 bg-navy-900/80 hover:bg-navy-900 rounded-full text-white/70 hover:text-white transition-colors pointer-events-auto cursor-pointer"
+						style={{ pointerEvents: 'auto', zIndex: 50 }}
 						aria-label="이전 페이지"
 					>
-						<ChevronLeft className="w-5 h-5" />
+						<ChevronLeft className="w-5 h-5 pointer-events-none" />
 					</button>
 				)}
 
 				{/* 오른쪽 화살표 */}
 				{activePage < totalPages - 1 && (
 					<button
-						onClick={goToNext}
-						className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-navy-900/80 hover:bg-navy-900 rounded-full text-white/70 hover:text-white transition-colors"
+						onClick={(e) => {
+							e.stopPropagation()
+							goToNext()
+							// 모달의 플로팅 버튼 표시를 위한 콜백 호출
+							if (onButtonClick) {
+								onButtonClick()
+							}
+							// 커스텀 이벤트 발생 (모달에서 감지)
+							window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+						}}
+						onMouseDown={(e) => {
+							e.stopPropagation()
+							// preventDefault 제거 - 클릭 이벤트가 정상 작동하도록
+						}}
+						onTouchStart={(e) => {
+							e.stopPropagation()
+						}}
+						className="absolute right-2 top-1/2 -translate-y-1/2 z-[50] p-2 bg-navy-900/80 hover:bg-navy-900 rounded-full text-white/70 hover:text-white transition-colors pointer-events-auto cursor-pointer"
+						style={{ pointerEvents: 'auto', zIndex: 50 }}
 						aria-label="다음 페이지"
 					>
-						<ChevronRight className="w-5 h-5" />
+						<ChevronRight className="w-5 h-5 pointer-events-none" />
 					</button>
 				)}
 
@@ -206,11 +264,31 @@ export default function ImageGallery({ images }) {
 					ref={scrollRef}
 					className="overflow-x-auto scrollbar-hide snap-x snap-mandatory"
 				>
-					<div className="flex gap-3 pb-2 px-1">
-						{images.map((image, index) => {
-							// 페이지 그룹 계산: 2개씩 묶어서 페이지 단위로 처리
-							const pageIndex = Math.floor(index / itemsPerPage)
-							const isPageStart = index % itemsPerPage === 0
+					<div className="flex pb-2">
+						{allItems.map((item, index) => {
+							// 커스텀 컴포넌트인지 이미지인지 확인
+							const isCustom = item.component || typeof item === 'function'
+							
+							// 커스텀 아이템은 전체 너비를 차지하므로 하나의 페이지로 처리
+							// 이미지는 기존대로 itemsPerPage 개씩 묶어서 처리
+							let pageIndex
+							let isPageStart
+							
+							if (isCustom) {
+								// 커스텀 아이템: 이전 커스텀 아이템 수 + 이전 이미지 페이지 수
+								const prevCustomCount = allItems.slice(0, index).filter(i => i.component || typeof i === 'function').length
+								const prevImages = allItems.slice(0, index).filter(i => !(i.component || typeof i === 'function'))
+								const prevImagePages = Math.ceil(prevImages.length / itemsPerPage)
+								pageIndex = prevCustomCount + prevImagePages
+								isPageStart = true
+							} else {
+								// 이미지: 이전 커스텀 아이템 수 + 현재 이미지의 페이지 인덱스
+								const prevCustomCount = allItems.slice(0, index).filter(i => i.component || typeof i === 'function').length
+								const prevImages = allItems.slice(0, index).filter(i => !(i.component || typeof i === 'function'))
+								const currentImageIndex = prevImages.length
+								pageIndex = prevCustomCount + Math.floor(currentImageIndex / itemsPerPage)
+								isPageStart = currentImageIndex % itemsPerPage === 0
+							}
 							
 							// 페이지 시작점에 ref 할당
 							const pageRef = isPageStart ? (el) => {
@@ -219,21 +297,38 @@ export default function ImageGallery({ images }) {
 								}
 							} : null
 							
+							// 이미지들 사이에만 gap 적용 (커스텀 아이템은 gap 없음)
+							const prevItem = index > 0 ? allItems[index - 1] : null
+							const prevIsCustom = prevItem && (prevItem.component || typeof prevItem === 'function')
+							const shouldAddMargin = !isCustom && !prevIsCustom && index > 0
+							
 							return (
 								<div 
 									key={index} 
 									ref={pageRef}
-									className={`flex-shrink-0 w-full md:w-[calc(50%-6px)] ${isPageStart ? 'snap-start' : ''}`}
+									className={`flex-shrink-0 ${isCustom ? 'w-full' : 'w-full md:w-[calc(50%-6px)]'} ${isPageStart ? 'snap-start' : ''} ${shouldAddMargin ? 'ml-3' : ''}`}
 									data-page={pageIndex}
 								>
-									<div className="relative bg-navy-900/50 rounded-lg overflow-hidden" style={{ height: '300px' }}>
-										<img
-											src={image.src}
-											alt={image.alt}
-											className="w-full h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
-										/>
-									</div>
-									<p className="text-xs text-gray-500 mt-2 text-center">{image.caption}</p>
+									{isCustom ? (
+										// 커스텀 컴포넌트 렌더링
+										<div className="relative rounded-lg overflow-visible w-full flex items-center box-border" style={{ minHeight: '300px', width: '100%' }}>
+											<div className="w-full box-border" style={{ width: '100%' }}>
+												{item.component ? <item.component /> : item()}
+											</div>
+										</div>
+									) : (
+										// 이미지 렌더링
+										<>
+											<div className="relative bg-navy-900/50 rounded-lg overflow-hidden" style={{ height: '300px' }}>
+												<img
+													src={item.src}
+													alt={item.alt}
+													className="w-full h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
+												/>
+											</div>
+											<p className="text-xs text-gray-500 mt-2 text-center">{item.caption}</p>
+										</>
+									)}
 								</div>
 							)
 						})}

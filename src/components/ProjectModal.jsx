@@ -40,7 +40,12 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
 
   // 모바일 감지 함수
   const isMobile = () => {
-    return window.innerWidth < 768 || ('ontouchstart' in window)
+    // 데스크톱에서는 항상 false 반환 (플로팅 버튼이 항상 보이도록)
+    if (window.innerWidth >= 768) {
+      return false
+    }
+    // 모바일에서만 터치 지원 여부 확인
+    return 'ontouchstart' in window
   }
 
   // 플로팅 버튼을 숨기는 함수
@@ -99,6 +104,22 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
       if (hideButtonsTimeoutRef.current) {
         clearTimeout(hideButtonsTimeoutRef.current)
       }
+    }
+  }, [selectedProject, showFloatingButtonsWithReset])
+
+  // ImageGallery 버튼 클릭 감지하여 플로팅 버튼 표시
+  useEffect(() => {
+    if (!selectedProject) return
+
+    const handleImageGalleryButtonClick = () => {
+      showFloatingButtonsWithReset()
+    }
+
+    // 커스텀 이벤트 리스너 추가
+    window.addEventListener('imageGalleryButtonClick', handleImageGalleryButtonClick)
+    
+    return () => {
+      window.removeEventListener('imageGalleryButtonClick', handleImageGalleryButtonClick)
     }
   }, [selectedProject, showFloatingButtonsWithReset])
 
@@ -203,12 +224,18 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
     const handleWheel = (e) => {
       if (!selectedProject) return
       
-      // 버튼에서 발생한 이벤트는 무시
+      // 버튼에서 발생한 이벤트는 완전히 무시 (preventDefault 호출하지 않음)
       const target = e.target
       if (target && (target instanceof HTMLElement)) {
         if (target.tagName === 'BUTTON' || target.closest('button')) {
           return
         }
+      }
+      
+      // ImageGallery 내부의 버튼 영역도 체크
+      const buttonElement = e.target.closest('button')
+      if (buttonElement && (buttonElement.closest('.overflow-x-auto.snap-x') || buttonElement.closest('[data-page]'))) {
+        return
       }
       
       // 이미 전환 중이면 완전히 무시 (중요!)
@@ -226,8 +253,15 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
         return
       }
       
-      // 이미지 갤러리 내부면 무시
+      // 이미지 갤러리 내부면 무시 (스크롤 컨테이너 포함)
       if (isInImageGallery(e.clientX, e.clientY)) {
+        accumulatedDeltaXRef.current = 0
+        return
+      }
+      
+      // ImageGallery의 스크롤 컨테이너 내부인지 확인
+      const imageGalleryScrollContainer = e.target.closest('.overflow-x-auto.snap-x')
+      if (imageGalleryScrollContainer) {
         accumulatedDeltaXRef.current = 0
         return
       }
@@ -451,7 +485,8 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[60] p-3 md:p-4 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 backdrop-blur-md text-white transition-all opacity-90 hover:opacity-100 touch-manipulation shadow-xl border border-white/20"
             style={{ 
               opacity: showFloatingButtons || !isMobile() ? 1 : 0,
-              pointerEvents: 'auto'
+              pointerEvents: 'auto',
+              visibility: showFloatingButtons || !isMobile() ? 'visible' : 'hidden'
             }}
             aria-label="이전 프로젝트"
           >
@@ -470,7 +505,8 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-[60] p-3 md:p-4 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 backdrop-blur-md text-white transition-all opacity-90 hover:opacity-100 touch-manipulation shadow-xl border border-white/20"
             style={{ 
               opacity: showFloatingButtons || !isMobile() ? 1 : 0,
-              pointerEvents: 'auto'
+              pointerEvents: 'auto',
+              visibility: showFloatingButtons || !isMobile() ? 'visible' : 'hidden'
             }}
             aria-label="다음 프로젝트"
           >
@@ -483,8 +519,20 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          onClick={(e) => e.stopPropagation()}
-          className="relative bg-navy-900 border border-white/20 rounded-xl p-4 md:p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto overflow-x-hidden scrollbar-hide"
+          onClick={(e) => {
+            // 버튼 클릭은 전파 허용 (ImageGallery 버튼이 작동하도록)
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+              e.stopPropagation()
+            }
+            showFloatingButtonsWithReset()
+          }}
+          onTouchStart={(e) => {
+            // 버튼 터치는 전파 허용
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+              showFloatingButtonsWithReset()
+            }
+          }}
+          className="relative bg-navy-900 border border-white/20 rounded-xl p-4 md:p-8 max-w-5xl w-full max-h-[90vh] overflow-y-auto overflow-x-hidden scrollbar-hide mx-16 md:mx-20"
           style={{
             WebkitOverflowScrolling: 'touch', // iOS 모멘텀 스크롤
             overscrollBehavior: 'contain', // 부모로 스크롤 전파 차단
