@@ -10,7 +10,7 @@ export default function CxTranslator() {
       {/* 상단 라벨 */}
       <div className="mb-1 md:mb-2.5">
         <span className="px-1.5 md:px-3 py-0.5 md:py-1.5 rounded-full bg-blue-500/15 text-blue-300 text-[9px] md:text-sm whitespace-nowrap">
-          개발자 입력 → AI 변환 → 고객 응답
+          개발자 입력 → AI 변환 → 출력 결과
         </span>
       </div>
 
@@ -42,7 +42,7 @@ export default function CxTranslator() {
             </span>
           </div>
           <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
-            기본형 · 간결형 · 정중형 중 톤을 고르면 CX 톤앤매너에 맞춰 자동 변환됩니다.
+            기본형 · 간결형 · 정중형 · 공감형 중 톤을 고르면 CX 톤앤매너에 맞춰 자동 변환됩니다.
           </p>
         </div>
 

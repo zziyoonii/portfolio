@@ -16,17 +16,25 @@ import {
 	  { name: 'IDE', before: 1369770, after: 265870 },
 	]
   
+	const handleClick = () => {
+		// 플로팅 버튼 표시를 위한 커스텀 이벤트 발생
+		if (typeof window !== 'undefined') {
+			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+		}
+	}
+
+	const handleTouchStart = () => {
+		// 모바일 터치 시에도 플로팅 버튼 표시
+		if (typeof window !== 'undefined') {
+			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+		}
+	}
+
 	return (
 	  <div 
 		className="space-y-6"
-		onClick={() => {
-			// 플로팅 버튼 표시를 위한 커스텀 이벤트 발생
-			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
-		}}
-		onTouchStart={() => {
-			// 모바일 터치 시에도 플로팅 버튼 표시
-			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
-		}}
+		onClick={handleClick}
+		onTouchStart={handleTouchStart}
 	  >
 		{/* 상단 산출물: 제품별 구독료 Before / After 그래프 */}
 		<div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
@@ -39,14 +47,8 @@ import {
 
 		  <div 
 			className="h-56 min-h-[224px]"
-			onClick={() => {
-				// 플로팅 버튼 표시를 위한 커스텀 이벤트 발생
-				window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
-			}}
-			onTouchStart={() => {
-				// 모바일 터치 시에도 플로팅 버튼 표시
-				window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
-			}}
+			onClick={handleClick}
+			onTouchStart={handleTouchStart}
 		  >
 			<ResponsiveContainer width="100%" height="100%" minHeight={224}>
 			  <BarChart
