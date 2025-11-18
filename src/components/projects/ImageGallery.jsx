@@ -300,30 +300,34 @@ export default function ImageGallery({ images, customItems = [], onButtonClick }
 							// 이미지들 사이에만 gap 적용 (커스텀 아이템은 gap 없음)
 							const prevItem = index > 0 ? allItems[index - 1] : null
 							const prevIsCustom = prevItem && (prevItem.component || typeof prevItem === 'function')
-							const shouldAddMargin = !isCustom && !prevIsCustom && index > 0
+							const shouldAddMargin = !isCustom && index > 0 // 커스텀 아이템 다음 이미지에도 마진 추가
 							
 							return (
 								<div 
 									key={index} 
 									ref={pageRef}
-									className={`flex-shrink-0 ${isCustom ? 'w-full' : 'w-full md:w-[calc(50%-6px)]'} ${isPageStart ? 'snap-start' : ''} ${shouldAddMargin ? 'ml-3' : ''}`}
+									className={`flex-shrink-0 flex flex-col ${isCustom ? 'w-full' : 'w-full md:w-[calc(50%-6px)]'} ${isPageStart ? 'snap-start' : ''} ${shouldAddMargin ? 'ml-3' : ''}`}
 									data-page={pageIndex}
 								>
 									{isCustom ? (
 										// 커스텀 컴포넌트 렌더링
-										<div className="relative rounded-lg overflow-visible w-full flex items-center box-border" style={{ minHeight: '300px', width: '100%' }}>
-											<div className="w-full box-border" style={{ width: '100%' }}>
+										<div className="relative rounded-lg overflow-hidden w-full flex items-center justify-center box-border h-[200px] md:h-[300px]">
+											<div className="w-full h-full box-border flex items-center justify-center" style={{ width: '100%' }}>
 												{item.component ? <item.component /> : item()}
 											</div>
 										</div>
 									) : (
 										// 이미지 렌더링
 										<>
-											<div className="relative bg-navy-900/50 rounded-lg overflow-hidden" style={{ height: '300px' }}>
+											<div className={`relative bg-navy-900/50 rounded-lg flex items-center justify-center ${item.allowFullHeight ? 'overflow-visible h-[200px] md:h-[300px] py-2 px-2 md:px-0' : 'overflow-hidden h-[200px] md:h-[300px]'}`}>
 												<img
 													src={item.src}
 													alt={item.alt}
-													className="w-full h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
+													className={item.allowFullHeight 
+														? "w-full max-w-full max-h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
+														: "max-w-full max-h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
+													}
+													style={item.allowFullHeight ? { width: '100%' } : {}}
 												/>
 											</div>
 											<p className="text-xs text-gray-500 mt-2 text-center">{item.caption}</p>

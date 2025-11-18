@@ -4,91 +4,77 @@ import cxTranslator1 from '../../assets/projects/cxtranslator/cxteamclone.png'
 export default function CxTranslator() {
   // 서비스 플로우 컴포넌트
   const ServiceFlow = () => (
-    <div className="bg-slate-900/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 h-full flex flex-col w-full box-border max-w-full">
-      <h3 className="text-sm font-semibold text-gray-300 mb-3 whitespace-nowrap">서비스 플로우</h3>
+    <div className="bg-slate-900/60 border border-slate-700/80 rounded-2xl px-1.5 pt-1.5 pb-1 md:px-3 md:pt-3 md:pb-3 w-full h-full flex flex-col overflow-hidden">
+      <h3 className="text-xs md:text-base font-semibold text-gray-300 mb-1 md:mb-2">Flow</h3>
 
       {/* 상단 라벨 */}
-      <div className="flex flex-wrap gap-2 text-[11px] sm:text-xs mb-3">
-        <span className="px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-300 whitespace-nowrap">
+      <div className="mb-1 md:mb-2.5">
+        <span className="px-1.5 md:px-3 py-0.5 md:py-1.5 rounded-full bg-blue-500/15 text-blue-300 text-[9px] md:text-sm whitespace-nowrap">
           개발자 입력 → AI 변환 → 고객 응답
-        </span>
-        <span className="px-2.5 py-1 rounded-full bg-white/5 text-gray-300 whitespace-nowrap">
-          톤 선택 (기본형 · 간결형 · 정중형)
         </span>
       </div>
 
       {/* 스텝 플로우 */}
-      <div className="grid gap-3 sm:gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-1 md:gap-2.5">
         {/* Step 1 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 px-3 py-3 sm:px-4 sm:py-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center justify-center w-5 h-5 text-[11px] rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+            <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               1
             </span>
-            <span className="text-xs font-semibold text-gray-100 whitespace-nowrap">
+            <span className="text-[10px] md:text-sm font-semibold text-gray-100">
               개발자 입력
             </span>
           </div>
-          <p className="text-[11px] sm:text-xs text-gray-300 leading-relaxed">
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
             이슈 설명·로그 등 기술적인 답변 초안을 그대로 붙여넣습니다.
           </p>
         </div>
 
         {/* Step 2 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 px-3 py-3 sm:px-4 sm:py-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center justify-center w-5 h-5 text-[11px] rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+            <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               2
             </span>
-            <span className="text-xs font-semibold text-gray-100 whitespace-nowrap">
+            <span className="text-[10px] md:text-sm font-semibold text-gray-100">
               톤 선택 & 변환
             </span>
           </div>
-          <p className="text-[11px] sm:text-xs text-gray-300 leading-relaxed">
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
             기본형 · 간결형 · 정중형 중 톤을 고르면 CX 톤앤매너에 맞춰 자동 변환됩니다.
           </p>
         </div>
 
         {/* Step 3 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 px-3 py-3 sm:px-4 sm:py-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center justify-center w-5 h-5 text-[11px] rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+            <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               3
             </span>
-            <span className="text-xs font-semibold text-gray-100 whitespace-nowrap">
+            <span className="text-[10px] md:text-sm font-semibold text-gray-100">
               문장 다듬기
             </span>
           </div>
-          <p className="text-[11px] sm:text-xs text-gray-300 leading-relaxed">
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
             필요한 경우 개발자가 문장을 조금 수정해 팀 상황에 맞게 조정합니다.
           </p>
         </div>
 
         {/* Step 4 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 px-3 py-3 sm:px-4 sm:py-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center justify-center w-5 h-5 text-[11px] rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+            <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               4
             </span>
-            <span className="text-xs font-semibold text-gray-100 whitespace-nowrap">
+            <span className="text-[10px] md:text-sm font-semibold text-gray-100">
               고객에게 발송
             </span>
           </div>
-          <p className="text-[11px] sm:text-xs text-gray-300 leading-relaxed">
-            완성된 문구를 CS 도구(채널톡 등)에 붙여넣어 고객에게 발송합니다.
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
+            완성된 문구를 CS 도구에 붙여넣어 고객에게 발송합니다.
           </p>
         </div>
-      </div>
-
-      {/* 모바일용 간단 플로우 라인 */}
-      <div className="mt-3 flex sm:hidden items-center justify-center gap-1 text-[11px] text-gray-400">
-        <span>개발자 입력</span>
-        <span>→</span>
-        <span>톤 선택</span>
-        <span>→</span>
-        <span>문장 다듬기</span>
-        <span>→</span>
-        <span>고객 발송</span>
       </div>
     </div>
   )
@@ -98,7 +84,7 @@ export default function CxTranslator() {
   ]
 
   const images = [
-    { src: cxTranslator1, alt: 'CX Translator', caption: '서비스 화면' },
+    { src: cxTranslator1, alt: 'CX Translator', caption: '실제 서비스 화면', allowFullHeight: true },
   ]
 
   return (
@@ -121,9 +107,9 @@ export default function CxTranslator() {
             href="https://cxtranslator.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition-colors"
+            className="px-3 md:px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-lg md:text-sm font-semibold rounded-lg transition-colors flex-shrink-0 flex items-center justify-center min-w-[44px] h-[36px]"
           >
-            서비스 바로가기 →
+            <span className="hidden md:inline">바로가기 </span>→
           </a>
         </div>
       </div>
@@ -134,14 +120,14 @@ export default function CxTranslator() {
         <ul className="space-y-2">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
-            <span>
-              개발자가 작성한 기술 중심 답변을, 고객이 이해하기 쉬운 언어로 자동 변환하는 AI 기반 CX 도구를 설계했습니다.
+            <span className="leading-relaxed">
+              개발자가 작성한 기술 중심 답변을, 고객이 이해하기 쉬운 언어로 자동 변환하는 <span className="whitespace-nowrap">AI 기반 CX 도구</span>를 설계했습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
-            <span>
-              ChatGPT API에 구름 CX팀의 톤앤매너를 학습시켜, 기본형·간결형·정중형 3가지 톤을 제공하는 웹 서비스로 구현했습니다.
+            <span className="leading-relaxed">
+              <span className="whitespace-nowrap">ChatGPT API</span>에 구름 CX팀의 톤앤매너를 학습시켜, <span className="whitespace-nowrap">기본형·간결형·정중형</span> 3가지 톤을 제공하는 웹 서비스로 구현했습니다.
             </span>
           </li>
         </ul>
@@ -205,13 +191,13 @@ export default function CxTranslator() {
 
   {/* 최상단 강조 문장 – 불렛 없음 */}
   <div className="text-blue-300 text-sm font-semibold mb-3">
-    💡 사내 아이디어톤에서 ‘업무 효율성 개선’ 주제 솔루션으로 선정
+    💡 사내 아이디어톤 선정, 주제: 업무 효율성 개선
   </div>
 
   <ul className="space-y-2">
     <li className="text-gray-300 flex items-start gap-2">
       <span className="text-blue-400">•</span>
-      <span>
+      <span className="leading-relaxed">
         개발자가 고객 친화적 메시지를 직접 작성해야 하는 부담이 줄어들어,
         CX팀과 개발팀 간의 소통 사이클이 더 매끄럽게 정착되었습니다.
       </span>
@@ -219,7 +205,7 @@ export default function CxTranslator() {
 
     <li className="text-gray-300 flex items-start gap-2">
       <span className="text-blue-400">•</span>
-      <span>
+      <span className="leading-relaxed">
         고객에게 전달되는 메시지의 톤앤매너가 일관되게 유지되어,
         서비스 품질과 고객 신뢰도가 향상되었습니다.
       </span>
@@ -227,17 +213,16 @@ export default function CxTranslator() {
 
     <li className="text-gray-300 flex items-start gap-2">
       <span className="text-blue-400">•</span>
-      <span>
-        CX팀이 ‘번역/해석’ 단계에서 반복적으로 수행하던 작업이 줄고,
+      <span className="leading-relaxed">
+        CX팀이 번역/해석 단계에서 반복적으로 수행하던 작업이 줄고,
         검수·품질 관리에 더 집중할 수 있는 구조가 생겼습니다.
       </span>
     </li>
 
     <li className="text-gray-300 flex items-start gap-2">
       <span className="text-blue-400">•</span>
-      <span>
-        “기술 언어 → 고객 언어”로의 일관된 변환이 가능해지면서
-        메시지 전달 오류나 오해 가능성이 줄었습니다.
+      <span className="leading-relaxed">
+        <span className="whitespace-nowrap">"기술 언어 → 고객 언어"</span>로의 일관된 변환이 가능해지면서 메시지 전달 오류나 오해 가능성이 줄었습니다.
       </span>
     </li>
   </ul>

@@ -40,11 +40,15 @@ export default function TeamBuilding() {
 		  <ul className="space-y-2">
 			<li className="text-gray-300 flex items-start gap-2">
 			  <span className="text-blue-400">•</span>
-			  CX 전담 조직이 없는 상태에서 18개월 동안 0명에서 3인 체제로 팀을 구축했습니다.
+			  <span className="leading-relaxed">
+			    CX 전담 조직이 없는 상태에서 18개월 동안 CX팀을 구축했습니다.
+			  </span>
 			</li>
 			<li className="text-gray-300 flex items-start gap-2">
 			  <span className="text-blue-400">•</span>
-			  채용, 온보딩, 업무 루틴, 자동화까지 CX팀이 독립적으로 운영될 수 있는 구조를 설계했습니다.
+			  <span className="leading-relaxed">
+			    채용, 온보딩, 업무 루틴, 자동화까지 CX팀이 독립적으로 운영될 수 있는 구조를 설계했습니다.
+			  </span>
 			</li>
 		  </ul>
 		</div>
@@ -70,19 +74,27 @@ export default function TeamBuilding() {
 		  <ul className="space-y-2">
 			<li className="text-gray-300 flex items-start gap-2">
 			  <span className="text-blue-400">•</span>
-			  18개월 만에 0명 → 3인 팀을 구축했고, 팀원 퇴사 이후에도 동일한 구조로 빠르게 재정비할 수 있었습니다.
+			  <span className="leading-relaxed">
+			    <strong className="text-white whitespace-nowrap">18개월</strong> 만에 <strong className="text-white whitespace-nowrap">1명</strong> → <strong className="text-white whitespace-nowrap">3인</strong> 팀을 구축했고, 팀원 퇴사 이후에도 동일한 구조로 빠르게 재정비할 수 있었습니다.
+			  </span>
 			</li>
 			<li className="text-gray-300 flex items-start gap-2">
 			  <span className="text-blue-400">•</span>
-			  Culture Deck과 운영 룰을 통해 CX팀의 역할과 기대치가 조직 내에서 명확해졌습니다.
+			  <span className="leading-relaxed">
+			    Culture Deck과 운영 룰을 통해 CX팀의 역할과 기대치가 조직 내에서 명확해졌습니다.
+			  </span>
 			</li>
 			<li className="text-gray-300 flex items-start gap-2">
 			  <span className="text-blue-400">•</span>
-			  CX 101 워크북과 온보딩 프로그램으로 신규 구성원이 짧은 시간 안에 실무에 안착할 수 있는 기반을 마련했습니다.
+			  <span className="leading-relaxed">
+			    CX 101 워크북과 온보딩 프로그램으로 신규 구성원이 짧은 시간 안에 실무에 안착할 수 있는 기반을 마련했습니다.
+			  </span>
 			</li>
 			<li className="text-gray-300 flex items-start gap-2">
 			  <span className="text-blue-400">•</span>
-			  전사 고객 커뮤니케이션이 CX팀을 중심으로 통합 관리되는 흐름이 형성되었습니다.
+			  <span className="leading-relaxed">
+			    전사 고객 커뮤니케이션이 CX팀을 중심으로 통합 관리되는 흐름이 형성되었습니다.
+			  </span>
 			</li>
 		  </ul>
 		</div>

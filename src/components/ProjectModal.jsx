@@ -62,11 +62,11 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
     if (hideButtonsTimeoutRef.current) {
       clearTimeout(hideButtonsTimeoutRef.current)
     }
-    // 모바일에서만 2초 후 버튼 숨김
+    // 모바일에서만 1초 후 버튼 숨김
     if (isMobile()) {
       hideButtonsTimeoutRef.current = setTimeout(() => {
         hideFloatingButtons()
-      }, 2000)
+      }, 1000)
     }
   }, [hideFloatingButtons])
 
@@ -143,9 +143,16 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
       clearTimeout(scrollTimeoutRef.current)
     }
     
-    // 누적값도 즉시 리셋
+    // 누적값도 즉시 리셋 (한 페이지씩만 이동하도록)
     accumulatedDeltaXRef.current = 0
     lastScrollDirectionRef.current = null
+    if (accumulateTimeoutRef.current) {
+      clearTimeout(accumulateTimeoutRef.current)
+      accumulateTimeoutRef.current = null
+    }
+    
+    // 플로팅 버튼 표시 (프로젝트 전환 후에도 버튼이 보이도록)
+    showFloatingButtonsWithReset()
     
     // onNext 호출 (이것이 currentIndex를 변경하고, useEffect에서 isScrollingRef가 리셋됨)
     onNext()
@@ -155,7 +162,7 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
       isScrollingRef.current = false
       scrollTimeoutRef.current = null
     }, 1000)
-  }, [currentIndex, totalProjects, onNext])
+  }, [currentIndex, totalProjects, onNext, showFloatingButtonsWithReset])
 
   const handlePrevProject = useCallback(() => {
     // 경계 체크
@@ -176,9 +183,16 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
       clearTimeout(scrollTimeoutRef.current)
     }
     
-    // 누적값도 즉시 리셋
+    // 누적값도 즉시 리셋 (한 페이지씩만 이동하도록)
     accumulatedDeltaXRef.current = 0
     lastScrollDirectionRef.current = null
+    if (accumulateTimeoutRef.current) {
+      clearTimeout(accumulateTimeoutRef.current)
+      accumulateTimeoutRef.current = null
+    }
+    
+    // 플로팅 버튼 표시 (프로젝트 전환 후에도 버튼이 보이도록)
+    showFloatingButtonsWithReset()
     
     // onPrev 호출 (이것이 currentIndex를 변경하고, useEffect에서 isScrollingRef가 리셋됨)
     onPrev()
@@ -188,7 +202,7 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
       isScrollingRef.current = false
       scrollTimeoutRef.current = null
     }, 1000)
-  }, [currentIndex, onPrev])
+  }, [currentIndex, onPrev, showFloatingButtonsWithReset])
 
   // 키보드 네비게이션
   useEffect(() => {
@@ -266,8 +280,12 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
         return
       }
       
-      // 터치/스크롤 액션이 있으면 버튼 표시
-      showFloatingButtonsWithReset()
+      // 터치/스크롤 액션이 있으면 버튼 표시 (모바일에서는 숨김)
+      if (!isMobile()) {
+        showFloatingButtonsWithReset()
+      } else {
+        hideFloatingButtons()
+      }
       
       // 스크롤 방향 확인
       const scrollDirection = deltaX > 0 ? 'right' : 'left'
@@ -295,9 +313,9 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
         accumulateTimeoutRef.current = null
       }, 800)
       
-      // threshold 체크 (매우 높은 값으로 설정 - 한 번에 하나씩만)
-      const accumulatedThreshold = 100 // 누적 threshold (트랙패드용) - 매우 높음
-      const singleEventThreshold = 100 // 단일 이벤트 threshold (마우스 휠용) - 매우 높음
+      // threshold 체크 (한 번에 하나씩만 이동하도록 높은 값 설정)
+      const accumulatedThreshold = 150 // 누적 threshold (트랙패드용) - 높게 설정
+      const singleEventThreshold = 150 // 단일 이벤트 threshold (마우스 휠용) - 높게 설정
       
       const shouldNavigate = Math.abs(accumulatedDeltaXRef.current) >= accumulatedThreshold || 
                             Math.abs(deltaX) >= singleEventThreshold
@@ -311,10 +329,10 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
         e.preventDefault()
       }
       
-      // 프로젝트 전환 (누적값 기준으로 판단 - 더 정확함)
+      // 프로젝트 전환 방향 판단 (누적값 기준으로 판단 - 리셋 전에 판단)
       const shouldGoNext = accumulatedDeltaXRef.current > 0
       
-      // 누적값 즉시 리셋 (전환 전에 리셋하여 중복 전환 완전 방지)
+      // 전환 직후 누적값 즉시 리셋 (한 페이지씩만 이동하도록)
       accumulatedDeltaXRef.current = 0
       if (accumulateTimeoutRef.current) {
         clearTimeout(accumulateTimeoutRef.current)
@@ -336,8 +354,12 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
     const handleTouchStart = (e) => {
       if (!selectedProject) return
       
-      // 터치 액션이 있으면 버튼 표시
-      showFloatingButtonsWithReset()
+      // 터치 액션이 있으면 버튼 표시 (모바일에서는 숨김)
+      if (!isMobile()) {
+        showFloatingButtonsWithReset()
+      } else {
+        hideFloatingButtons()
+      }
       
       const touch = e.touches[0]
       if (!isInImageGallery(touch.clientX, touch.clientY)) {
@@ -472,7 +494,7 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-0 md:p-4"
     >
         {/* 플로팅 이전 버튼 (왼쪽) */}
         {currentIndex > 0 && (
@@ -480,7 +502,7 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             onClick={(e) => {
               e.stopPropagation()
               handlePrevProject()
-              showFloatingButtonsWithReset()
+              // handlePrevProject 내부에서 이미 showFloatingButtonsWithReset() 호출
             }}
             className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[60] p-3 md:p-4 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 backdrop-blur-md text-white transition-all opacity-90 hover:opacity-100 touch-manipulation shadow-xl border border-white/20"
             style={{ 
@@ -490,7 +512,7 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             }}
             aria-label="이전 프로젝트"
           >
-            <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         )}
 
@@ -500,7 +522,7 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             onClick={(e) => {
               e.stopPropagation()
               handleNextProject()
-              showFloatingButtonsWithReset()
+              // handleNextProject 내부에서 이미 showFloatingButtonsWithReset() 호출
             }}
             className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-[60] p-3 md:p-4 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 backdrop-blur-md text-white transition-all opacity-90 hover:opacity-100 touch-manipulation shadow-xl border border-white/20"
             style={{ 
@@ -510,7 +532,7 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             }}
             aria-label="다음 프로젝트"
           >
-            <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         )}
 
@@ -523,19 +545,55 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             // 버튼 클릭은 전파 허용 (ImageGallery 버튼이 작동하도록)
             if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
               e.stopPropagation()
+              // 클릭 시 플로팅 버튼 표시
+              showFloatingButtonsWithReset()
             }
-            showFloatingButtonsWithReset()
           }}
           onTouchStart={(e) => {
             // 버튼 터치는 전파 허용
             if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+              // 터치 시 플로팅 버튼 표시
               showFloatingButtonsWithReset()
             }
           }}
-          className="relative bg-navy-900 border border-white/20 rounded-xl p-4 md:p-8 max-w-5xl w-full max-h-[90vh] overflow-y-auto overflow-x-hidden scrollbar-hide mx-16 md:mx-20"
+          className="relative bg-navy-900 border border-white/20 rounded-xl p-4 md:p-8 max-w-5xl w-full max-h-[90vh] overflow-y-auto overflow-x-hidden scrollbar-hide mx-0 md:mx-20"
           style={{
             WebkitOverflowScrolling: 'touch', // iOS 모멘텀 스크롤
             overscrollBehavior: 'contain', // 부모로 스크롤 전파 차단
+            wordBreak: 'keep-all',
+            overflowWrap: 'break-word',
+          }}
+          onScroll={(e) => {
+            // 스크롤 시 플로팅 버튼 표시 (사용자가 상호작용 중임을 알림)
+            showFloatingButtonsWithReset()
+            
+            // 모달 내부 스크롤 시 배경 스크롤 방지
+            const target = e.target
+            if (target === modalContentRef.current) {
+              const { scrollTop, scrollHeight, clientHeight } = target
+              const isAtTop = scrollTop === 0
+              const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1
+              
+              // 스크롤이 끝에 도달했을 때도 배경 스크롤 방지
+              if (isAtTop || isAtBottom) {
+                e.preventDefault()
+              }
+            }
+          }}
+          onWheel={(e) => {
+            // 모달 내부에서 휠 이벤트가 발생하면 배경 스크롤 방지
+            const target = e.target
+            if (modalContentRef.current && modalContentRef.current.contains(target)) {
+              const { scrollTop, scrollHeight, clientHeight } = modalContentRef.current
+              const isAtTop = scrollTop === 0 && e.deltaY < 0
+              const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1 && e.deltaY > 0
+              
+              // 상하 스크롤이고 스크롤 끝에 도달했을 때만 preventDefault
+              if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && (isAtTop || isAtBottom)) {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            }
           }}
         >
           {/* X 닫기 버튼 (오른쪽 상단) */}

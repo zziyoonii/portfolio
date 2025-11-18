@@ -29,8 +29,8 @@ export default function SideProjects() {
 						<div className="flex items-start gap-4">
 							<span className="text-purple-400 text-2xl flex-shrink-0">📊</span>
 							<div className="flex-1 min-w-0">
-								<div className="flex items-center gap-2 mb-3">
-									<h3 className="text-lg font-semibold text-purple-400">태블로 부트캠프 28기</h3>
+								<div className="flex items-center gap-2 mb-3 flex-wrap">
+									<h3 className="text-base font-semibold text-purple-400">Tableau Bootcamp 28기</h3>
 									<span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs font-medium rounded-full border border-purple-500/30">
 										Learning
 									</span>
@@ -60,20 +60,20 @@ export default function SideProjects() {
 							<span className="text-emerald-400 text-2xl flex-shrink-0">🎓</span>
 							<div className="flex-1 min-w-0">
 								<div className="flex items-center gap-2 mb-3 flex-wrap">
-									<h3 className="text-lg font-semibold text-emerald-400">성남여성인력개발센터</h3>
+									<h3 className="text-base font-semibold text-emerald-400">직장 내 학습동아리, Crevice</h3>
 									<span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-medium rounded-full border border-emerald-500/30">
 										Activity
 									</span>
 								</div>
 								<div className="space-y-2 text-sm text-gray-300">
 									<p className="leading-relaxed break-words">
-										<span className="text-gray-400">동아리:</span> Crevice · 동아리장
+										<span className="text-gray-400">역할:</span> 동아리장 · Project Manager
 									</p>
 									<p className="leading-relaxed break-words">
-										<span className="text-gray-400">선정:</span> 직장 내 학습동아리 선정 (5팀 중 1팀)
+										<span className="text-gray-400">선정:</span> 성남여성인력개발센터 '지원 동아리' 프로그램 선정 (5팀 중 1팀)
 									</p>
 									<p className="leading-relaxed break-words">
-										<span className="text-gray-400">활동:</span> 6개월간 12회차 프로젝트 기획·개발·협업
+										<span className="text-gray-400">활동:</span> 6개월간 AI활용 프로젝트 기획·개발·협업
 									</p>
 									<a
 										href="https://www.inviastory.com/"

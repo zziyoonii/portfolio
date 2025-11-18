@@ -64,22 +64,19 @@ export default function Autowithdrawal() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              전체 프로세스 자동화로 <strong className="text-white">처리 효율이 80% 개선</strong>되었고,
-              운영 비용이 자연스럽게 절감되는 구조가 마련되었습니다.
+              전체 프로세스 자동화로 처리 효율이 <strong className="text-white whitespace-nowrap">80%</strong> 개선되었고, 운영 비용이 자연스럽게 절감되는 구조가 마련되었습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              사용자가 요청을 보낸 순간부터 완료까지의 흐름이 투명해졌으며,
-              사용자 대기 시간이 <strong className="text-white">95% 단축</strong>되었습니다.
+              사용자가 요청을 보낸 순간부터 완료까지의 흐름이 투명해졌으며, 사용자 대기 시간이 <strong className="text-white whitespace-nowrap">95%</strong> 단축되었습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              모든 단계가 자동화되면서 <strong className="text-white">휴먼 에러는 0건</strong>으로 제거되었고,
-              운영자가 개입하지 않아도 되는 일관된 프로세스가 정착되었습니다.
+              모든 단계가 자동화되면서 휴먼 에러는 <strong className="text-white whitespace-nowrap">0건</strong>으로 제거되었고, 운영자가 개입하지 않아도 되는 일관된 프로세스가 정착되었습니다.
             </span>
           </li>
         </ul>

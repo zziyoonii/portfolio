@@ -41,16 +41,16 @@ export default function VocBacklog() {
       <div>
         <h3 className="text-sm font-semibold text-gray-400 mb-2">프로젝트 개요</h3>
         <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            고객의 VoC(Voice of Customer)를 체계적으로 백로그화하고, 스크럼 기반으로 우선순위를 실행하는 제품 개선 사이클을 구축했습니다.
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            수집 → 분류 → 스프린트 투입 → 실행/검증의 루프를 만들고, 팀 단위로 개선 결과를 가시화했습니다.
-          </li>
-        </ul>
-      </div>
+  <li className="text-gray-300 flex items-start gap-2">
+    <span className="text-blue-400">•</span>
+    고객 VoC를 체계적으로 백로그화하고, 스크럼 기반으로 우선순위를 실행하는 제품 개선 사이클을 구축했습니다.
+  </li>
+  <li className="text-gray-300 flex items-start gap-2">
+    <span className="text-blue-400">•</span>
+    수집 → 분류 → 스프린트 투입 → 실행/검증의 루프를 정착시키고, 팀 단위 개선 결과가 가시화되는 구조를 만들었습니다.
+  </li>
+</ul>
+</div>  
 
       {/* 문제 상황 & 접근 */}
       <div>
@@ -74,20 +74,23 @@ export default function VocBacklog() {
         <ul className="space-y-2">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
-            이후 운영 기간 동안 VoC 기반 백로그 {created}건을 생성했고, 이 중 {solved}건을 해결하며
-            해결율을 {prevSolvedPct}% → {solvedPct}%로 끌어올렸습니다.
+            <span className="leading-relaxed">
+              이후 운영 기간 동안 VoC 기반 백로그 <strong className="text-white whitespace-nowrap">{created}건</strong>을 생성했고, 해결율을 <span className="whitespace-nowrap"><strong className="text-white">{prevSolvedPct}%</strong> → <strong className="text-white">{solvedPct}%</strong></span>로 끌어올렸습니다.
+            </span>
           </li>
 
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
-            산발적으로 쌓이던 요청 리스트가 스크럼 기반의 실행 루틴으로 전환되면서,
-            “요청만 쌓이는 백로그”에서 “실제로 해결되는 개선 목록”으로 변화했습니다.
+            <span className="leading-relaxed">
+              산발적으로 쌓이던 요청 리스트가 <span className="whitespace-nowrap">스크럼 기반의 실행 루틴으로 전환되면서</span>, <span className="whitespace-nowrap">"요청만 쌓이는 백로그"</span>에서 <span className="whitespace-nowrap">"실제로 해결되는 개선 목록"</span>으로 변화했습니다.
+            </span>
           </li>
 
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
-            백로그 정기 스크럼을 도입해 개선 항목을 투명하게 공유하고,
-            각 기능팀이 고객 관점의 우선순위로 정렬되는 협업 환경을 만들었습니다.
+            <span className="leading-relaxed">
+              백로그 정기 스크럼을 도입해 개선 항목을 투명하게 공유하고, 각 기능팀이 고객 관점의 우선순위로 정렬되는 협업 환경을 만들었습니다.
+            </span>
           </li>
         </ul>
       </div>
