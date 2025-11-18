@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 const TIMELINE = [
 	{ range: '2023 - Present', role: 'CX Manager', company: 'goorm' },
-	{ range: '2021 - 2023', role: 'Platform Manager', company: 'alookso' },
+	{ range: '2021 - 2023', role: 'Platform Operations Manager', company: 'alookso' },
 	{ range: '2020 - 2021', role: 'Service Planning', company: 'Pickket' },
 ]
 
