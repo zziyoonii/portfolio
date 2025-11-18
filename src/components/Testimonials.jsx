@@ -19,7 +19,7 @@ const TESTIMONIALS = [
 		role: 'Content Manager'
 	},
 	{
-		quote: '같은 CXM으로써 솔선수범 책임감을 보여주셔서 동기부여 받고 있습니다',
+		quote: '같은 CXM으로서 솔선수범 책임감을 보여주셔서 동기부여 받고 있습니다',
 		role: 'CX Manager'
 	},
 	{
