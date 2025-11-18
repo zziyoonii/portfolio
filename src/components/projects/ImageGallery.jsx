@@ -345,7 +345,24 @@ export default function ImageGallery({ images, customItems = [], onButtonClick }
 				{Array.from({ length: totalPages }).map((_, index) => (
 					<button
 						key={index}
-						onClick={() => scrollToPage(index)}
+						onClick={(e) => {
+							e.stopPropagation()
+							scrollToPage(index)
+							// 모달의 플로팅 버튼 표시를 위한 콜백 호출
+							if (onButtonClick) {
+								onButtonClick()
+							}
+							// 커스텀 이벤트 발생 (모달에서 감지)
+							if (typeof window !== 'undefined') {
+								window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+							}
+						}}
+						onMouseDown={(e) => {
+							e.stopPropagation()
+						}}
+						onTouchStart={(e) => {
+							e.stopPropagation()
+						}}
 						className={`transition-all duration-300 rounded-full ${
 							index === activePage ? 'w-6 h-2 bg-blue-500' : 'w-2 h-2 bg-gray-600 hover:bg-gray-500'
 						}`}
