@@ -17,7 +17,17 @@ import {
 	]
   
 	return (
-	  <div className="space-y-6">
+	  <div 
+		className="space-y-6"
+		onClick={() => {
+			// 플로팅 버튼 표시를 위한 커스텀 이벤트 발생
+			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+		}}
+		onTouchStart={() => {
+			// 모바일 터치 시에도 플로팅 버튼 표시
+			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+		}}
+	  >
 		{/* 상단 산출물: 제품별 구독료 Before / After 그래프 */}
 		<div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
 		  <h3 className="text-sm font-semibold text-green-400 mb-1">
@@ -26,8 +36,18 @@ import {
 		  <p className="text-xs text-gray-400 mb-3">
 			EDU · Channel · IDE 기준, 비용 최적화 전/후 월 구독료 비교
 		  </p>
-  
-		  <div className="h-56 min-h-[224px]">
+
+		  <div 
+			className="h-56 min-h-[224px]"
+			onClick={() => {
+				// 플로팅 버튼 표시를 위한 커스텀 이벤트 발생
+				window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+			}}
+			onTouchStart={() => {
+				// 모바일 터치 시에도 플로팅 버튼 표시
+				window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
+			}}
+		  >
 			<ResponsiveContainer width="100%" height="100%" minHeight={224}>
 			  <BarChart
 				data={productCostData}
