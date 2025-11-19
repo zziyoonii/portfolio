@@ -73,6 +73,25 @@ export default function Contact() {
 						LinkedIn 프로필 열기 →
 					</a>
 				</motion.div>
+
+				{/* Footer - AI Collaboration Credit */}
+				<motion.div
+					initial={{ opacity: 0 }}
+					whileInView={{ opacity: 1 }}
+					viewport={{ once: true, margin: '-20%' }}
+					transition={{ duration: 0.6, delay: 0.3 }}
+					className="mt-16 md:mt-20 pt-8 border-t border-white/5"
+				>
+					<p className="text-xs md:text-sm text-white/40 flex items-center justify-center gap-2 flex-wrap">
+						<span>© {new Date().getFullYear()}</span>
+						<span className="hidden sm:inline">|</span>
+						<span className="flex items-center gap-1.5">
+							<span>Crafted with</span>
+							<span className="text-white/60">AI</span>
+							<span>🤖</span>
+						</span>
+					</p>
+				</motion.div>
 			</div>
 		</section>
 	)

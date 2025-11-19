@@ -74,6 +74,12 @@ export default function ReleaseNote() {
       {/* Impact */}
       <div>
         <h3 className="text-sm font-semibold text-gray-400 mb-2">Impact</h3>
+
+        {/* 최상단 강조 문장 – 불렛 없음 */}
+        <div className="text-blue-300 text-sm font-semibold mb-3">
+          💡 C-Level 피드백 "굿입니다. 친절하고 깔끔합니다."
+        </div>
+
         <ul className="space-y-2">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
@@ -85,12 +91,6 @@ export default function ReleaseNote() {
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
               기능 출시 정보가 고객과 내부 구성원에게 일관되게 전달되면서, 제품 변경 사항에 대한 이해도와 대응 속도가 전반적으로 향상되었습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="whitespace-nowrap">
-              C-Level 피드백 <span className="italic text-gray-200">"굿입니다. 친절하고 깔끔합니다."</span>
             </span>
           </li>
         </ul>

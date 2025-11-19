@@ -77,7 +77,7 @@ export default function CsProcess() {
 			<span className="whitespace-nowrap text-white font-bold ml-1">
 			61%
 			</span>
-			줄였습니다.
+			{' '}줄였습니다.
 		</p>
 	</li>
 
@@ -89,7 +89,7 @@ export default function CsProcess() {
         <span className="whitespace-nowrap text-white font-bold ml-1">
           43%
         </span>
-        단축했습니다.
+        {' '}단축했습니다.
       </p>
     </li>
 
@@ -101,7 +101,7 @@ export default function CsProcess() {
         <span className="whitespace-nowrap text-white font-bold ml-1">
           87%
         </span>
-        단축했습니다.
+        {' '}단축했습니다.
       </p>
     </li>
 

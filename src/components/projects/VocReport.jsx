@@ -53,6 +53,7 @@ export default function VocReport() {
       </div>
 
       {/* Impact */}
+      
       <div>
         <h3 className="text-sm font-semibold text-gray-400 mb-2">Impact</h3>
         <ul className="space-y-2">

@@ -264,6 +264,20 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
       if (Math.abs(deltaX) === 0 || Math.abs(deltaY) > Math.abs(deltaX) * 2) {
         // 상하 스크롤이면 누적값 리셋
         accumulatedDeltaXRef.current = 0
+        
+        // 모달 내부 스크롤 끝에서 배경 스크롤 방지
+        if (modalContentRef.current) {
+          const { scrollTop, scrollHeight, clientHeight } = modalContentRef.current
+          const isAtTop = scrollTop === 0 && deltaY < 0
+          const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1 && deltaY > 0
+          
+          // 스크롤 끝에 도달했을 때만 preventDefault
+          if ((isAtTop || isAtBottom) && e.cancelable) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }
+        
         return
       }
       
@@ -567,33 +581,8 @@ export default function ProjectModal({ selectedProject, currentIndex, totalProje
             // 스크롤 시 플로팅 버튼 표시 (사용자가 상호작용 중임을 알림)
             showFloatingButtonsWithReset()
             
-            // 모달 내부 스크롤 시 배경 스크롤 방지
-            const target = e.target
-            if (target === modalContentRef.current) {
-              const { scrollTop, scrollHeight, clientHeight } = target
-              const isAtTop = scrollTop === 0
-              const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1
-              
-              // 스크롤이 끝에 도달했을 때도 배경 스크롤 방지
-              if (isAtTop || isAtBottom) {
-                e.preventDefault()
-              }
-            }
-          }}
-          onWheel={(e) => {
-            // 모달 내부에서 휠 이벤트가 발생하면 배경 스크롤 방지
-            const target = e.target
-            if (modalContentRef.current && modalContentRef.current.contains(target)) {
-              const { scrollTop, scrollHeight, clientHeight } = modalContentRef.current
-              const isAtTop = scrollTop === 0 && e.deltaY < 0
-              const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1 && e.deltaY > 0
-              
-              // 상하 스크롤이고 스크롤 끝에 도달했을 때만 preventDefault
-              if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && (isAtTop || isAtBottom)) {
-                e.preventDefault()
-                e.stopPropagation()
-              }
-            }
+            // onScroll은 passive 이벤트이므로 preventDefault()를 호출할 수 없음
+            // 배경 스크롤 방지는 handleWheel에서 처리됨
           }}
         >
           {/* X 닫기 버튼 (오른쪽 상단) */}

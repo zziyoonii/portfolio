@@ -7,6 +7,8 @@ import {
 	Tooltip,
 	ResponsiveContainer,
   } from 'recharts'
+import { useState, useEffect } from 'react'
+import ImageGallery from './ImageGallery'
   
   export default function ChanneltalkOptimization() {
 	// 제품별 구독료 Before / After
@@ -15,82 +17,81 @@ import {
 	  { name: 'Channel', before: 1795448, after: 487190 },
 	  { name: 'IDE', before: 1369770, after: 265870 },
 	]
-  
-	const handleClick = () => {
-		// 플로팅 버튼 표시를 위한 커스텀 이벤트 발생
-		if (typeof window !== 'undefined') {
-			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
-		}
-	}
 
-	const handleTouchStart = () => {
-		// 모바일 터치 시에도 플로팅 버튼 표시
-		if (typeof window !== 'undefined') {
-			window.dispatchEvent(new CustomEvent('imageGalleryButtonClick'))
-		}
-	}
+	const [isMounted, setIsMounted] = useState(false)
+
+	// 모달이 열린 후 차트가 마운트되도록 지연
+	useEffect(() => {
+		// 다음 프레임에서 마운트하여 DOM이 완전히 렌더링된 후 차트가 크기를 측정하도록 함
+		const timer = requestAnimationFrame(() => {
+			setIsMounted(true)
+		})
+		return () => cancelAnimationFrame(timer)
+	}, [])
+
+	// 차트 컴포넌트
+	const ChartComponent = () => (
+		<div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 w-full h-full flex flex-col">
+			<h3 className="text-sm font-semibold text-green-400 mb-1">
+				💰 제품별 채널톡 구독료 Before / After
+			</h3>
+			<p className="text-xs text-gray-400 mb-3">
+				EDU · Channel · IDE 기준, 비용 최적화 전/후 월 구독료 비교
+			</p>
+			<div className="flex-1 min-h-0 w-full">
+				{isMounted && (
+					<ResponsiveContainer width="100%" height="100%" minHeight={200} minWidth={0}>
+						<BarChart
+							data={productCostData}
+							margin={{ top: 10, right: 20, left: 10, bottom: 0 }}
+						>
+							<CartesianGrid
+								strokeDasharray="3 3"
+								stroke="rgba(156, 163, 175, 0.3)"
+							/>
+							<XAxis
+								dataKey="name"
+								stroke="#9CA3AF"
+								tick={{ fontSize: 13 }}
+							/>
+							<YAxis
+								stroke="#9CA3AF"
+								width={50}
+								tick={{ fontSize: 11 }}
+								tickFormatter={(value) => `${Math.round(value / 10000)}만`}
+							/>
+							<Tooltip
+								cursor={{ fill: 'rgba(15,23,42,0.8)' }}
+								contentStyle={{
+									backgroundColor: '#020617',
+									border: '1px solid rgba(34,197,94,0.4)',
+									borderRadius: 8,
+									fontSize: 12,
+								}}
+								formatter={(value, name) => {
+									const label = name === 'before' ? '절감 전' : '절감 후'
+									const num = Number(value) || 0
+									return [`₩${num.toLocaleString()}`, label]
+								}}
+								labelFormatter={(value) => `제품: ${value}`}
+							/>
+							<Bar dataKey="before" name="절감 전" fill="#4ADE80" opacity={0.3} />
+							<Bar dataKey="after" name="절감 후" fill="#4ADE80" />
+						</BarChart>
+					</ResponsiveContainer>
+				)}
+			</div>
+		</div>
+	)
+
+	const customItems = [
+		{ component: ChartComponent }
+	]
 
 	return (
-	  <div 
-		className="space-y-6"
-		onClick={handleClick}
-		onTouchStart={handleTouchStart}
-	  >
-		{/* 상단 산출물: 제품별 구독료 Before / After 그래프 */}
-		<div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
-		  <h3 className="text-sm font-semibold text-green-400 mb-1">
-			💰 제품별 채널톡 구독료 Before / After
-		  </h3>
-		  <p className="text-xs text-gray-400 mb-3">
-			EDU · Channel · IDE 기준, 비용 최적화 전/후 월 구독료 비교
-		  </p>
-
-		  <div 
-			className="h-56 min-h-[224px]"
-			onClick={handleClick}
-			onTouchStart={handleTouchStart}
-		  >
-			<ResponsiveContainer width="100%" height="100%" minHeight={224}>
-			  <BarChart
-				data={productCostData}
-				margin={{ top: 10, right: 20, left: 10, bottom: 0 }}
-			  >
-				<CartesianGrid
-				  strokeDasharray="3 3"
-				  stroke="rgba(156, 163, 175, 0.3)"
-				/>
-				<XAxis
-				  dataKey="name"
-				  stroke="#9CA3AF"
-				  tick={{ fontSize: 13 }}
-				/>
-				<YAxis
-				  stroke="#9CA3AF"
-				  width={50}
-				  tick={{ fontSize: 11 }}
-				  tickFormatter={(value) => `${Math.round(value / 10000)}만`}
-				/>
-				<Tooltip
-				  cursor={{ fill: 'rgba(15,23,42,0.8)' }} // 호버 시 생기던 밝은 배경 제거용
-				  contentStyle={{
-					backgroundColor: '#020617',
-					border: '1px solid rgba(34,197,94,0.4)',
-					borderRadius: 8,
-					fontSize: 12,
-				  }}
-				  formatter={(value, name) => {
-					const label = name === 'before' ? '절감 전' : '절감 후'
-					const num = Number(value) || 0
-					return [`₩${num.toLocaleString()}`, label]
-				  }}
-				  labelFormatter={(value) => `제품: ${value}`}
-				/>
-				<Bar dataKey="before" name="절감 전" fill="#4ADE80" opacity={0.3} />
-				<Bar dataKey="after" name="절감 후" fill="#4ADE80" />
-			  </BarChart>
-			</ResponsiveContainer>
-		  </div>
-		</div>
+	  <div className="space-y-6">
+		{/* 이미지 갤러리 - 차트 포함 */}
+		<ImageGallery images={[]} customItems={customItems} />
   
 		{/* 프로젝트 개요 */}
 		<div>
@@ -131,16 +132,16 @@ import {
 		<h3 className="text-sm font-semibold text-gray-400 mb-2">Impact</h3>
 		<ul className="space-y-2">
 			<li className="text-gray-300 flex items-start gap-2">
-			<span className="text-blue-400">•</span>
-			연간 구독료를 약 <strong className="text-white whitespace-nowrap">4,560만 원</strong> → <strong className="text-white whitespace-nowrap">1,020만 원</strong>으로 줄이며 총 <strong className="text-white whitespace-nowrap">77.6%</strong> 비용 절감을 달성했습니다.
+			<span className="text-blue-400 flex-shrink-0">•</span>
+			<span className="flex-1">연간 구독료를 약 <strong className="text-white">4,560만 원</strong> → <strong className="text-white">1,020만 원</strong>으로 줄이며 총 <strong className="text-white">77.6%</strong> 비용 절감을 달성했습니다.</span>
 			</li>
 			<li className="text-gray-300 flex items-start gap-2">
-			<span className="text-blue-400">•</span>
-			EDU <strong className="text-white whitespace-nowrap">84.3%</strong>, Channel <strong className="text-white whitespace-nowrap">72.9%</strong>, IDE <strong className="text-white whitespace-nowrap">80.6%</strong> 등 제품별 특성에 맞는 절감 기준점을 확보했습니다.
+			<span className="text-blue-400 flex-shrink-0">•</span>
+			<span className="flex-1">EDU <strong className="text-white">84.3%</strong>, Channel <strong className="text-white">72.9%</strong>, IDE <strong className="text-white">80.6%</strong> 등 제품별 특성에 맞는 절감 기준점을 확보했습니다.</span>
 			</li>
 			<li className="text-gray-300 flex items-start gap-2">
-			<span className="text-blue-400">•</span>
-			고객 경험을 유지한 상태로 비용 구조를 재정비하여, 이후 운영·플랜 조정 시 활용할 수 있는 명확한 운영 레퍼런스를 마련했습니다.
+			<span className="text-blue-400 flex-shrink-0">•</span>
+			<span className="flex-1">고객 경험을 유지한 상태로 비용 구조를 재정비하여, 이후 운영·플랜 조정 시 활용할 수 있는 명확한 운영 레퍼런스를 마련했습니다.</span>
 			</li>
 		</ul>
 		</div>

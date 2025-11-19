@@ -8,7 +8,7 @@ export const SECTIONS = [
 				title: 'VoC 리포트 체계화',
 				subtitle: '정량·정성 통합 보고 구조',
 				description: '3주 주기로 고객의 목소리를 정리해 조직 전체가 공유하는 루틴을 만들었습니다.',
-				metrics: '85회 발행 • 정량/정성 결합',
+				metrics: '48회 발행 • 정량/정성 결합',
 				tags: ['VoC', '데이터시각화', '고객중심'],
                 component: 'VocReport',
 			},
