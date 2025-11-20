@@ -4,21 +4,22 @@ import cxTranslator1 from '../../assets/projects/cxtranslator/cxteamclone.png'
 export default function CxTranslator() {
   // 서비스 플로우 컴포넌트
   const ServiceFlow = () => (
-    <div className="bg-slate-900/60 border border-slate-700/80 rounded-2xl px-1.5 pt-1.5 pb-1 md:px-3 md:pt-3 md:pb-3 w-full h-full flex flex-col overflow-hidden">
-      <h3 className="text-xs md:text-base font-semibold text-gray-300 mb-1 md:mb-2">Flow</h3>
+    <div className="bg-slate-900/60 border border-slate-700/80 rounded-2xl px-1.5 pt-1.5 pb-1 md:px-3 md:pt-3 md:pb-3 w-full max-h-full flex flex-col justify-center overflow-hidden">
+      <div className="flex flex-col w-full">
+        <h3 className="text-xs md:text-base font-semibold text-gray-300 mb-1 md:mb-2">Flow</h3>
 
-      {/* 상단 라벨 */}
-      <div className="mb-1 md:mb-2.5">
-        <span className="px-1.5 md:px-3 py-0.5 md:py-1.5 rounded-full bg-blue-500/15 text-blue-300 text-[9px] md:text-sm whitespace-nowrap">
-          개발자 입력 → AI 변환 → 출력 결과
-        </span>
-      </div>
+        {/* 상단 라벨 */}
+        <div className="mb-1 md:mb-2.5">
+          <span className="px-1.5 md:px-3 py-0.5 md:py-1.5 rounded-full bg-blue-500/15 text-blue-300 text-[9px] md:text-sm whitespace-nowrap">
+            개발자 입력 → AI 변환 → 출력 결과
+          </span>
+        </div>
 
-      {/* 스텝 플로우 */}
-      <div className="grid grid-cols-2 gap-1 md:gap-2.5">
+        {/* 스텝 플로우 */}
+        <div className="grid grid-cols-2 gap-1 md:gap-2.5">
         {/* Step 1 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
-          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col h-full">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2 flex-shrink-0">
             <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               1
             </span>
@@ -26,14 +27,14 @@ export default function CxTranslator() {
               개발자 입력
             </span>
           </div>
-          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed flex-1">
             이슈 설명·로그 등 기술적인 답변 초안을 그대로 붙여넣습니다.
           </p>
         </div>
 
         {/* Step 2 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
-          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col h-full">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2 flex-shrink-0">
             <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               2
             </span>
@@ -41,14 +42,14 @@ export default function CxTranslator() {
               톤 선택 & 변환
             </span>
           </div>
-          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed flex-1">
             기본형 · 간결형 · 정중형 · 공감형 중 톤을 고르면 CX 톤앤매너에 맞춰 자동 변환됩니다.
           </p>
         </div>
 
         {/* Step 3 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
-          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col h-full">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2 flex-shrink-0">
             <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               3
             </span>
@@ -56,14 +57,14 @@ export default function CxTranslator() {
               문장 다듬기
             </span>
           </div>
-          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed flex-1">
             필요한 경우 개발자가 문장을 조금 수정해 팀 상황에 맞게 조정합니다.
           </p>
         </div>
 
         {/* Step 4 */}
-        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col">
-          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+        <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col h-full">
+          <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2 flex-shrink-0">
             <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">
               4
             </span>
@@ -71,20 +72,21 @@ export default function CxTranslator() {
               고객에게 발송
             </span>
           </div>
-          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed">
+          <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed flex-1">
             완성된 문구를 CS 도구에 붙여넣어 고객에게 발송합니다.
           </p>
+        </div>
         </div>
       </div>
     </div>
   )
 
   const customItems = [
-    { component: ServiceFlow }
+    { component: ServiceFlow, allowFullHeight: false, needsCenterAlignment: true }
   ]
 
   const images = [
-    { src: cxTranslator1, alt: 'CX Translator', caption: '실제 서비스 화면', allowFullHeight: true },
+    { src: cxTranslator1, alt: 'CX Translator', caption: '실제 서비스 화면' },
   ]
 
   return (

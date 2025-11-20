@@ -306,29 +306,38 @@ export default function ImageGallery({ images, customItems = [], onButtonClick }
 								<div 
 									key={index} 
 									ref={pageRef}
-									className={`flex-shrink-0 flex flex-col ${isCustom ? 'w-full' : 'w-full md:w-[calc(50%-6px)]'} ${isPageStart ? 'snap-start' : ''} ${shouldAddMargin ? 'ml-3' : ''}`}
+									className={`flex-shrink-0 ${isCustom ? (item.needsCenterAlignment ? 'flex items-center justify-center w-full' : 'w-full') : 'flex flex-col w-full md:w-[calc(50%-6px)]'} ${isPageStart ? 'snap-start' : ''} ${shouldAddMargin ? 'ml-3' : ''}`}
 									data-page={pageIndex}
 								>
 									{isCustom ? (
-										// 커스텀 컴포넌트 렌더링
-										<div className="relative rounded-lg overflow-hidden w-full flex items-center justify-center box-border h-[200px] md:h-[300px]">
-											<div className="w-full h-full box-border flex items-center justify-center" style={{ width: '100%' }}>
-												{item.component ? <item.component /> : item()}
-											</div>
+										// 커스텀 컴포넌트 렌더링 (이미지와 동일한 정렬)
+										<div className={`relative bg-navy-900/50 rounded-lg ${item.allowFullHeight ? 'overflow-visible h-auto min-h-[200px] md:min-h-[300px] py-2 px-2 md:px-0' : 'overflow-hidden h-[200px] md:h-[300px]'} ${item.needsCenterAlignment ? 'flex items-center justify-center' : ''}`}>
+											{item.component ? <item.component /> : item()}
 										</div>
 									) : (
-										// 이미지 렌더링
+										// 이미지 또는 PDF 렌더링
 										<>
-											<div className={`relative bg-navy-900/50 rounded-lg flex items-center justify-center ${item.allowFullHeight ? 'overflow-visible h-[200px] md:h-[300px] py-2 px-2 md:px-0' : 'overflow-hidden h-[200px] md:h-[300px]'}`}>
-												<img
-													src={item.src}
-													alt={item.alt}
-													className={item.allowFullHeight 
-														? "w-full max-w-full max-h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
-														: "max-w-full max-h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
-													}
-													style={item.allowFullHeight ? { width: '100%' } : {}}
-												/>
+											<div className={`relative bg-navy-900/50 rounded-lg flex items-center justify-center ${item.allowFullHeight ? 'overflow-visible h-auto min-h-[200px] md:min-h-[300px] py-2 px-2 md:px-0' : 'overflow-hidden h-[200px] md:h-[300px]'}`}>
+												{typeof item.src === 'string' && (item.src.toLowerCase().endsWith('.pdf') || item.src.toLowerCase().includes('.pdf')) ? (
+													// PDF 파일인 경우 iframe으로 표시
+													<iframe
+														src={item.src}
+														title={item.alt}
+														className="w-full border-0 rounded-lg"
+														style={{ minHeight: '600px', height: 'auto' }}
+													/>
+												) : (
+													// 이미지 파일인 경우 img 태그로 표시
+													<img
+														src={item.src}
+														alt={item.alt}
+														className={item.allowFullHeight 
+															? "w-full max-w-full max-h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
+															: "max-w-full max-h-full object-contain object-center opacity-80 hover:opacity-100 transition-opacity"
+														}
+														style={item.allowFullHeight ? { width: '100%' } : {}}
+													/>
+												)}
 											</div>
 											<p className="text-xs text-gray-500 mt-2 text-center">{item.caption}</p>
 										</>

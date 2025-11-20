@@ -6,30 +6,30 @@ export default function TeamBuilding() {
 		<div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
 		  <h3 className="text-sm font-semibold text-purple-400 mb-3">🚀 팀 성장 여정</h3>
 		  <div className="space-y-3 text-sm">
-			<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-			  <span className="text-gray-400 sm:min-w-[70px]">2023.10</span>
-			  <span className="text-white hidden sm:inline">→</span>
-			  <span className="text-gray-300 break-words">1인 체제에서 CX 역할 시작</span>
+			<div className="flex items-center gap-2 sm:gap-3">
+			  <span className="text-gray-400 min-w-[70px] flex-shrink-0">2023.10</span>
+			  <span className="text-white">→</span>
+			  <span className="text-gray-300 break-words flex-1">1인 체제에서 CX 역할 시작</span>
 			</div>
-			<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-			  <span className="text-gray-400 sm:min-w-[70px]">2024.02</span>
-			  <span className="text-white hidden sm:inline">→</span>
-			  <span className="text-gray-300 break-words">첫 팀원 영입 (2인 체제)</span>
+			<div className="flex items-center gap-2 sm:gap-3">
+			  <span className="text-gray-400 min-w-[70px] flex-shrink-0">2024.02</span>
+			  <span className="text-white">→</span>
+			  <span className="text-gray-300 break-words flex-1">첫 팀원 영입 (2인 체제)</span>
 			</div>
-			<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-			  <span className="text-gray-400 sm:min-w-[70px]">2024.10</span>
-			  <span className="text-white hidden sm:inline">→</span>
-			  <span className="text-gray-300 break-words">두 번째 팀원 채용 리드 + 리더 승진 (3인 체제)</span>
+			<div className="flex items-center gap-2 sm:gap-3">
+			  <span className="text-gray-400 min-w-[70px] flex-shrink-0">2024.10</span>
+			  <span className="text-white">→</span>
+			  <span className="text-gray-300 break-words flex-1">두 번째 팀원 채용 리드 + 리더 승진 (3인 체제)</span>
 			</div>
-			<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-			  <span className="text-gray-400 sm:min-w-[70px]">2025.01</span>
-			  <span className="text-white hidden sm:inline">→</span>
-			  <span className="text-gray-300 break-words">팀원 퇴사 (2인 체제)</span>
+			<div className="flex items-center gap-2 sm:gap-3">
+			  <span className="text-gray-400 min-w-[70px] flex-shrink-0">2025.01</span>
+			  <span className="text-white">→</span>
+			  <span className="text-gray-300 break-words flex-1">팀원 퇴사 (2인 체제)</span>
 			</div>
-			<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-			  <span className="text-gray-400 sm:min-w-[70px]">2025.06</span>
-			  <span className="text-white hidden sm:inline">→</span>
-			  <span className="text-gray-300 break-words">신규 팀원 재채용, 3인 체제 재정착</span>
+			<div className="flex items-center gap-2 sm:gap-3">
+			  <span className="text-gray-400 min-w-[70px] flex-shrink-0">2025.06</span>
+			  <span className="text-white">→</span>
+			  <span className="text-gray-300 break-words flex-1">신규 팀원 재채용, 3인 체제 재정착</span>
 			</div>
 		  </div>
 		</div>

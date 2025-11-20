@@ -7,7 +7,7 @@ import {
 	Tooltip,
 	ResponsiveContainer,
   } from 'recharts'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ImageGallery from './ImageGallery'
   
   export default function ChanneltalkOptimization() {
@@ -19,31 +19,70 @@ import ImageGallery from './ImageGallery'
 	]
 
 	const [isMounted, setIsMounted] = useState(false)
+	const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
+	const chartContainerRef = useRef(null)
 
 	// 모달이 열린 후 차트가 마운트되도록 지연
 	useEffect(() => {
-		// 다음 프레임에서 마운트하여 DOM이 완전히 렌더링된 후 차트가 크기를 측정하도록 함
-		const timer = requestAnimationFrame(() => {
-			setIsMounted(true)
+		// 컨테이너가 실제로 크기를 가지는지 확인한 후 차트 마운트
+		const checkAndMount = () => {
+			if (chartContainerRef.current) {
+				const rect = chartContainerRef.current.getBoundingClientRect()
+				if (rect.width > 0 && rect.height > 0) {
+					setContainerSize({ width: rect.width, height: rect.height })
+					setIsMounted(true)
+					return true
+				}
+			}
+			return false
+		}
+
+		// 즉시 확인
+		if (checkAndMount()) return
+
+		// 여러 번 시도
+		let rafId1, rafId2, timeoutId
+		rafId1 = requestAnimationFrame(() => {
+			rafId2 = requestAnimationFrame(() => {
+				if (!checkAndMount()) {
+					timeoutId = setTimeout(() => {
+						// 강제로 마운트하되, 최소 크기 설정
+						if (chartContainerRef.current) {
+							const rect = chartContainerRef.current.getBoundingClientRect()
+							setContainerSize({ 
+								width: Math.max(rect.width, 300), 
+								height: Math.max(rect.height, 120) 
+							})
+						}
+						setIsMounted(true)
+					}, 200)
+				}
+			})
 		})
-		return () => cancelAnimationFrame(timer)
+
+		return () => {
+			if (rafId1) cancelAnimationFrame(rafId1)
+			if (rafId2) cancelAnimationFrame(rafId2)
+			if (timeoutId) clearTimeout(timeoutId)
+		}
 	}, [])
 
 	// 차트 컴포넌트
 	const ChartComponent = () => (
-		<div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 w-full h-full flex flex-col">
-			<h3 className="text-sm font-semibold text-green-400 mb-1">
+		<div className="bg-green-500/10 border border-green-500/30 rounded-lg p-2 md:p-4 w-full h-[200px] md:h-[300px] flex flex-col">
+			<h3 className="text-xs md:text-sm font-semibold text-green-400 mb-0.5 md:mb-1 flex-shrink-0 px-1">
 				💰 제품별 채널톡 구독료 Before / After
 			</h3>
-			<p className="text-xs text-gray-400 mb-3">
+			<p className="text-[10px] md:text-xs text-gray-400 mb-1 md:mb-2 flex-shrink-0 px-1">
 				EDU · Channel · IDE 기준, 비용 최적화 전/후 월 구독료 비교
 			</p>
-			<div className="flex-1 min-h-0 w-full">
-				{isMounted && (
-					<ResponsiveContainer width="100%" height="100%" minHeight={200} minWidth={0}>
+			<div ref={chartContainerRef} className="w-full flex-1 min-h-0" style={{ width: '100%' }}>
+				{isMounted && containerSize.width > 0 && containerSize.height > 0 ? (
+					<div style={{ width: '100%', height: '100%' }}>
+						<ResponsiveContainer width={containerSize.width} height={containerSize.height} minHeight={120} minWidth={0}>
 						<BarChart
 							data={productCostData}
-							margin={{ top: 10, right: 20, left: 10, bottom: 0 }}
+							margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
 						>
 							<CartesianGrid
 								strokeDasharray="3 3"
@@ -78,7 +117,12 @@ import ImageGallery from './ImageGallery'
 							<Bar dataKey="before" name="절감 전" fill="#4ADE80" opacity={0.3} />
 							<Bar dataKey="after" name="절감 후" fill="#4ADE80" />
 						</BarChart>
-					</ResponsiveContainer>
+						</ResponsiveContainer>
+					</div>
+				) : (
+					<div className="w-full h-full flex items-center justify-center" style={{ minHeight: '150px' }}>
+						<div className="text-gray-400 text-sm">차트 로딩 중...</div>
+					</div>
 				)}
 			</div>
 		</div>
