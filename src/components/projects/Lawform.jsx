@@ -1,5 +1,5 @@
 import ImageGallery from './ImageGallery'
-// import lawform1 from '../../assets/projects/lawform/lawform1.png'
+import lawform1 from '../../assets/projects/lawform/lawform1.png'
 
 export default function Lawform() {
   const ServiceFlow = () => (
@@ -62,8 +62,7 @@ export default function Lawform() {
     { component: ServiceFlow, allowFullHeight: false, needsCenterAlignment: true }
   ]
 
-  // 이미지 추가 시: const images = [{ src: lawform1, alt: 'Lawform', caption: '실제 서비스 화면' }]
-  const images = []
+  const images = [{ src: lawform1, alt: 'Lawform', caption: '실제 서비스 화면' }]
 
   return (
     <div className="space-y-6">
