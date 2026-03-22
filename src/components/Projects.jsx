@@ -58,17 +58,14 @@ export default function Projects() {
 							)}
 						</h3>
 
-						<div className="flex flex-wrap justify-center gap-6">
+						<div className={section.projects.length >= 3 ? 'grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid gap-6 grid-cols-1 sm:grid-cols-2'}>
 							{section.projects.map((project) => {
 								const fullProject = allProjects.find((p) => p.id === project.id)
-								const cardWidth = section.projects.length >= 3
-									? 'sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]'
-									: 'sm:w-[calc(50%-12px)]'
 								return (
 								<div
 									key={project.id}
 									onClick={() => handleProjectClick(fullProject)}
-									className={`w-full ${cardWidth} bg-navy-800/50 border border-white/10 rounded-xl p-6 hover:bg-navy-800 hover:border-white/20 transition-all cursor-pointer flex flex-col`}
+									className="bg-navy-800/50 border border-white/10 rounded-xl p-6 hover:bg-navy-800 hover:border-white/20 transition-all cursor-pointer flex flex-col"
 								>
 									<h4 className="text-xl font-bold text-white mb-2">{project.title}</h4>
 									<p className="text-sm text-gray-400 mb-3">{project.subtitle}</p>
