@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    chunkSizeWarningLimit: 1000,
+  },
   // Vercel은 루트 경로, GitHub Pages는 /portfolio/ 경로 사용
   base: process.env.VERCEL ? '/' : (process.env.NODE_ENV === 'production' ? '/portfolio/' : '/'),
   server: {

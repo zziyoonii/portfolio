@@ -26,6 +26,10 @@ const TESTIMONIALS = [
 		quote: '기술·운영·사용자를 동시에 이해하는 CXM',
 		role: 'Full Stack Developer'
 	},
+	{
+		quote: '고객 경험을 끝까지 따라가며, 신뢰 관점에서 문제를 함께 바라봐요',
+		role: 'Cyber Security Team Leader'
+	},
 ]
 
 export default function Testimonials() {
