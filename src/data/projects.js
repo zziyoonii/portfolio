@@ -87,6 +87,12 @@ export const SECTIONS = [
 			tags: ['비용최적화', '데이터분석', '운영전략'],
 			component: 'ChanneltalkOptimization',
 		  },
+		],
+	  },
+	{
+		id: 4,
+		title: '"운영의 감각이 도구가 될 때"',
+		projects: [
 		  {
 			id: 'cx-translator',
 			title: 'CX Translator',
@@ -95,6 +101,15 @@ export const SECTIONS = [
 			metrics: '전사 테스트 도입 • 개발 조직에서 실사용',
 			tags: ['AI', '커뮤니케이션', 'CX지원도구'],
 			component: 'CxTranslator',
+		  },
+		  {
+			id: 'lawform',
+			title: 'Lawform',
+			subtitle: '서비스 문서 준법 자동 검토',
+			description: '이용약관·개인정보처리방침을 AI로 검토해 법적 리스크와 개정 초안을 즉시 생성하는 도구를 만들었습니다.',
+			metrics: '준법 검토 자동화 • 공지 초안 즉시 생성',
+			tags: ['AI', '바이브코딩', '서비스운영'],
+			component: 'Lawform',
 		  },
 		],
 	  },
