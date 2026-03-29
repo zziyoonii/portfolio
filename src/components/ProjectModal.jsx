@@ -11,6 +11,7 @@ import TeamBuilding from './projects/TeamBuilding'
 import ChanneltalkOptimization from './projects/ChanneltalkOptimization'	
 import CxTranslator from './projects/CxTranslator'
 import Lawform from './projects/Lawform'
+import ReleaseNoteSkill from './projects/ReleaseNoteSkill'
 
 const PROJECT_COMPONENTS = {
   VocReport,
@@ -22,7 +23,8 @@ const PROJECT_COMPONENTS = {
   TeamBuilding,
   ChanneltalkOptimization,
   CxTranslator,
-  Lawform
+  Lawform,
+  ReleaseNoteSkill
 }
 
 export default function ProjectModal({ selectedProject, currentIndex, totalProjects, onClose, onNext, onPrev }) {
