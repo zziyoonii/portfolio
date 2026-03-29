@@ -67,69 +67,38 @@ export default function ReleaseNoteSkill() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              매 스프린트마다 반복되는 릴리즈 노트 초안 작성 중 가장 번거로운 구간인 <span className="whitespace-nowrap">'개발 히스토리 파악'</span>을 AI로 자동화했습니다.
+              매 스프린트 반복되는 릴리즈 노트 초안 작성을 <span className="whitespace-nowrap">Claude Skills + Notion MCP</span>로 자동화했습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              팀 워크스페이스에 연결된 <span className="whitespace-nowrap">Notion MCP</span>를 활용해 추가 권한 없이 노션 데이터에 접근하고, Claude Skills로 조회 → 분석 → 초안 생성 → 노션 반영까지 하나의 플로우로 구현했습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              팀 내 Claude Team 요금제를 통해 팀 Skills로 배포해 CX 매니저 외 타 직군도 사용 가능하도록 공유했습니다.
+              <span className="whitespace-nowrap">태스크 조회 → 노션/PR 분석 → 초안 생성 → 노션 반영</span>까지 하나의 플로우로 구성해, 팀 내 Claude Skills로 배포했습니다.
             </span>
           </li>
         </ul>
       </div>
 
-      {/* 자동화를 고민하게 된 계기 */}
+      {/* 문제 상황 & 접근 */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">자동화를 고민하게 된 계기</h3>
+        <h3 className="text-sm font-semibold text-gray-400 mb-2">문제 상황 & 접근</h3>
         <ul className="space-y-2">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              릴리즈 노트 작성은 노션 접속 → 개발 히스토리 파악 → 초안 취합 → 검토 → GitBook 업로드의 5단계 수기 작업이 매 스프린트 반복되는 구조였습니다.
+              5단계 수기 작업 중 <strong className="text-white">개발 히스토리 파악</strong>이 가장 큰 병목이었습니다. 개발에 참여하지 않은 입장에서 노션 문서를 일일이 열어보고, 불명확한 부분은 개발자에게 별도로 확인해야 했습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              그중 <strong className="text-white">2단계(개발 히스토리 파악)</strong>가 핵심 병목이었습니다. 직접 개발에 참여하지 않은 입장에서 흩어진 노션 문서를 일일이 열어보고, 불명확한 내용은 개발자에게 별도로 확인을 요청해야 했습니다.
+              n8n으로 먼저 시도했으나 외부 웹훅이 허용되지 않아 막혔고, 팀에 이미 연결된 Notion MCP를 발견해 추가 권한 없이 구현할 수 있었습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              각 태스크에 GitHub PR이 연결된 경우가 많아 PR Description까지 함께 읽으면 더 정확한 히스토리 파악이 가능하다는 점에 착안해 자동화를 검토하게 됐습니다.
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      {/* 시도 과정 */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">시도 과정</h3>
-        <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              처음엔 n8n 워크플로우로 구현을 시도했으나, 회사 노션 워크스페이스에서 외부 웹훅이 허용되지 않아 별도 권한 요청이 필요한 상황에 막혔습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              대안을 찾다가 팀 워크스페이스에 이미 <span className="whitespace-nowrap">Notion MCP</span>가 연결되어 있다는 걸 발견했습니다. 웹훅 없이도 Claude가 노션 데이터를 직접 읽고 쓸 수 있어, 추가 권한 없이 동일한 자동화가 가능했습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              Claude Skills를 선택한 이유는 자동화 코드 없이도 데이터 조회 → 분석 → 문서 작성을 하나의 플로우로 처리할 수 있고, CS 매니저가 별도 설정 없이 바로 사용 가능하기 때문입니다.
+              PR Description이 노션에 자동 동기화되어 있어, GitHub 접근 권한 없이도 개발 맥락을 파악하고 초안 품질을 높일 수 있었습니다.
             </span>
           </li>
         </ul>
