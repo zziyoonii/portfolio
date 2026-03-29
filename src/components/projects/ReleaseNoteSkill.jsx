@@ -67,51 +67,38 @@ export default function ReleaseNoteSkill() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              매 스프린트 반복되는 릴리즈 노트 초안 작성에서 가장 번거로운 구간인 <span className="whitespace-nowrap">'개발 히스토리 파악'</span>을 AI로 자동화했습니다.
+              매 스프린트 반복되는 릴리즈 노트 초안 작성을 <span className="whitespace-nowrap">Claude Skills + Notion MCP</span>로 자동화했습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              팀에 연결된 <span className="whitespace-nowrap">Notion MCP</span>와 Claude Skills를 조합해 추가 권한 없이 조회 → 분석 → 초안 생성 → 노션 반영까지 하나의 플로우로 구현하고 팀 내 배포했습니다.
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      {/* 자동화를 고민하게 된 계기 */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">자동화를 고민하게 된 계기</h3>
-        <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              5단계 수기 작업 중 <strong className="text-white">2단계(개발 히스토리 파악)</strong>가 핵심 병목이었습니다. 개발에 참여하지 않은 입장에서 노션 문서를 일일이 열어보고, 불명확한 부분은 개발자에게 별도 확인을 요청해야 했습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              태스크마다 GitHub PR이 연결된 경우가 많아, 노션 문서와 PR Description을 함께 읽으면 히스토리 파악이 가능하다는 점에 착안해 자동화를 검토했습니다.
+              <span className="whitespace-nowrap">태스크 조회 → 노션/PR 분석 → 초안 생성 → 노션 반영</span>까지 하나의 플로우로 구성해, 팀 내 Claude Skills로 배포했습니다.
             </span>
           </li>
         </ul>
       </div>
 
-      {/* 시도 과정 */}
+      {/* 문제 상황 & 접근 */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">시도 과정</h3>
+        <h3 className="text-sm font-semibold text-gray-400 mb-2">문제 상황 & 접근</h3>
         <ul className="space-y-2">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              처음엔 n8n으로 구현을 시도했으나 회사 워크스페이스의 외부 웹훅이 허용되지 않아 막혔습니다.
+              5단계 수기 작업 중 <strong className="text-white">개발 히스토리 파악</strong>이 가장 큰 병목이었습니다. 개발에 참여하지 않은 입장에서 노션 문서를 일일이 열어보고, 불명확한 부분은 개발자에게 별도로 확인해야 했습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              팀 워크스페이스에 이미 <span className="whitespace-nowrap">Notion MCP</span>가 연결되어 있다는 걸 발견했습니다. 추가 권한 없이 노션 데이터를 직접 읽고 쓸 수 있어, Claude Skills로 전환해 구현했습니다.
+              n8n으로 먼저 시도했으나 외부 웹훅이 허용되지 않아 막혔고, 팀에 이미 연결된 Notion MCP를 발견해 추가 권한 없이 구현할 수 있었습니다.
+            </span>
+          </li>
+          <li className="text-gray-300 flex items-start gap-2">
+            <span className="text-blue-400">•</span>
+            <span className="leading-relaxed">
+              PR Description이 노션에 자동 동기화되어 있어, GitHub 접근 권한 없이도 개발 맥락을 파악하고 초안 품질을 높일 수 있었습니다.
             </span>
           </li>
         </ul>
