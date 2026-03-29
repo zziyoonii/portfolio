@@ -103,6 +103,15 @@ export const SECTIONS = [
 			component: 'CxTranslator',
 		  },
 		  {
+			id: 'release-note-skill',
+			title: '릴리즈 노트 자동화 스킬',
+			subtitle: 'Claude Skills + Notion MCP',
+			description: '스프린트마다 반복되는 노트 초안 작성을 AI로 자동화해 팀 내 배포했습니다.',
+			metrics: '초안 작성 4시간 → 30분',
+			tags: ['AI활용', '자동화', 'Claude Skills'],
+			component: 'ReleaseNoteSkill',
+		  },
+		  {
 			id: 'lawform',
 			title: 'Lawform',
 			subtitle: '서비스 문서 준법 자동 검토',
