@@ -120,6 +120,15 @@ export const SECTIONS = [
 			tags: ['AI', '바이브코딩', '서비스운영'],
 			component: 'Lawform',
 		  },
+		  {
+			id: 'beforestatus',
+			title: 'Beforestatus',
+			subtitle: 'LLM 서비스 상태 모니터링 대시보드',
+			description: 'OpenAI·Claude·Gemini·AWS 등 주요 LLM 서비스 장애를 실시간 감지하고 Slack으로 자동 알림을 보내는 모니터링 도구를 만들었습니다.',
+			metrics: '4단계 오류 분류 • Slack 자동 알림',
+			tags: ['바이브코딩', '모니터링', '자동화'],
+			component: 'Beforestatus',
+		  },
 		],
 	  },
 ]

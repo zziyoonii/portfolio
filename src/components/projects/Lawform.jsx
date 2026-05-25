@@ -81,7 +81,7 @@ export default function Lawform() {
             </div>
           </div>
           <a
-            href="https://lawform-beta.vercel.app/"
+            href="https://lonelylawly.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 md:px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-lg md:text-sm font-semibold rounded-lg transition-colors flex-shrink-0 flex items-center justify-center min-w-[44px] h-[36px]"
