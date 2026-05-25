@@ -113,7 +113,7 @@ export const SECTIONS = [
 		  },
 		  {
 			id: 'lawform',
-			title: 'Lonely',
+			title: 'Lonelylawly',
 			subtitle: '서비스 문서 준법 자동 검토',
 			description: '이용약관·개인정보처리방침을 AI로 검토해 법적 리스크와 개정 초안을 즉시 생성하는 도구를 만들었습니다.',
 			metrics: '준법 검토 자동화 • 공지 초안 즉시 생성',
