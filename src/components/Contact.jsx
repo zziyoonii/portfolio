@@ -65,12 +65,12 @@ export default function Contact() {
 						</div>
 					</div>
 
-					<div className="flex flex-wrap gap-3 justify-center">
+					<div className="flex gap-2 justify-center">
 						<a
 							href={LINKEDIN}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="inline-flex items-center justify-center rounded-md border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+							className="inline-flex items-center justify-center rounded-md border border-white/20 px-3 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-white/10 transition-colors whitespace-nowrap"
 						>
 							LinkedIn 프로필 열기 →
 						</a>
@@ -78,7 +78,7 @@ export default function Contact() {
 							href={BLOG}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="inline-flex items-center justify-center rounded-md border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+							className="inline-flex items-center justify-center rounded-md border border-white/20 px-3 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-white/10 transition-colors whitespace-nowrap"
 						>
 							블로그 보러가기 →
 						</a>
