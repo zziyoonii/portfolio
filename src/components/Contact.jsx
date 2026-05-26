@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 
 const EMAIL = 'kimjiyoon0816@gmail.com'
 const LINKEDIN = 'https://www.linkedin.com/in/aroundjiyoon/'
+const BLOG = 'https://npm-run-ops.tistory.com'
 
 export default function Contact() {
 	const [copied, setCopied] = useState(false)
@@ -64,14 +65,24 @@ export default function Contact() {
 						</div>
 					</div>
 
-					<a
-						href={LINKEDIN}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="inline-flex items-center justify-center rounded-md border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
-					>
-						LinkedIn 프로필 열기 →
-					</a>
+					<div className="flex flex-wrap gap-3 justify-center">
+						<a
+							href={LINKEDIN}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex items-center justify-center rounded-md border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+						>
+							LinkedIn 프로필 열기 →
+						</a>
+						<a
+							href={BLOG}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex items-center justify-center rounded-md border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+						>
+							블로그 보러가기 →
+						</a>
+					</div>
 				</motion.div>
 
 				{/* Footer - AI Collaboration Credit */}
