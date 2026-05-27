@@ -59,8 +59,8 @@ export default function Projects() {
 						</h3>
 
 						<div className={
-							section.projects.length === 4
-								? 'grid gap-6 grid-cols-2'
+							section.id === 4
+								? 'grid gap-6 grid-cols-1 sm:grid-cols-2'
 								: section.projects.length >= 3
 									? 'grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
 									: 'grid gap-6 grid-cols-1 sm:grid-cols-2'
