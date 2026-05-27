@@ -75,7 +75,7 @@ export default function Beforestatus() {
             </div>
           </div>
           <a
-            href="https://beforestatus.up.railway.app/"
+            href="https://beforestatus.fly.dev/"
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 md:px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-lg md:text-sm font-semibold rounded-lg transition-colors flex-shrink-0 flex items-center justify-center min-w-[44px] h-[36px]"
