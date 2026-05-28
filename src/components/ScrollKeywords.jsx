@@ -77,7 +77,7 @@ export default function ScrollKeywords() {
 							)}
 						</h2>
 
-						<div className={section.id === 4 ? 'grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8' : section.projects.length >= 3 ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8' : 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto'}>
+						<div className={section.id === 4 ? 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto' : section.projects.length >= 3 ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8' : 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto'}>
 							{section.projects.map((project, index) => (
 								<motion.div
 									key={project.id}
