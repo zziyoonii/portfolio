@@ -93,15 +93,22 @@ export default function Contact() {
 					transition={{ duration: 0.6, delay: 0.3 }}
 					className="mt-16 md:mt-20 pt-8 border-t border-white/5"
 				>
-					<p className="text-xs md:text-sm text-white/40 flex items-center justify-center gap-2 flex-wrap">
-						<span>Made by <strong className="text-white/60">김지윤 (Qoo)</strong></span>
-						<span>·</span>
-						<a href="https://github.com/zziyoonii" target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">GitHub</a>
-						<span>·</span>
-						<a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">LinkedIn</a>
-						<span>·</span>
-						<a href={BLOG} target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">Blog</a>
-					</p>
+					<div className="flex flex-col items-center gap-2">
+						<p className="text-xs md:text-sm text-white/40 flex items-center justify-center gap-2 flex-wrap">
+							<span>Made by <strong className="text-white/60">김지윤 (Qoo)</strong></span>
+							<span>·</span>
+							<a href="https://github.com/zziyoonii" target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">GitHub</a>
+							<span>·</span>
+							<a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">LinkedIn</a>
+							<span>·</span>
+							<a href={BLOG} target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">Blog</a>
+						</p>
+						<p className="text-xs text-white/30 flex items-center gap-1.5">
+							<span>© {new Date().getFullYear()}</span>
+							<span>·</span>
+							<span>Crafted with AI 🤖</span>
+						</p>
+					</div>
 				</motion.div>
 			</div>
 		</section>
