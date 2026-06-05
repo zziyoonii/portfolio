@@ -85,7 +85,7 @@ export default function Contact() {
 					</div>
 				</motion.div>
 
-				{/* Footer - AI Collaboration Credit */}
+				{/* Footer */}
 				<motion.div
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
@@ -94,13 +94,13 @@ export default function Contact() {
 					className="mt-16 md:mt-20 pt-8 border-t border-white/5"
 				>
 					<p className="text-xs md:text-sm text-white/40 flex items-center justify-center gap-2 flex-wrap">
-						<span>© {new Date().getFullYear()}</span>
-						<span className="hidden sm:inline">|</span>
-						<span className="flex items-center gap-1.5">
-							<span>Crafted with</span>
-							<span className="text-white/60">AI</span>
-							<span>🤖</span>
-						</span>
+						<span>Made by <strong className="text-white/60">김지윤 (Qoo)</strong></span>
+						<span>·</span>
+						<a href="https://github.com/zziyoonii" target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">GitHub</a>
+						<span>·</span>
+						<a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">LinkedIn</a>
+						<span>·</span>
+						<a href={BLOG} target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">Blog</a>
 					</p>
 				</motion.div>
 			</div>
