@@ -11,6 +11,7 @@ export const SECTIONS = [
 				metrics: '48회 발행 • 정량/정성 결합',
 				tags: ['VoC', '데이터시각화', '고객중심'],
                 component: 'VocReport',
+                group: '고객 커뮤니케이션 체계',
 			},
 			{
 				id: 'cs-process',
@@ -20,6 +21,7 @@ export const SECTIONS = [
 				metrics: '응답시간 87%↓ • 반복 문의 61%↓',
 				tags: ['CS', '프로세스', '효율화'],
                 component: 'CsProcess',
+                group: '고객 커뮤니케이션 체계',
 			},
 			{
 				id: 'auto-withdrawal',
@@ -29,6 +31,17 @@ export const SECTIONS = [
 				metrics: '수동 처리 0건 • 즉시 처리 구현',
 				tags: ['자동화', '프로세스개선', 'UX설계'],
                 component: 'Autowithdrawal',
+                group: '플랫폼 운영 안전망',
+			},
+			{
+				id: 'trust-safety',
+				title: '플랫폼 Trust & Safety 운영 체계 구축',
+				subtitle: '정책 기준 수립 & 어뷰징 대응 체계화',
+				description: '법적 근거가 없던 비매너 행위에 제재 기준을 세우고, 어뷰징 탐지 기준을 수립해 플랫폼 신뢰를 지켰습니다.',
+				metrics: '비매너 문의 60%↓ • 어뷰저 차단 97.9%↓',
+				tags: ['T&S', '정책수립', '콘텐츠모니터링'],
+                component: 'TrustSafety',
+                group: '플랫폼 운영 안전망',
 			},
 		],
 	},
@@ -101,6 +114,7 @@ export const SECTIONS = [
 			metrics: '전사 테스트 도입 • 개발 조직에서 실사용',
 			tags: ['AI', '커뮤니케이션', 'CX지원도구'],
 			component: 'CxTranslator',
+			group: 'AI 업무 도구',
 		  },
 		  {
 			id: 'release-note-skill',
@@ -108,8 +122,9 @@ export const SECTIONS = [
 			subtitle: 'Claude Skills + Notion MCP',
 			description: '스프린트마다 반복되는 노트 초안 작성을 AI로 자동화해 팀 내 배포했습니다.',
 			metrics: '초안 작성 4시간 → 30분',
-			tags: ['AI활용', '자동화', 'Claude Skills'],
+			tags: ['AI', '자동화', 'Claude Skills'],
 			component: 'ReleaseNoteSkill',
+			group: 'AI 업무 도구',
 		  },
 		  {
 			id: 'lawform',
@@ -119,6 +134,7 @@ export const SECTIONS = [
 			metrics: '준법 검토 자동화 • 공지 초안 즉시 생성',
 			tags: ['AI', '바이브코딩', '서비스운영'],
 			component: 'Lawform',
+			group: '바이브코딩 사이드 프로젝트',
 		  },
 		  {
 			id: 'beforestatus',
@@ -128,6 +144,7 @@ export const SECTIONS = [
 			metrics: '4단계 오류 분류 • Slack 자동 알림',
 			tags: ['바이브코딩', '모니터링', '자동화'],
 			component: 'Beforestatus',
+			group: '바이브코딩 사이드 프로젝트',
 		  },
 		],
 	  },
