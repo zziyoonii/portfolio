@@ -13,6 +13,7 @@ import CxTranslator from './projects/CxTranslator'
 import Lawform from './projects/Lawform'
 import ReleaseNoteSkill from './projects/ReleaseNoteSkill'
 import Beforestatus from './projects/Beforestatus'
+import TrustSafety from './projects/TrustSafety'
 
 const PROJECT_COMPONENTS = {
   VocReport,
@@ -26,7 +27,8 @@ const PROJECT_COMPONENTS = {
   CxTranslator,
   Lawform,
   ReleaseNoteSkill,
-  Beforestatus
+  Beforestatus,
+  TrustSafety
 }
 
 export default function ProjectModal({ selectedProject, currentIndex, totalProjects, onClose, onNext, onPrev }) {

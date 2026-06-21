@@ -29,6 +29,34 @@ export default function ScrollKeywords() {
 
 	const totalProjects = allProjects.length
 
+	const renderProjectCard = (project, index) => (
+		<motion.div
+			key={project.id}
+			initial={{ opacity: 0, y: 20 }}
+			whileInView={{ opacity: 1, y: 0 }}
+			viewport={{ once: true }}
+			transition={{ duration: 0.5, delay: index * 0.1 }}
+			whileHover={{ scale: 1.05 }}
+			whileTap={{ scale: 0.98 }}
+			onClick={() => openModal(project.id)}
+			className="bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full touch-manipulation"
+		>
+			<h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+			<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>
+			<p className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-3 flex-grow">{project.description}</p>
+			<div className="mt-auto">
+				<div className="text-xs text-gray-400 mb-4">{project.metrics}</div>
+				<div className="flex flex-wrap gap-2">
+					{project.tags.map((tag, i) => (
+						<span key={i} className="px-3 py-1 bg-white/10 text-gray-300 text-xs rounded-full">
+							#{tag}
+						</span>
+					))}
+				</div>
+			</div>
+		</motion.div>
+	)
+
 	const handleNext = () => {
 		setCurrentIndex((prevIndex) => {
 			if (prevIndex < allProjects.length - 1) {
@@ -77,35 +105,26 @@ export default function ScrollKeywords() {
 							)}
 						</h2>
 
-						<div className={section.id === 4 ? 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto' : section.projects.length >= 3 ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8' : 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto'}>
-							{section.projects.map((project, index) => (
-								<motion.div
-									key={project.id}
-									initial={{ opacity: 0, y: 20 }}
-									whileInView={{ opacity: 1, y: 0 }}
-									viewport={{ once: true }}
-									transition={{ duration: 0.5, delay: index * 0.1 }}
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.98 }}
-									onClick={() => openModal(project.id)}
-									className="bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full touch-manipulation"
-								>
-									<h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-									<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>
-									<p className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-3 flex-grow">{project.description}</p>
-									<div className="mt-auto">
-										<div className="text-xs text-gray-400 mb-4">{project.metrics}</div>
-										<div className="flex flex-wrap gap-2">
-											{project.tags.map((tag, i) => (
-												<span key={i} className="px-3 py-1 bg-white/10 text-gray-300 text-xs rounded-full">
-													#{tag}
-												</span>
-											))}
+						{section.projects.some((p) => p.group) ? (
+							<div className="space-y-10">
+								{Array.from(new Set(section.projects.map((p) => p.group))).map((groupName) => (
+									<div key={groupName}>
+										<h3 className="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center">
+											{groupName}
+										</h3>
+										<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto">
+											{section.projects
+												.filter((p) => p.group === groupName)
+												.map((project, index) => renderProjectCard(project, index))}
 										</div>
 									</div>
-								</motion.div>
-							))}
-						</div>
+								))}
+							</div>
+						) : (
+							<div className={section.projects.length === 4 ? 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto' : section.projects.length >= 3 ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8' : 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:w-2/3 lg:mx-auto'}>
+								{section.projects.map((project, index) => renderProjectCard(project, index))}
+							</div>
+						)}
 					</motion.div>
 				</section>
 			))}
