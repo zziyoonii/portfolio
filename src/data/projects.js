@@ -11,6 +11,7 @@ export const SECTIONS = [
 				metrics: '48회 발행 • 정량/정성 결합',
 				tags: ['VoC', '데이터시각화', '고객중심'],
                 component: 'VocReport',
+                filterCategory: ['고객 운영', '데이터 분석'],
                 group: '고객 커뮤니케이션 체계',
 			},
 			{
@@ -21,6 +22,7 @@ export const SECTIONS = [
 				metrics: '응답시간 87%↓ • 반복 문의 61%↓',
 				tags: ['CS', '프로세스', '효율화'],
                 component: 'CsProcess',
+                filterCategory: ['고객 운영', '프로세스 & 자동화'],
                 group: '고객 커뮤니케이션 체계',
 			},
 			{
@@ -31,6 +33,7 @@ export const SECTIONS = [
 				metrics: '수동 처리 0건 • 즉시 처리 구현',
 				tags: ['자동화', '프로세스개선', 'UX설계'],
                 component: 'Autowithdrawal',
+                filterCategory: ['프로세스 & 자동화'],
                 group: '플랫폼 운영 안전망',
 			},
 			{
@@ -41,6 +44,7 @@ export const SECTIONS = [
 				metrics: '비매너 문의 60%↓ • 어뷰저 차단 97.9%↓',
 				tags: ['T&S', '정책수립', '콘텐츠모니터링'],
                 component: 'TrustSafety',
+                filterCategory: ['고객 운영'],
                 group: '플랫폼 운영 안전망',
 			},
 		],
@@ -57,6 +61,7 @@ export const SECTIONS = [
 				metrics: '92건 생성 • 36건 해결 (39%)',
                 tags: ['제품개선', '백로그', '프로젝트관리'],
                 component: 'VocBacklog',
+                filterCategory: ['고객 운영', '데이터 분석'],
             },
             {
                 id: 'edu-activation',
@@ -66,6 +71,7 @@ export const SECTIONS = [
                 metrics: '메일 오픈율 16% • 재로그인율 1.6%',
                 tags: ['데이터분석', '리텐션', '그로스'],
                 component: 'EduActivation',
+                filterCategory: ['데이터 분석', '고객 운영'],
             },
 			{
 				id: 'release-note',
@@ -75,6 +81,7 @@ export const SECTIONS = [
 				metrics: '3년간 중단 후 재개 • 누락률 0%',
 				tags: ['프로세스개선', '커뮤니케이션', '릴리즈노트'],
                 component: 'ReleaseNote',
+                filterCategory: ['프로세스 & 자동화', '리더십 & 팀'],
             },
 		],
 	},
@@ -90,6 +97,7 @@ export const SECTIONS = [
 			metrics: '3차례 채용 • 21명 인터뷰 • 워크북 27개',
 			tags: ['팀빌딩', '리더십', '문화구축'],
 			component: 'TeamBuilding',
+			filterCategory: ['리더십 & 팀'],
 		  },
 		  {
 			id: 'channeltalk-optimization',
@@ -99,6 +107,7 @@ export const SECTIONS = [
 			metrics: '월 380만원 → 85만원 • 연간 3,540만원 절감',
 			tags: ['비용최적화', '데이터분석', '운영전략'],
 			component: 'ChanneltalkOptimization',
+			filterCategory: ['데이터 분석'],
 		  },
 		],
 	  },
@@ -114,6 +123,7 @@ export const SECTIONS = [
 			metrics: '전사 테스트 도입 • 개발 조직에서 실사용',
 			tags: ['AI', '커뮤니케이션', 'CX지원도구'],
 			component: 'CxTranslator',
+			filterCategory: ['AI 활용'],
 			group: 'AI 업무 도구',
 		  },
 		  {
@@ -124,6 +134,7 @@ export const SECTIONS = [
 			metrics: '초안 작성 4시간 → 30분',
 			tags: ['AI', '자동화', 'Claude Skills'],
 			component: 'ReleaseNoteSkill',
+			filterCategory: ['AI 활용', '프로세스 & 자동화'],
 			group: 'AI 업무 도구',
 		  },
 		  {
@@ -134,6 +145,7 @@ export const SECTIONS = [
 			metrics: '준법 검토 자동화 • 공지 초안 즉시 생성',
 			tags: ['AI', '바이브코딩', '서비스운영'],
 			component: 'Lawform',
+			filterCategory: ['AI 활용'],
 			group: '바이브코딩 사이드 프로젝트',
 		  },
 		  {
@@ -144,6 +156,7 @@ export const SECTIONS = [
 			metrics: '4단계 오류 분류 • Slack 자동 알림',
 			tags: ['바이브코딩', '모니터링', '자동화'],
 			component: 'Beforestatus',
+			filterCategory: ['AI 활용'],
 			group: '바이브코딩 사이드 프로젝트',
 		  },
 		],
