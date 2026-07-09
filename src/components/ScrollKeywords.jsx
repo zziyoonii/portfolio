@@ -3,8 +3,25 @@ import { useMemo, useState } from 'react'
 import { SECTIONS } from '../data/projects'
 import ProjectModal from './ProjectModal'
 
-// 모든 카드가 동일한 크기를 갖도록 공통 그리드/카드 규격을 사용한다.
-const GRID_CLASS = 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-4xl mx-auto'
+// 카드는 어떤 경우에도 동일한 너비(고정 CARD_W)를 갖는다.
+// 줄당 카드 수는 컨테이너 폭으로만 조절해 카드 크기는 항상 같게 유지한다.
+const CARD_W = 340 // px
+const GAP = 32 // md:gap-8 = 2rem
+
+// 카드 개수에 따라 한 줄에 몇 개를 둘지 결정 (외톨이 카드 최소화)
+//  1개 → 1, 2개 → 2, 4·7…(3으로 나눠 1 남는 수) → 2로 2×2 배치, 그 외 → 3
+const colsFor = (n) => {
+	if (n <= 1) return 1
+	if (n === 2) return 2
+	if (n % 3 === 1) return 2
+	return 3
+}
+
+// 위에서 정한 열 수만큼만 들어가도록 컨테이너 최대 폭을 계산
+const gridMaxWidth = (n) => {
+	const cols = colsFor(n)
+	return cols * CARD_W + (cols - 1) * GAP
+}
 
 export default function ScrollKeywords() {
 	const [selectedProject, setSelectedProject] = useState(null)
@@ -102,7 +119,7 @@ export default function ScrollKeywords() {
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 0.98 }}
 			onClick={() => openModal(project.id)}
-			className="bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full min-h-[240px] touch-manipulation"
+			className="w-full sm:w-[340px] shrink-0 bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col min-h-[240px] touch-manipulation"
 		>
 			<h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
 			<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>
@@ -133,6 +150,16 @@ export default function ScrollKeywords() {
 				</div>
 			</div>
 		</motion.div>
+	)
+
+	// 카드 목록을 동일 크기 카드 + 개수별 폭으로 렌더링
+	const renderGrid = (list) => (
+		<div
+			className="flex flex-wrap justify-center gap-6 md:gap-8 mx-auto w-full"
+			style={{ maxWidth: gridMaxWidth(list.length) }}
+		>
+			{list.map((project, index) => renderProjectCard(project, index))}
+		</div>
 	)
 
 	// 필터 바: 프로젝트 영역 상단. 태그 선택 시 이 위치로 스크롤된다.
@@ -193,9 +220,7 @@ export default function ScrollKeywords() {
 						<p className="text-sm text-gray-400 text-center mb-10 md:mb-12">
 							{visibleProjects.length}개의 프로젝트
 						</p>
-						<div className={GRID_CLASS}>
-							{visibleProjects.map((project, index) => renderProjectCard(project, index))}
-						</div>
+						{renderGrid(visibleProjects)}
 					</motion.div>
 				</section>
 			) : (
@@ -230,18 +255,12 @@ export default function ScrollKeywords() {
 											<h3 className="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center">
 												{groupName}
 											</h3>
-											<div className={GRID_CLASS}>
-												{section.projects
-													.filter((p) => p.group === groupName)
-													.map((project, index) => renderProjectCard(project, index))}
-											</div>
+											{renderGrid(section.projects.filter((p) => p.group === groupName))}
 										</div>
 									))}
 								</div>
 							) : (
-								<div className={GRID_CLASS}>
-									{section.projects.map((project, index) => renderProjectCard(project, index))}
-								</div>
+								renderGrid(section.projects)
 							)}
 						</motion.div>
 					</section>
