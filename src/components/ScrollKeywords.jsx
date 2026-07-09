@@ -166,7 +166,7 @@ export default function ScrollKeywords() {
 	// (조상의 overflow-x:hidden 때문에 position:sticky가 동작하지 않아 in-flow로 배치)
 	const filterBar = (
 		<div id="projects" className="scroll-mt-[96px] px-4 py-6 border-b border-white/10 bg-navy-900/60">
-			<p className="text-center text-xs text-gray-500 uppercase tracking-wider mb-3">태그로 필터</p>
+			<p className="text-center text-sm text-gray-400 mb-3">어떤 경험이 궁금하세요?</p>
 			<div className="max-w-6xl mx-auto flex flex-wrap gap-2 justify-center">
 				<button
 					type="button"
