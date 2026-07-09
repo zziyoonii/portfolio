@@ -5,7 +5,7 @@ import ProjectModal from './ProjectModal'
 
 // 카드는 어떤 경우에도 동일한 너비(고정 CARD_W)를 갖는다.
 // 줄당 카드 수는 컨테이너 폭으로만 조절해 카드 크기는 항상 같게 유지한다.
-const CARD_W = 340 // px
+const CARD_W = 360 // px — 3개가 한 줄에 들어가면서도 모든 카드가 동일한 크기
 const GAP = 32 // md:gap-8 = 2rem
 
 // 카드 개수에 따라 한 줄에 몇 개를 둘지 결정 (외톨이 카드 최소화)
@@ -119,7 +119,7 @@ export default function ScrollKeywords() {
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 0.98 }}
 			onClick={() => openModal(project.id)}
-			className="w-full sm:w-[340px] shrink-0 bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col min-h-[240px] touch-manipulation"
+			className="w-full sm:w-[360px] shrink-0 bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col min-h-[240px] touch-manipulation"
 		>
 			<h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
 			<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>

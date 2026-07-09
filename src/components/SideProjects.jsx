@@ -48,14 +48,14 @@ export default function SideProjects() {
 						More
 					</motion.h2>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div className="flex flex-wrap justify-center gap-6">
 						{/* 태블로 부트캠프 */}
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
 							transition={{ duration: 0.5 }}
-							className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/30 rounded-lg p-6"
+							className="w-full sm:w-[360px] shrink-0 bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/30 rounded-lg p-6"
 						>
 							<div className="flex items-start gap-4">
 								<span className="text-purple-400 text-2xl flex-shrink-0">📊</span>
@@ -90,7 +90,7 @@ export default function SideProjects() {
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
 							transition={{ duration: 0.5, delay: 0.1 }}
-							className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/30 rounded-lg p-6"
+							className="w-full sm:w-[360px] shrink-0 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/30 rounded-lg p-6"
 						>
 							<div className="flex items-start gap-4">
 								<span className="text-emerald-400 text-2xl flex-shrink-0">🎓</span>
