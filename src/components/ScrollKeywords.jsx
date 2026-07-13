@@ -147,11 +147,11 @@ export default function ScrollKeywords() {
 	const filterBar = (
 		<div id="projects" className="scroll-mt-[96px] px-4 py-6 border-b border-white/10 bg-navy-900/60">
 			<p className="text-center text-sm text-gray-400 mb-3">어떤 경험이 궁금하세요?</p>
-			<div className="max-w-6xl mx-auto flex flex-wrap gap-2 justify-center">
+			<div className="max-w-6xl mx-auto flex gap-2 flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap sm:justify-center sm:overflow-x-visible">
 				<button
 					type="button"
 					onClick={resetFilter}
-					className={`px-3.5 py-1.5 text-xs md:text-sm rounded-full border transition-colors touch-manipulation ${
+					className={`shrink-0 whitespace-nowrap px-3.5 py-1.5 text-xs md:text-sm rounded-full border transition-colors touch-manipulation ${
 						activeTag === null
 							? 'bg-white text-navy-900 border-white font-semibold'
 							: 'bg-white/5 text-gray-300 border-white/15 hover:bg-white/10 hover:text-white'
@@ -166,7 +166,7 @@ export default function ScrollKeywords() {
 							key={tag}
 							type="button"
 							onClick={() => selectTag(tag)}
-							className={`px-3.5 py-1.5 text-xs md:text-sm rounded-full border transition-colors touch-manipulation ${
+							className={`shrink-0 whitespace-nowrap px-3.5 py-1.5 text-xs md:text-sm rounded-full border transition-colors touch-manipulation ${
 								isActive
 									? 'bg-blue-500 text-white border-blue-500 font-semibold'
 									: 'bg-white/5 text-gray-300 border-white/15 hover:bg-white/10 hover:text-white'
