@@ -127,6 +127,16 @@ export const SECTIONS = [
 			group: 'AI 업무 도구',
 		  },
 		  {
+			id: 'urgency-bot',
+			title: 'EDU CS 시급도 봇',
+			subtitle: '요청 시급도 자동 판정 & 기준 데이터화',
+			description: '요청마다 사람이 따로 매기던 우선순위를 "사용자가 지금 겪는 피해" 기준으로 통일하고, AI 판정과 담당자 확정 기록을 쌓아 기준을 개선하는 슬랙 봇을 만들었습니다.',
+			metrics: '정답 라벨 30건 일치율 68% → 90% • 3개월 180건 분류',
+			tags: ['AI', '자동화'],
+			component: 'UrgencyBot',
+			group: 'AI 업무 도구',
+		  },
+		  {
 			id: 'lawform',
 			title: 'Lonelylawly',
 			subtitle: '서비스 문서 준법 자동 검토',
