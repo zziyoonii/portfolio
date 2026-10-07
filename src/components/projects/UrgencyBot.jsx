@@ -19,6 +19,21 @@ export default function UrgencyBot() {
     { name: '시스템 심각도 기준 (현재)', rate: '90%', note: '사람 확인 요청 23%' },
   ]
 
+  const beforeAfter = [
+    { area: '시급도 기준', before: '공통 기준 없이 담당자 판단', after: 'P1~P4 정의를 문서로 정리' },
+    { area: '요청 접수 시', before: '시급도 표시 없음', after: '요청 후 1~4분 안에 스레드에 시급도 카드와 등급 이모지 자동 게시' },
+    { area: '판단 기록', before: '남지 않음', after: 'AI 판정과 담당자 확정 등급이 요청별로 시트에 누적' },
+    { area: '원인 기록', before: '요약(문의/논의/해결)만 존재', after: '요약에 원인 분류 6종 추가' },
+    { area: '과거 문의 분석', before: '같은 기준으로 분류해 본 적 없음', after: '3개월 180건을 처음으로 같은 기준으로 분류' },
+    { area: '운영 방식', before: '-', after: '서버 없이 Apps Script로 상시 동작, 요청당 AI 호출 1회' },
+  ]
+
+  const stages = [
+    { name: '1차 · 구축', desc: '없던 기준·자동 판정·기록 체계가 생김', when: '2026-10-06 완료', done: true },
+    { name: '2차 · 운영 결과', desc: 'AI·사람 판정 일치율, 버튼 응답률, 등급별 처리 시간', when: '운영 1~2주 뒤', done: false },
+    { name: '3차 · 개선 효과', desc: '반복 원인 보완 후 같은 문의가 줄었는지', when: '운영 1~2달 뒤', done: false },
+  ]
+
   return (
     <div className="space-y-6">
       {/* Flow */}
@@ -163,12 +178,45 @@ export default function UrgencyBot() {
 
       {/* Impact */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">Impact</h3>
+        <h3 className="text-sm font-semibold text-gray-400 mb-2">Impact — 1차 성과: 없던 것이 생겼다</h3>
+
+        <div className="text-blue-300 text-sm font-semibold mb-3">
+          💡 운영 데이터가 쌓이기 전이라, 새로 생긴 기준·자동화·기록 체계로 정리했습니다
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr>
+                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10 w-1/4"></th>
+                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10">Before</th>
+                <th className="text-left text-gray-400 font-semibold py-2 border-b border-white/10">After</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-300">
+              {beforeAfter.map((r) => (
+                <tr key={r.area}>
+                  <td className="py-2 pr-4 border-b border-white/5 text-gray-400 text-xs">{r.area}</td>
+                  <td className="py-2 pr-4 border-b border-white/5">{r.before}</td>
+                  <td className="py-2 border-b border-white/5 text-green-400">{r.after}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h4 className="text-xs font-semibold text-gray-400 mt-5 mb-2">처음 드러난 패턴 (최근 3개월 180건: P1 1% · P2 11% · P3 29% · P4 59%)</h4>
         <ul className="space-y-2">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              최근 3개월 180건을 분류한 결과 P1 1% · P2 11% · P3 29% · P4 59%. P2의 절반 이상이 로그인·본인인증 문제로, <strong className="text-white">폼에서 "단순 요청"으로 올라온 건 중 6건이 실제로는 P2</strong>였습니다.
+              P1 2건이 <strong className="text-white">모두 같은 유형(진도율 전송·수신 실패)</strong>이었고 한 달 간격으로 반복됐습니다.
+            </span>
+          </li>
+          <li className="text-gray-300 flex items-start gap-2">
+            <span className="text-blue-400">•</span>
+            <span className="leading-relaxed">
+              P2의 절반 이상이 로그인·본인인증 문제였고, <strong className="text-white">폼에서 "단순 요청"으로 올라온 건 중 6건이 실제로는 P2</strong>였습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
@@ -178,6 +226,18 @@ export default function UrgencyBot() {
             </span>
           </li>
         </ul>
+
+        <h4 className="text-xs font-semibold text-gray-400 mt-5 mb-2">성과 단계</h4>
+        <div className="space-y-2">
+          {stages.map((st) => (
+            <div key={st.name} className="flex items-start gap-3 text-sm">
+              <span className={`whitespace-nowrap font-semibold ${st.done ? 'text-green-400' : 'text-gray-500'}`}>{st.done ? '✓' : '○'} {st.name}</span>
+              <span className="text-gray-300 leading-relaxed">
+                {st.desc} <span className="text-gray-500 text-xs whitespace-nowrap">({st.when})</span>
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* 한계 */}
