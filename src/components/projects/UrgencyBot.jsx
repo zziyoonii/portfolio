@@ -1,9 +1,9 @@
 export default function UrgencyBot() {
   const steps = [
     { title: '요청 접수', desc: '슬랙 워크플로우로 올라온 EDU CS 요청을 1분마다 감지합니다. 정형 작업은 기존 자동 처리 봇이 먼저 처리합니다.' },
-    { title: 'AI 질문 7개', desc: '요청 본문(개인정보 마스킹)을 읽고 피해 여부·핵심 기능 불가·정부 보고 데이터 등 7개 질문에 확률로 답하게 합니다.' },
-    { title: '규칙으로 등급 결정', desc: 'AI가 등급을 직접 정하지 않고, 확률을 코드 규칙에 넣어 P1~P4를 결정합니다. 애매하면 "확인 필요"를 붙입니다.' },
-    { title: '카드 + 기록', desc: '스레드에 시급도 카드를 게시하고, 담당자가 확정·수정한 결과를 시트에 쌓아 기준 개선에 씁니다.' },
+    { title: '결정 모델에 7개 질문', desc: '요청 본문(개인정보 마스킹)을 Jev와 OpenAI Decisions API에 보내 피해 여부·핵심 기능 불가 등 7개 질문에 확률로 답하게 합니다.' },
+    { title: '규칙으로 등급 결정', desc: '모델이 등급을 직접 정하지 않고, 확률을 코드 규칙에 넣어 P1~P4를 결정합니다. 애매하면 "확인 필요"를 붙입니다.' },
+    { title: '카드 + 기록', desc: '카드는 Jev 판정으로 게시하고, 두 모델의 판정과 담당자가 확정한 등급을 시트에 쌓습니다.' },
   ]
 
   const grades = [
@@ -30,7 +30,7 @@ export default function UrgencyBot() {
 
   const stages = [
     { name: '1차 · 구축', desc: '없던 기준·자동 판정·기록 체계가 생김', when: '2026-10-06 완료', done: true },
-    { name: '2차 · 운영 결과', desc: 'AI·사람 판정 일치율, 버튼 응답률, 등급별 처리 시간', when: '운영 1~2주 뒤', done: false },
+    { name: '2차 · 운영 결과', desc: 'Jev와 OpenAI 중 담당자 확정과 더 잘 맞은 쪽, 버튼 응답률, 등급별 처리 시간', when: '운영 1~2주 뒤', done: false },
     { name: '3차 · 개선 효과', desc: '반복 원인 보완 후 같은 문의가 줄었는지', when: '운영 1~2달 뒤', done: false },
   ]
 
@@ -65,7 +65,13 @@ export default function UrgencyBot() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              서버 없이 Google Apps Script와 TypeSafe API로 구성했고, 담당자가 확정·수정한 기록이 시트에 쌓여 기준을 계속 다듬을 수 있습니다.
+              서버 없이 Google Apps Script로 구성했고, 담당자가 확정·수정한 기록이 시트에 쌓여 기준을 계속 다듬을 수 있습니다.
+            </span>
+          </li>
+          <li className="text-gray-300 flex items-start gap-2">
+            <span className="text-blue-400">•</span>
+            <span className="leading-relaxed">
+              판정에는 확률로 답하는 결정 모델 <strong className="text-white">Jev(TypeSafe)</strong>를 쓰고, 새로 나온 <strong className="text-white">OpenAI Decisions API</strong>(베타)를 같은 질문으로 붙여 두 모델을 비교하고 있습니다.
             </span>
           </li>
         </ul>
@@ -125,7 +131,7 @@ export default function UrgencyBot() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              <strong className="text-white">서버 없는 운영 제약 대응.</strong> 슬랙 버튼 3초 제한은 카드만 먼저 바꾸고 시트 쓰기를 다음 실행으로 넘겨 해결했고, 큰 시트의 시간 초과는 대기열에 모았다가 필요할 때만 여는 방식으로 풀었습니다.
+              <strong className="text-white">모델을 갈아끼울 수 있는 구조.</strong> 질문과 등급 규칙을 모델과 분리해, 같은 요청을 Jev와 OpenAI가 어떻게 보는지 나란히 쌓습니다. 베타인 OpenAI는 카드에 올리지 않고 <strong className="text-white">Jev를 기준으로 쓰며</strong> 시트에만 기록합니다.
             </span>
           </li>
         </ul>
@@ -133,7 +139,7 @@ export default function UrgencyBot() {
 
       {/* 검증 */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">검증 — 정답 라벨 30건 기준 일치율</h3>
+        <h3 className="text-sm font-semibold text-gray-400 mb-2">검증 — 정답 라벨 30건 기준 일치율 (Jev)</h3>
 
         <div className="text-blue-300 text-sm font-semibold mb-3">
           💡 기준을 세 번 고쳐 68% → 90%
@@ -253,7 +259,7 @@ export default function UrgencyBot() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              1~2주 운영 후 AI 시급도와 담당자 확정 시급도를 비교해 기준값과 질문 문구를 조정할 예정입니다.
+              담당자가 카드의 [맞음]/[Px로 변경] 버튼으로 남긴 값을 정답으로 삼아 1~2주 뒤 두 모델을 채점하고, 기준값과 질문 문구를 조정할 예정입니다.
             </span>
           </li>
         </ul>
@@ -261,7 +267,7 @@ export default function UrgencyBot() {
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2 pt-4">
-        {['AI활용', '자동화', 'Slack', 'Apps Script', '프로세스개선'].map((tag, i) => (
+        {['AI활용', '자동화', 'Jev', 'OpenAI Decisions API', 'Slack', 'Apps Script'].map((tag, i) => (
           <span key={i} className="px-3 py-1 bg-white/10 text-gray-300 text-sm rounded-full">
             #{tag}
           </span>
