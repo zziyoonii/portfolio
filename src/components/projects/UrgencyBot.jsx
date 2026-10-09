@@ -1,274 +1,166 @@
+import cardImg from '../../assets/projects/urgency/card.png'
+
+const STATS = [
+  { value: '68→90%', label: '판정 일치율', sub: 'Jev · 라벨 30건' },
+  { value: '180건', label: '3개월 문의 분류', sub: '처음으로 같은 기준' },
+  { value: '2개 모델', label: 'Jev · OpenAI', sub: '비교 중' },
+]
+
+const FLOW = ['요청 접수', '결정 모델에 7개 질문', '코드 규칙으로 P1~P4', '슬랙 카드 + 시트 기록']
+
+const ACCURACY = [
+  { name: '첫 버전 (영향 + 기한)', rate: 68 },
+  { name: '질문 개선 · 기준 완화', rate: 80 },
+  { name: '시스템 심각도 기준 (현재)', rate: 90, current: true },
+]
+
+const GRADES = [
+  { key: 'P1', name: '치명', desc: '되돌리기 어려운 피해 2명↑', count: 2, bar: 'bg-red-400', text: 'text-red-400' },
+  { key: 'P2', name: '심각', desc: '핵심 기능 불가 · 정부 데이터 정정', count: 20, bar: 'bg-orange-400', text: 'text-orange-400' },
+  { key: 'P3', name: '보통', desc: '부가 기능 불가 · 오동작', count: 52, bar: 'bg-yellow-300', text: 'text-yellow-300' },
+  { key: 'P4', name: '낮음', desc: '피해 없는 작업 요청', count: 106, bar: 'bg-gray-400', text: 'text-gray-300' },
+]
+const TOTAL = GRADES.reduce((a, g) => a + g.count, 0)
+
+const MORE = [
+  {
+    title: '핵심 설계 결정',
+    items: [
+      '모델은 확률만 답하고, 등급은 코드 규칙이 정합니다. "하나라도 심각하면"을 평균 내지 않고 조건으로 둬서 심각한 신호가 묻히지 않습니다.',
+      '판단을 뒤집으면 등급이 달라지는 애매한 경우에만 "⚠ 확인 필요"를 붙입니다.',
+      '질문과 규칙을 모델과 분리해 Jev와 OpenAI를 같은 요청으로 나란히 비교합니다. 베타인 OpenAI는 시트에만 기록하고 카드는 Jev 기준입니다.',
+      '기한·다급한 표현·원인은 등급에 쓰지 않습니다. 운영 일정이 시스템 심각도와 섞이지 않게 하기 위해서입니다.',
+    ],
+  },
+  {
+    title: '한계',
+    items: [
+      '정답 라벨은 한 사람이 매겼고, 두 사람 간 일치도 검증은 아직 하지 않았습니다.',
+      '판정은 접수 시점 한 번뿐이라 스레드에서 상황이 바뀌어도 자동 갱신되지 않습니다.',
+    ],
+  },
+  {
+    title: '성과 단계',
+    items: [
+      '✓ 1차 구축: 없던 기준·자동 판정·기록 체계가 생김 (완료)',
+      '○ 2차 운영 결과: Jev와 OpenAI 중 담당자 확정과 더 잘 맞은 쪽 (운영 1~2주 뒤)',
+      '○ 3차 개선 효과: 반복 원인 보완 후 같은 문의가 줄었는지 (운영 1~2달 뒤)',
+    ],
+  },
+]
+
 export default function UrgencyBot() {
-  const steps = [
-    { title: '요청 접수', desc: '슬랙 워크플로우로 올라온 EDU CS 요청을 1분마다 감지합니다. 정형 작업은 기존 자동 처리 봇이 먼저 처리합니다.' },
-    { title: '결정 모델에 7개 질문', desc: '요청 본문(개인정보 마스킹)을 Jev와 OpenAI Decisions API에 보내 피해 여부·핵심 기능 불가 등 7개 질문에 확률로 답하게 합니다.' },
-    { title: '규칙으로 등급 결정', desc: '모델이 등급을 직접 정하지 않고, 확률을 코드 규칙에 넣어 P1~P4를 결정합니다. 애매하면 "확인 필요"를 붙입니다.' },
-    { title: '카드 + 기록', desc: '카드는 Jev 판정으로 게시하고, 두 모델의 판정과 담당자가 확정한 등급을 시트에 쌓습니다.' },
-  ]
-
-  const grades = [
-    { label: 'P1 치명', cond: '되돌리기 어려운 피해가 2명 이상에게 이미 발생', color: 'text-red-400' },
-    { label: 'P2 심각', cond: '피해 1명 / 핵심 기능(로그인·본인인증·수강 등) 불가 / 정부 보고 데이터 정정', color: 'text-orange-400' },
-    { label: 'P3 보통', cond: '핵심 기능은 되지만 부가 기능 불가·오동작', color: 'text-yellow-300' },
-    { label: 'P4 낮음', cond: '피해 없는 작업 요청 (세팅·데이터 추출·문의)', color: 'text-gray-300' },
-  ]
-
-  const versions = [
-    { name: '첫 버전 (영향 + 기한)', rate: '68%', note: '사람 확인 요청 81%' },
-    { name: '질문 문구 개선 · 기준 완화', rate: '80%', note: '사람 확인 요청 20%' },
-    { name: '시스템 심각도 기준 (현재)', rate: '90%', note: '사람 확인 요청 23%' },
-  ]
-
-  const beforeAfter = [
-    { area: '시급도 기준', before: '공통 기준 없이 담당자 판단', after: 'P1~P4 정의를 문서로 정리' },
-    { area: '요청 접수 시', before: '시급도 표시 없음', after: '요청 후 1~4분 안에 스레드에 시급도 카드와 등급 이모지 자동 게시' },
-    { area: '판단 기록', before: '남지 않음', after: 'AI 판정과 담당자 확정 등급이 요청별로 시트에 누적' },
-    { area: '원인 기록', before: '요약(문의/논의/해결)만 존재', after: '요약에 원인 분류 6종 추가' },
-    { area: '과거 문의 분석', before: '같은 기준으로 분류해 본 적 없음', after: '3개월 180건을 처음으로 같은 기준으로 분류' },
-    { area: '운영 방식', before: '-', after: '서버 없이 Apps Script로 상시 동작, 요청당 AI 호출 1회' },
-  ]
-
-  const stages = [
-    { name: '1차 · 구축', desc: '없던 기준·자동 판정·기록 체계가 생김', when: '2026-10-06 완료', done: true },
-    { name: '2차 · 운영 결과', desc: 'Jev와 OpenAI 중 담당자 확정과 더 잘 맞은 쪽, 버튼 응답률, 등급별 처리 시간', when: '운영 1~2주 뒤', done: false },
-    { name: '3차 · 개선 효과', desc: '반복 원인 보완 후 같은 문의가 줄었는지', when: '운영 1~2달 뒤', done: false },
-  ]
-
   return (
-    <div className="space-y-6">
-      {/* Flow */}
-      <div className="bg-slate-900/60 border border-slate-700/80 rounded-2xl px-1.5 pt-1.5 pb-1 md:px-3 md:pt-3 md:pb-3">
-        <h3 className="text-xs md:text-base font-semibold text-gray-300 mb-1 md:mb-2">Flow</h3>
-        <div className="grid grid-cols-2 gap-1 md:gap-2.5">
-          {steps.map((s, i) => (
-            <div key={s.title} className="rounded-xl bg-slate-800/80 border border-slate-700 p-1.5 md:p-2.5 flex flex-col h-full">
-              <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                <span className="inline-flex items-center justify-center w-3.5 h-3.5 md:w-6 md:h-6 text-[9px] md:text-sm rounded-full bg-blue-500/20 text-blue-300 flex-shrink-0">{i + 1}</span>
-                <span className="text-[10px] md:text-sm font-semibold text-gray-100">{s.title}</span>
-              </div>
-              <p className="text-[9px] md:text-sm text-gray-300 leading-tight md:leading-relaxed flex-1">{s.desc}</p>
-            </div>
-          ))}
-        </div>
+    <div className="space-y-8">
+      {/* 한 줄 요약 */}
+      <p className="text-gray-200 leading-relaxed">
+        요청마다 담당자가 따로 매기던 우선순위를, <strong className="text-white">"사용자가 지금 겪는 피해"</strong> 기준으로 통일해 슬랙에 자동으로 달아 주는 봇입니다.
+      </p>
+
+      {/* 핵심 숫자 */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        {STATS.map((s) => (
+          <div key={s.value} className="rounded-xl bg-slate-800/80 border border-slate-700 p-3 sm:p-4">
+            <div className="text-lg sm:text-2xl font-bold text-blue-300 whitespace-nowrap">{s.value}</div>
+            <div className="text-xs sm:text-sm text-gray-100 mt-1">{s.label}</div>
+            <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{s.sub}</div>
+          </div>
+        ))}
       </div>
 
-      {/* 개요 */}
+      {/* 실제 슬랙 카드 */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">프로젝트 개요</h3>
-        <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              EDU CS 요청 시급도를 <strong className="text-white">일관된 기준으로 자동 판정</strong>하는 슬랙 봇입니다. 최종 우선순위는 사람이 정하고, 봇의 판정은 초안입니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              서버 없이 Google Apps Script로 구성했고, 담당자가 확정·수정한 기록이 시트에 쌓여 기준을 계속 다듬을 수 있습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              판정에는 확률로 답하는 결정 모델 <strong className="text-white">Jev(TypeSafe)</strong>를 쓰고, 새로 나온 <strong className="text-white">OpenAI Decisions API</strong>(베타)를 같은 질문으로 붙여 두 모델을 비교하고 있습니다.
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      {/* 문제 상황 */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">문제 상황</h3>
-        <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              요청이 하루 2~3건(최근 3개월 180건) 들어오는데, <strong className="text-white">"얼마나 급한가"를 담당자가 매번 따로 판단</strong>해 같은 성격의 건도 사람마다 우선순위가 달랐습니다.
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      {/* 시급도 기준 */}
-      <div className="bg-navy-800/50 border border-white/10 rounded-lg p-4">
-        <h3 className="text-sm font-semibold text-gray-400 mb-3">🎯 시급도 = 지금 시스템 상태 때문에 사용자가 실제로 겪고 있는 피해의 크기</h3>
-        <div className="space-y-2 mb-4">
-          {grades.map((g) => (
-            <div key={g.label} className="flex items-start gap-3 text-sm">
-              <span className={`font-semibold whitespace-nowrap ${g.color}`}>{g.label}</span>
-              <span className="text-gray-300 leading-relaxed">{g.cond}</span>
-            </div>
-          ))}
+        <h3 className="text-sm font-semibold text-gray-400 mb-2">실제 슬랙에 달린 시급도 카드</h3>
+        <div className="rounded-xl overflow-hidden border border-white/10 bg-white max-w-md mx-auto">
+          <img src={cardImg} alt="슬랙에 달린 시급도 카드" className="w-full h-auto block" loading="lazy" />
         </div>
-        <p className="text-gray-400 text-xs leading-relaxed">
-          기한·다급한 표현·원인·폼의 요청 종류는 등급에 쓰지 않습니다. 기한은 같은 등급 안의 처리 순서에만 반영해, 운영 일정이 시스템 심각도와 섞이지 않게 했습니다.
+        <p className="text-xs text-gray-400 mt-2 leading-relaxed text-center">
+          AI 초안은 P4, 담당자가 P2로 변경했습니다. 애매한 판단에는 ⚠ 확인 필요가 함께 표시됩니다.
         </p>
       </div>
 
-      {/* 설계 결정 */}
+      {/* Flow */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">핵심 설계 결정</h3>
-        <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              <strong className="text-white">AI는 확률만, 등급은 코드가.</strong> "하나라도 심각하면"은 평균 내지 않고 조건으로 둬서 심각한 신호가 묻히지 않게 했습니다.
+        <h3 className="text-sm font-semibold text-gray-400 mb-2">Flow</h3>
+        <div className="flex flex-wrap items-center gap-2">
+          {FLOW.map((f, i) => (
+            <span key={f} className="inline-flex items-center gap-2">
+              <span className="px-3 py-1.5 rounded-full bg-blue-500/15 text-blue-300 text-sm">{f}</span>
+              {i < FLOW.length - 1 && <span className="text-gray-500">→</span>}
             </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              <strong className="text-white">애매하면 사람에게 넘깁니다.</strong> 판단을 반대로 뒤집었을 때 등급이 달라지는 경우에만 "⚠ 확인 필요"를 붙여, 과하게 알리지 않으면서 오판을 걸러냅니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              <strong className="text-white">원인은 접수 때가 아니라 처리 후에 기록합니다.</strong> 요약봇이 절차·시스템·안내를 주어로 6개 분류를 남겨, 누구의 잘못이 아니라 무엇을 보완할지를 쌓습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              <strong className="text-white">모델을 갈아끼울 수 있는 구조.</strong> 질문과 등급 규칙을 모델과 분리해, 같은 요청을 Jev와 OpenAI가 어떻게 보는지 나란히 쌓습니다. 베타인 OpenAI는 카드에 올리지 않고 <strong className="text-white">Jev를 기준으로 쓰며</strong> 시트에만 기록합니다.
-            </span>
-          </li>
-        </ul>
+          ))}
+        </div>
+        <p className="text-xs text-gray-400 mt-2">모델은 확률만 답하고, 등급은 코드 규칙이 정합니다.</p>
       </div>
 
-      {/* 검증 */}
+      {/* 일치율 차트 */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">검증 — 정답 라벨 30건 기준 일치율 (Jev)</h3>
-
-        <div className="text-blue-300 text-sm font-semibold mb-3">
-          💡 기준을 세 번 고쳐 68% → 90%
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse">
-            <thead>
-              <tr>
-                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10">버전</th>
-                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10">일치율</th>
-                <th className="text-left text-gray-400 font-semibold py-2 border-b border-white/10">비고</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-300">
-              {versions.map((v, i) => (
-                <tr key={v.name}>
-                  <td className="py-2 pr-4 border-b border-white/5">{v.name}</td>
-                  <td className={`py-2 pr-4 border-b border-white/5 ${i === versions.length - 1 ? 'text-green-400 font-semibold' : ''}`}>{v.rate}</td>
-                  <td className="py-2 border-b border-white/5 text-gray-400 text-xs">{v.note}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <ul className="space-y-2 mt-3">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              P1·P2를 낮게 본 3건은 <strong className="text-white">모두 "확인 필요"로 표시</strong>되어 사람이 걸러낼 수 있었습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              애매한 답 하나로 등급이 바뀌는 건이 6건 → 2건으로 줄어, 시스템 심각도 기준이 더 안정적임을 확인했습니다.
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      {/* Impact */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-400 mb-2">Impact — 1차 성과: 없던 것이 생겼다</h3>
-
-        <div className="text-blue-300 text-sm font-semibold mb-3">
-          💡 운영 데이터가 쌓이기 전이라, 새로 생긴 기준·자동화·기록 체계로 정리했습니다
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse">
-            <thead>
-              <tr>
-                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10 w-1/4"></th>
-                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10">Before</th>
-                <th className="text-left text-gray-400 font-semibold py-2 border-b border-white/10">After</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-300">
-              {beforeAfter.map((r) => (
-                <tr key={r.area}>
-                  <td className="py-2 pr-4 border-b border-white/5 text-gray-400 text-xs">{r.area}</td>
-                  <td className="py-2 pr-4 border-b border-white/5">{r.before}</td>
-                  <td className="py-2 border-b border-white/5 text-green-400">{r.after}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <h4 className="text-xs font-semibold text-gray-400 mt-5 mb-2">처음 드러난 패턴 (최근 3개월 180건: P1 1% · P2 11% · P3 29% · P4 59%)</h4>
-        <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              P1 2건이 <strong className="text-white">모두 같은 유형(진도율 전송·수신 실패)</strong>이었고 한 달 간격으로 반복됐습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              P2의 절반 이상이 로그인·본인인증 문제였고, <strong className="text-white">폼에서 "단순 요청"으로 올라온 건 중 6건이 실제로는 P2</strong>였습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              요청 1건당 AI 호출 1회(약 0.6초), 1분마다 하는 확인은 슬랙 API만 써서 운영 비용이 거의 들지 않습니다.
-            </span>
-          </li>
-        </ul>
-
-        <h4 className="text-xs font-semibold text-gray-400 mt-5 mb-2">성과 단계</h4>
-        <div className="space-y-2">
-          {stages.map((st) => (
-            <div key={st.name} className="flex items-start gap-3 text-sm">
-              <span className={`whitespace-nowrap font-semibold ${st.done ? 'text-green-400' : 'text-gray-500'}`}>{st.done ? '✓' : '○'} {st.name}</span>
-              <span className="text-gray-300 leading-relaxed">
-                {st.desc} <span className="text-gray-500 text-xs whitespace-nowrap">({st.when})</span>
-              </span>
+        <h3 className="text-sm font-semibold text-gray-400 mb-3">기준을 세 번 고쳐 일치율 68% → 90%</h3>
+        <div className="space-y-3">
+          {ACCURACY.map((a) => (
+            <div key={a.name}>
+              <div className="flex justify-between text-xs mb-1">
+                <span className={a.current ? 'text-gray-100' : 'text-gray-400'}>{a.name}</span>
+                <span className={a.current ? 'text-green-400 font-semibold' : 'text-gray-400'}>{a.rate}%</span>
+              </div>
+              <div className="h-3 rounded-full bg-white/10 overflow-hidden">
+                <div
+                  className={`h-full rounded-full ${a.current ? 'bg-green-400' : 'bg-blue-400/50'}`}
+                  style={{ width: `${a.rate}%` }}
+                />
+              </div>
             </div>
           ))}
         </div>
+        <p className="text-xs text-gray-400 mt-2">P1·P2를 낮게 본 3건은 모두 "확인 필요"로 표시되어 사람이 걸러낼 수 있었습니다.</p>
       </div>
 
-      {/* 한계 */}
-      <div className="bg-navy-800/50 border border-white/10 rounded-lg p-4">
-        <h3 className="text-sm font-semibold text-gray-400 mb-3">⚠️ 한계와 다음 단계</h3>
-        <ul className="space-y-2">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              정답 라벨은 한 사람이 매겼고, 두 사람이 같은 건을 각자 매겨 일치도를 보는 검증은 아직 하지 않았습니다. 판정은 접수 시점 한 번뿐이라 스레드에서 상황이 바뀌어도 자동 갱신되지 않습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              담당자가 카드의 [맞음]/[Px로 변경] 버튼으로 남긴 값을 정답으로 삼아 1~2주 뒤 두 모델을 채점하고, 기준값과 질문 문구를 조정할 예정입니다.
-            </span>
-          </li>
-        </ul>
+      {/* 등급 분포 */}
+      <div>
+        <h3 className="text-sm font-semibold text-gray-400 mb-3">최근 3개월 {TOTAL}건 등급 분포</h3>
+        <div className="flex h-5 rounded-full overflow-hidden bg-white/10">
+          {GRADES.map((g) => (
+            <div key={g.key} className={g.bar} style={{ width: `${(g.count / TOTAL) * 100}%` }} title={`${g.key} ${g.count}건`} />
+          ))}
+        </div>
+        <div className="mt-3 space-y-1.5">
+          {GRADES.map((g) => (
+            <div key={g.key} className="flex items-baseline gap-2 text-sm">
+              <span className={`font-semibold w-20 flex-shrink-0 ${g.text}`}>{g.key} {g.name}</span>
+              <span className="text-gray-300 flex-1">{g.desc}</span>
+              <span className="text-gray-400 text-xs whitespace-nowrap">{g.count}건 · {Math.round((g.count / TOTAL) * 100)}%</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-gray-400 mt-3 leading-relaxed">
+          P1 2건은 모두 같은 유형(진도율 전송·수신 실패)이 한 달 간격으로 반복된 것이었고, P2의 절반 이상은 로그인·본인인증 문제였습니다.
+        </p>
+      </div>
+
+      {/* 더 보기 */}
+      <div className="space-y-2">
+        {MORE.map((m) => (
+          <details key={m.title} className="group rounded-lg bg-navy-800/50 border border-white/10 px-4 py-3">
+            <summary className="cursor-pointer text-sm font-semibold text-gray-300 list-none flex items-center justify-between">
+              {m.title}
+              <span className="text-gray-500 group-open:rotate-180 transition-transform">▾</span>
+            </summary>
+            <ul className="space-y-2 mt-3">
+              {m.items.map((t) => (
+                <li key={t} className="text-sm text-gray-300 flex items-start gap-2">
+                  <span className="text-blue-400">•</span>
+                  <span className="leading-relaxed">{t}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
       </div>
 
       {/* Tags */}
-      <div className="flex flex-wrap gap-2 pt-4">
-        {['AI활용', '자동화', 'Jev', 'OpenAI Decisions API', 'Slack', 'Apps Script'].map((tag, i) => (
-          <span key={i} className="px-3 py-1 bg-white/10 text-gray-300 text-sm rounded-full">
+      <div className="flex flex-wrap gap-2 pt-2">
+        {['AI활용', '자동화', 'Jev', 'OpenAI Decisions API', 'Slack', 'Apps Script'].map((tag) => (
+          <span key={tag} className="px-3 py-1 bg-white/10 text-gray-300 text-sm rounded-full">
             #{tag}
           </span>
         ))}
