@@ -127,6 +127,16 @@ export const SECTIONS = [
 			group: 'AI 업무 도구',
 		  },
 		  {
+			id: 'urgency-bot',
+			title: 'EDU CS 시급도 봇',
+			subtitle: '요청 시급도 자동 판정',
+			description: '담당자마다 달랐던 우선순위를 "사용자가 겪는 피해" 기준으로 통일하는 슬랙 봇을 만들었습니다.',
+			metrics: 'Jev 판정 일치율 68% → 90% • OpenAI와 비교 중',
+			tags: ['AI', '자동화'],
+			component: 'UrgencyBot',
+			group: 'AI 업무 도구',
+		  },
+		  {
 			id: 'lawform',
 			title: 'Lonelylawly',
 			subtitle: '서비스 문서 준법 자동 검토',
