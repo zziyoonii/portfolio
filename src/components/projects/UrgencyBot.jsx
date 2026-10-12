@@ -61,7 +61,7 @@ export default function UrgencyBot() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              확률로 답하는 결정 모델 <strong className="text-white">Jev(TypeSafe)</strong>를 기준으로 쓰고, 새로 나온 <strong className="text-white">OpenAI Decisions API</strong>(베타)를 같은 질문으로 붙여 두 모델을 비교하고 있습니다.
+              확률로 답하는 결정 모델 <strong className="text-white">Jev(TypeSafe)</strong>를 기준으로 쓰고, 새로 나온 <strong className="text-white">OpenAI Decisions API</strong>(베타)에 같은 질문 7개를 형식만 바꿔 보내 같은 규칙에 넣습니다. 그래서 두 결과의 차이는 <strong className="text-white">모델의 판단 차이</strong>만 남습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
@@ -135,10 +135,54 @@ export default function UrgencyBot() {
               최근 3개월 180건을 처음으로 같은 기준으로 분류해 P1 1% · P2 11% · P3 29% · P4 59% 분포를 확인했습니다. P1 2건은 같은 유형(진도율 전송·수신 실패)이 한 달 간격으로 반복된 건이었습니다.
             </span>
           </li>
+        </ul>
+
+        <h4 className="text-xs font-semibold text-gray-400 mt-5 mb-2">Jev vs OpenAI Decisions API (같은 질문·같은 규칙, 30건)</h4>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr>
+                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10 w-1/3"></th>
+                <th className="text-left text-gray-400 font-semibold py-2 pr-4 border-b border-white/10">Jev</th>
+                <th className="text-left text-gray-400 font-semibold py-2 border-b border-white/10">OpenAI</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-300">
+              <tr>
+                <td className="py-2 pr-4 border-b border-white/5 text-gray-400 text-xs">일치율</td>
+                <td className="py-2 pr-4 border-b border-white/5">27/30 (90%)</td>
+                <td className="py-2 border-b border-white/5">27/30 (90%)</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 border-b border-white/5 text-gray-400 text-xs">P1·P2를 낮게 본 건</td>
+                <td className="py-2 pr-4 border-b border-white/5">3건</td>
+                <td className="py-2 border-b border-white/5 text-green-400">1건</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 text-gray-400 text-xs">P4를 P3로 높게 본 건</td>
+                <td className="py-2 pr-4 text-green-400">0건</td>
+                <td className="py-2">2건</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul className="space-y-2 mt-3">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              Jev와 OpenAI 판정을 시트에 함께 쌓고 있어, 1~2주 뒤 담당자 확정값으로 어느 모델이 더 잘 맞히는지 채점할 예정입니다.
+              일치율은 같지만 <strong className="text-white">틀린 건이 서로 달랐습니다.</strong> OpenAI는 심각한 건을 덜 놓치는 대신 피해 없는 요청을 한 단계 높게 보는 경향이 있었습니다.
+            </span>
+          </li>
+          <li className="text-gray-300 flex items-start gap-2">
+            <span className="text-blue-400">•</span>
+            <span className="leading-relaxed">
+              30건은 결론을 내기에 적어서 바로 바꾸지 않고, OpenAI는 <strong className="text-white">시트에만 기록</strong>하며 담당자가 확정한 값으로 다시 채점해 카드에 쓸 모델을 정합니다.
+            </span>
+          </li>
+          <li className="text-gray-300 flex items-start gap-2">
+            <span className="text-blue-400">•</span>
+            <span className="leading-relaxed">
+              운영 첫 주에 카드 지연, 자동 처리 건 오판정, 버튼 확정값 누락 3건을 발견해 고쳤고, 가짜 슬랙·모델·시트로 흐름을 돌리는 시험에 각 경우를 추가한 뒤 반영했습니다.
             </span>
           </li>
         </ul>
