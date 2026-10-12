@@ -55,19 +55,13 @@ export default function UrgencyBot() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              EDU CS 요청이 올라오면 <strong className="text-white">"사용자가 지금 겪는 피해"</strong> 기준으로 시급도(P1~P4) 초안을 슬랙 스레드에 자동으로 달아 주는 봇입니다. 최종 우선순위는 사람이 정합니다.
+              EDU CS 요청이 올라오면 <strong className="text-white">"사용자가 지금 겪는 피해"</strong> 기준으로 시급도(P1~P4) 초안을 슬랙에 자동으로 답니다. 최종 결정은 사람이 합니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              확률로 답하는 결정 모델 <strong className="text-white">Jev(TypeSafe)</strong>를 기준으로 쓰고, 새로 나온 <strong className="text-white">OpenAI Decisions API</strong>(베타)에 같은 질문 7개를 형식만 바꿔 보내 같은 규칙에 넣습니다. 그래서 두 결과의 차이는 <strong className="text-white">모델의 판단 차이</strong>만 남습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              서버 없이 Google Apps Script로 구성해 상시 동작하고, 요청 1건당 AI 호출은 1번입니다.
+              결정 모델 <strong className="text-white">Jev</strong>를 기준으로 쓰고, <strong className="text-white">OpenAI Decisions API</strong>(베타)에 같은 질문을 보내 두 모델을 비교합니다.
             </span>
           </li>
         </ul>
@@ -80,19 +74,13 @@ export default function UrgencyBot() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              요청이 하루 2~3건(최근 3개월 180건) 들어오는데, <strong className="text-white">"얼마나 급한가"를 담당자가 매번 따로 판단</strong>해 같은 성격의 건도 사람마다 우선순위가 달랐습니다.
+              요청마다 담당자가 <strong className="text-white">"얼마나 급한가"를 따로 판단</strong>해, 같은 성격의 건도 우선순위가 달랐습니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              기한·다급한 표현·원인은 등급에 쓰지 않고 시스템 심각도만 기준으로 삼아, 운영 일정이 심각도와 섞이지 않게 했습니다. 모델은 확률만 답하고 등급은 코드 규칙이 정합니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              판단을 뒤집으면 등급이 달라지는 애매한 건에만 <strong className="text-white">"⚠ 확인 필요"</strong>를 붙여 사람이 걸러내게 했고, 담당자가 확정·수정한 값을 시트에 쌓아 기준을 다듬습니다.
+              모델은 확률만 답하고 등급은 코드 규칙이 정합니다. 애매한 건에만 <strong className="text-white">"⚠ 확인 필요"</strong>를 붙여 사람이 걸러냅니다.
             </span>
           </li>
         </ul>
@@ -120,24 +108,24 @@ export default function UrgencyBot() {
       <div>
         <h3 className="text-sm font-semibold text-gray-400 mb-2">Impact</h3>
         <div className="text-blue-300 text-sm font-semibold mb-3">
-          💡 없던 시급도 기준과 판단 기록이 생겼습니다 (1차 구축 완료)
+          💡 없던 시급도 기준과 판단 기록이 생겼습니다
         </div>
         <ul className="space-y-2">
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              정답 라벨 30건 기준 판정 일치율을 <strong className="text-white">68% → 80% → 90%</strong>로 끌어올렸고, P1·P2를 낮게 본 3건은 모두 "확인 필요"로 표시됐습니다.
+              정답 라벨 30건 기준 판정 일치율 <strong className="text-white">68% → 90%</strong>
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              최근 3개월 180건을 처음으로 같은 기준으로 분류해 P1 1% · P2 11% · P3 29% · P4 59% 분포를 확인했습니다. P1 2건은 같은 유형(진도율 전송·수신 실패)이 한 달 간격으로 반복된 건이었습니다.
+              3개월 180건을 처음으로 같은 기준으로 분류해, P1 2건이 같은 유형의 반복임을 발견했습니다.
             </span>
           </li>
         </ul>
 
-        <h4 className="text-xs font-semibold text-gray-400 mt-5 mb-2">Jev vs OpenAI Decisions API (같은 질문·같은 규칙, 30건)</h4>
+        <h4 className="text-xs font-semibold text-gray-400 mt-5 mb-2">Jev vs OpenAI (같은 질문·같은 규칙, 30건)</h4>
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse">
             <thead>
@@ -166,26 +154,9 @@ export default function UrgencyBot() {
             </tbody>
           </table>
         </div>
-        <ul className="space-y-2 mt-3">
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              일치율은 같지만 <strong className="text-white">틀린 건이 서로 달랐습니다.</strong> OpenAI는 심각한 건을 덜 놓치는 대신 피해 없는 요청을 한 단계 높게 보는 경향이 있었습니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              30건은 결론을 내기에 적어서 바로 바꾸지 않고, OpenAI는 <strong className="text-white">시트에만 기록</strong>하며 담당자가 확정한 값으로 다시 채점해 카드에 쓸 모델을 정합니다.
-            </span>
-          </li>
-          <li className="text-gray-300 flex items-start gap-2">
-            <span className="text-blue-400">•</span>
-            <span className="leading-relaxed">
-              운영 첫 주에 카드 지연, 자동 처리 건 오판정, 버튼 확정값 누락 3건을 발견해 고쳤고, 가짜 슬랙·모델·시트로 흐름을 돌리는 시험에 각 경우를 추가한 뒤 반영했습니다.
-            </span>
-          </li>
-        </ul>
+        <p className="text-gray-300 text-sm leading-relaxed mt-3">
+          일치율은 같지만 <strong className="text-white">틀린 건이 서로 달라서</strong>, OpenAI는 시트에만 기록하며 담당자 확정값으로 다시 채점합니다.
+        </p>
       </div>
 
       {/* Tags */}
