@@ -3,7 +3,7 @@ import cardImg from '../../assets/projects/urgency/card.png'
 
 export default function UrgencyBot() {
   const steps = [
-    { title: '요청 접수', desc: '슬랙 워크플로우로 올라온 EDU CS 요청을 1분마다 감지합니다.' },
+    { title: '요청 접수', desc: '슬랙 워크플로우로 올라온 CS 요청을 1분마다 감지합니다.' },
     { title: '7개 질문', desc: '요청 본문을 Jev와 OpenAI Decisions API에 보내 피해 여부 등을 확률로 답하게 합니다.' },
     { title: '등급 결정', desc: '모델이 아닌 코드 규칙이 P1~P4를 정하고, 애매하면 "확인 필요"를 붙입니다.' },
     { title: '카드 + 기록', desc: '스레드에 시급도 카드를 달고, 두 모델 판정과 담당자 확정 등급을 시트에 쌓습니다.' },
@@ -55,7 +55,7 @@ export default function UrgencyBot() {
           <li className="text-gray-300 flex items-start gap-2">
             <span className="text-blue-400">•</span>
             <span className="leading-relaxed">
-              EDU CS 요청이 올라오면 <strong className="text-white">"사용자가 지금 겪는 피해"</strong> 기준으로 시급도(P1~P4) 초안을 슬랙에 자동으로 답니다. 최종 결정은 사람이 합니다.
+              CS 요청이 올라오면 <strong className="text-white">"사용자가 지금 겪는 피해"</strong> 기준으로 시급도(P1~P4) 초안을 슬랙에 자동으로 답니다. 최종 결정은 사람이 합니다.
             </span>
           </li>
           <li className="text-gray-300 flex items-start gap-2">
