@@ -110,6 +110,11 @@ export default function ScrollKeywords() {
 			<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>
 			<p className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-3 flex-grow">{project.description}</p>
 			<div className="mt-auto">
+				{project.role && (
+					<div className="text-xs text-gray-400 mb-2">
+						<span className="text-gray-500">내 역할</span> · {project.role}
+					</div>
+				)}
 				<div className="text-xs text-gray-400 mb-4">{project.metrics}</div>
 				<div className="flex flex-wrap gap-2">
 					{project.tags.map((tag) => {
