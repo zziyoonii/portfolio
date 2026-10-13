@@ -67,6 +67,24 @@ export default function UrgencyBot() {
         </ul>
       </div>
 
+      {/* 시급도 기준 */}
+      <div className="bg-navy-800/50 border border-white/10 rounded-lg p-4">
+        <h3 className="text-sm font-semibold text-gray-400 mb-3">🎯 시급도 = 지금 사용자가 실제로 겪고 있는 피해의 크기</h3>
+        <div className="space-y-2">
+          {[
+            { k: 'P1 치명', c: 'text-red-400', d: '되돌리기 어려운 피해가 2명 이상에게 이미 발생' },
+            { k: 'P2 심각', c: 'text-orange-400', d: '핵심 기능(로그인·본인인증·수강 등) 불가 / 정부 보고 데이터 정정' },
+            { k: 'P3 보통', c: 'text-yellow-300', d: '핵심 기능은 되지만 부가 기능 불가·오동작' },
+            { k: 'P4 낮음', c: 'text-gray-300', d: '피해 없는 작업 요청 (세팅·데이터 추출·문의)' },
+          ].map((g) => (
+            <div key={g.k} className="flex items-start gap-3 text-sm">
+              <span className={`font-semibold whitespace-nowrap ${g.c}`}>{g.k}</span>
+              <span className="text-gray-300 leading-relaxed">{g.d}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* 문제 상황 & 접근 */}
       <div>
         <h3 className="text-sm font-semibold text-gray-400 mb-2">문제 상황 & 접근</h3>
@@ -84,24 +102,6 @@ export default function UrgencyBot() {
             </span>
           </li>
         </ul>
-      </div>
-
-      {/* 시급도 기준 */}
-      <div className="bg-navy-800/50 border border-white/10 rounded-lg p-4">
-        <h3 className="text-sm font-semibold text-gray-400 mb-3">🎯 시급도 = 지금 사용자가 실제로 겪고 있는 피해의 크기</h3>
-        <div className="space-y-2">
-          {[
-            { k: 'P1 치명', c: 'text-red-400', d: '되돌리기 어려운 피해가 2명 이상에게 이미 발생' },
-            { k: 'P2 심각', c: 'text-orange-400', d: '핵심 기능(로그인·본인인증·수강 등) 불가 / 정부 보고 데이터 정정' },
-            { k: 'P3 보통', c: 'text-yellow-300', d: '핵심 기능은 되지만 부가 기능 불가·오동작' },
-            { k: 'P4 낮음', c: 'text-gray-300', d: '피해 없는 작업 요청 (세팅·데이터 추출·문의)' },
-          ].map((g) => (
-            <div key={g.k} className="flex items-start gap-3 text-sm">
-              <span className={`font-semibold whitespace-nowrap ${g.c}`}>{g.k}</span>
-              <span className="text-gray-300 leading-relaxed">{g.d}</span>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Impact */}
