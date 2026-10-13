@@ -5,24 +5,32 @@ import ProjectModal from './ProjectModal'
 
 // 모든 카드가 동일한 크기를 갖도록 공통 2열 그리드를 사용한다. (칸을 꽉 채우는 원래 크기)
 const GRID_CLASS = 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-4xl mx-auto'
+// 카드가 홀수일 때 마지막 한 장은 가운데로 (빈 칸이 생기지 않게)
+const LONE_CLASS = 'md:col-span-2 md:w-[calc(50%-1rem)] md:justify-self-center'
 
 export default function ScrollKeywords() {
 	const [selectedProject, setSelectedProject] = useState(null)
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [activeTag, setActiveTag] = useState(null)
+	const [showMore, setShowMore] = useState(false)
 
 	// 전체 프로젝트를 1차원 배열로 평탄화
-	const allProjects = useMemo(
-		() =>
-			SECTIONS.flatMap((section) =>
-				section.projects.map((project) => ({
-					...project,
-					sectionId: section.id,
-					sectionTitle: Array.isArray(section.title) ? section.title.join(' ') : section.title,
-				}))
-			),
-		[]
-	)
+	// 대표 프로젝트(featured)를 앞에 두고, 나머지는 기존 섹션 순서를 유지한다.
+	const allProjects = useMemo(() => {
+		const flat = SECTIONS.flatMap((section) =>
+			section.projects.map((project) => ({
+				...project,
+				sectionId: section.id,
+				sectionTitle: Array.isArray(section.title) ? section.title.join(' ') : section.title,
+			}))
+		)
+		const featured = flat.filter((p) => p.featured).sort((a, b) => a.featured - b.featured)
+		const rest = flat.filter((p) => !p.featured)
+		return [...featured, ...rest]
+	}, [])
+
+	const featuredProjects = useMemo(() => allProjects.filter((p) => p.featured), [allProjects])
+	const moreCount = allProjects.length - featuredProjects.length
 
 	// 태그별 프로젝트 개수 (등장 순서 유지)
 	const tagCounts = useMemo(() => {
@@ -38,10 +46,11 @@ export default function ScrollKeywords() {
 	const allTags = useMemo(() => Array.from(tagCounts.keys()), [tagCounts])
 
 	// 현재 필터가 적용된 프로젝트 목록 (모달 내비게이션도 이 목록을 따른다)
-	const visibleProjects = useMemo(
-		() => (activeTag ? allProjects.filter((p) => p.tags.includes(activeTag)) : allProjects),
-		[activeTag, allProjects]
-	)
+	// (태그 필터는 전체에서, 기본 화면은 접힌 상태면 대표 프로젝트만 모달 이동 대상이 된다.)
+	const visibleProjects = useMemo(() => {
+		if (activeTag) return allProjects.filter((p) => p.tags.includes(activeTag))
+		return showMore ? allProjects : featuredProjects
+	}, [activeTag, showMore, allProjects, featuredProjects])
 
 	const openModal = (projectId) => {
 		const index = visibleProjects.findIndex((p) => p.id === projectId)
@@ -92,7 +101,7 @@ export default function ScrollKeywords() {
 		})
 	}
 
-	const renderProjectCard = (project, index) => (
+	const renderProjectCard = (project, index, extraClass = '') => (
 		<motion.div
 			key={project.id}
 			initial={{ opacity: 0, y: 20 }}
@@ -102,7 +111,7 @@ export default function ScrollKeywords() {
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 0.98 }}
 			onClick={() => openModal(project.id)}
-			className="bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full min-h-[240px] touch-manipulation"
+			className={`bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full min-h-[240px] touch-manipulation ${extraClass}`}
 		>
 			<h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
 			<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>
@@ -138,7 +147,9 @@ export default function ScrollKeywords() {
 	// 카드 목록을 공통 2열 그리드로 렌더링 (칸을 꽉 채우는 원래 크기)
 	const renderGrid = (list) => (
 		<div className={GRID_CLASS}>
-			{list.map((project, index) => renderProjectCard(project, index))}
+			{list.map((project, index) =>
+				renderProjectCard(project, index, list.length % 2 === 1 && index === list.length - 1 ? LONE_CLASS : '')
+			)}
 		</div>
 	)
 
@@ -204,12 +215,9 @@ export default function ScrollKeywords() {
 					</motion.div>
 				</section>
 			) : (
-				// 전체 보기: 기존 섹션(시적 제목)·그룹 구조 유지, 카드 규격만 통일
-				SECTIONS.map((section) => (
-					<section
-						key={section.id}
-						className="min-h-screen flex flex-col justify-center items-center py-20 px-4 bg-gradient-to-b from-navy-900 to-black"
-					>
+				// 전체 보기: 대표 프로젝트 → 더 보기 → 기존 섹션(시적 제목)·그룹 구조 유지
+				<>
+					<section className="flex flex-col items-center py-20 px-4 bg-gradient-to-b from-navy-900 to-black">
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
@@ -217,34 +225,84 @@ export default function ScrollKeywords() {
 							transition={{ duration: 0.6 }}
 							className="w-full max-w-6xl"
 						>
-							<h2 className="text-4xl md:text-5xl font-serif text-white text-center mb-12 md:mb-16">
-								{Array.isArray(section.title) ? (
-									<>
-										<div className="mb-2">{section.title[0]}</div>
-										<div>{section.title[1]}</div>
-									</>
-								) : (
-									section.title
-								)}
-							</h2>
-
-							{section.projects.some((p) => p.group) ? (
-								<div className="space-y-10">
-									{Array.from(new Set(section.projects.map((p) => p.group))).map((groupName) => (
-										<div key={groupName}>
-											<h3 className="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center">
-												{groupName}
-											</h3>
-											{renderGrid(section.projects.filter((p) => p.group === groupName))}
-										</div>
-									))}
-								</div>
-							) : (
-								renderGrid(section.projects)
-							)}
+							<h2 className="text-4xl md:text-5xl font-serif text-white text-center mb-3">Selected Projects</h2>
+							<p className="text-sm text-gray-400 text-center mb-12 md:mb-16">
+								대표 프로젝트 {featuredProjects.length}개
+							</p>
+							{renderGrid(featuredProjects)}
+							<div className="mt-12 flex justify-center">
+								<button
+									type="button"
+									onClick={() => setShowMore((prev) => !prev)}
+									className="px-5 py-2.5 text-sm rounded-full border border-white/20 bg-white/5 text-gray-200 hover:bg-white/10 hover:text-white transition-colors touch-manipulation"
+								>
+									{showMore ? '접기 ▲' : `프로젝트 더 보기 (${moreCount}) ▼`}
+								</button>
+							</div>
 						</motion.div>
 					</section>
-				))
+
+					{showMore &&
+						SECTIONS.map((section) => {
+							const projects = section.projects.filter((p) => !p.featured)
+							if (projects.length === 0) return null
+							return (
+								<section
+									key={section.id}
+									className="flex flex-col justify-center items-center py-16 px-4 bg-gradient-to-b from-navy-900 to-black"
+								>
+									<motion.div
+										initial={{ opacity: 0, y: 20 }}
+										whileInView={{ opacity: 1, y: 0 }}
+										viewport={{ once: true }}
+										transition={{ duration: 0.6 }}
+										className="w-full max-w-6xl"
+									>
+										<h2 className="text-4xl md:text-5xl font-serif text-white text-center mb-12 md:mb-16">
+											{Array.isArray(section.title) ? (
+												<>
+													<div className="mb-2">{section.title[0]}</div>
+													<div>{section.title[1]}</div>
+												</>
+											) : (
+												section.title
+											)}
+										</h2>
+
+										{projects.some((p) => p.group) ? (
+											<div className="space-y-10">
+												{Array.from(new Set(projects.map((p) => p.group))).map((groupName) => (
+													<div key={groupName}>
+														<h3 className="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center">
+															{groupName}
+														</h3>
+														{renderGrid(projects.filter((p) => p.group === groupName))}
+													</div>
+												))}
+											</div>
+										) : (
+											renderGrid(projects)
+										)}
+									</motion.div>
+								</section>
+							)
+						})}
+
+					{showMore && (
+						<div className="flex justify-center pb-16 bg-black">
+							<button
+								type="button"
+								onClick={() => {
+									setShowMore(false)
+									scrollToFilter()
+								}}
+								className="px-5 py-2.5 text-sm rounded-full border border-white/20 bg-white/5 text-gray-200 hover:bg-white/10 hover:text-white transition-colors touch-manipulation"
+							>
+								접기 ▲
+							</button>
+						</div>
+					)}
+				</>
 			)}
 
 			{selectedProject && (
