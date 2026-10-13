@@ -14,6 +14,7 @@ import Lawform from './projects/Lawform'
 import ReleaseNoteSkill from './projects/ReleaseNoteSkill'
 import Beforestatus from './projects/Beforestatus'
 import TrustSafety from './projects/TrustSafety'
+import UrgencyBot from './projects/UrgencyBot'
 
 const PROJECT_COMPONENTS = {
   VocReport,
@@ -28,7 +29,8 @@ const PROJECT_COMPONENTS = {
   Lawform,
   ReleaseNoteSkill,
   Beforestatus,
-  TrustSafety
+  TrustSafety,
+  UrgencyBot
 }
 
 export default function ProjectModal({ selectedProject, currentIndex, totalProjects, onClose, onNext, onPrev }) {

@@ -67,6 +67,15 @@ export default function Hero({ showArrow = true }) {
 					>
 						경험을 읽고, 기술로 구현합니다.
 					</motion.p>
+
+					<motion.p
+						initial={{ opacity: 0, y: 8 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.6, ease: 'easeOut', delay: 0.22 }}
+						className="mt-4 text-sm text-gray-400 md:text-base"
+					>
+						CX Manager, CX Team Leader @ goorm
+					</motion.p>
 				</motion.div>
 			</div>
 

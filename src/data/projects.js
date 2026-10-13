@@ -5,6 +5,7 @@ export const SECTIONS = [
 		projects: [
 			{
 				id: 'voc-report',
+				role: '리포트 구조·루틴 설계 · 대시보드 구축',
 				title: 'VoC 리포트 체계화',
 				subtitle: '정량·정성 통합 보고 구조',
 				description: '3주 주기로 고객의 목소리를 정리해 조직 전체가 공유하는 루틴을 만들었습니다.',
@@ -15,6 +16,7 @@ export const SECTIONS = [
 			},
 			{
 				id: 'cs-process',
+				role: '톤앤매너·매뉴얼·트래킹 체계 설계',
 				title: 'CS 운영 프로세스 구축',
 				subtitle: '초기 CS 시스템 0→1',
 				description: '톤앤매너·매뉴얼·트래킹 체계를 설계해 대응 품질을 표준화했습니다.',
@@ -25,6 +27,7 @@ export const SECTIONS = [
 			},
 			{
 				id: 'auto-withdrawal',
+				role: '탈퇴 흐름 Figma 설계 · 자동화 기획',
 				title: '탈퇴 기능 자동화',
 				subtitle: '수동 처리 → 자동화 구축',
 				description: 'Figma 설계와 정책 정비로 휴먼 에러 없는 자동 처리 흐름을 구축했습니다.',
@@ -35,6 +38,7 @@ export const SECTIONS = [
 			},
 			{
 				id: 'trust-safety',
+				role: '제재·탐지 기준 수립 주도 · 개발/보안팀 협업',
 				title: '플랫폼 Trust & Safety 운영 체계 구축',
 				subtitle: '정책 기준 수립 & 어뷰징 대응 체계화',
 				description: '법적 근거가 없던 비매너 행위에 제재 기준을 세우고, 어뷰징 탐지 기준을 수립해 플랫폼 신뢰를 지켰습니다.',
@@ -51,6 +55,7 @@ export const SECTIONS = [
 		projects: [
             {
                 id: 'voc-backlog',
+                role: '분류 기준 정의 · 스프린트 운영 구조 구축',
                 title: 'VoC 백로그 운영',
 				subtitle: '피드백 → 백로그 → 개선 → 출시 구조 구축',
 				description: '고객 피드백이 제품 개선으로 이어지는 백로그 시스템을 구축했습니다.',
@@ -60,6 +65,7 @@ export const SECTIONS = [
             },
             {
                 id: 'edu-activation',
+                role: '리텐션 지표 재정의 · 액션플랜 설계·운영',
                 title: 'EDU 플랫폼 활성화',
                 subtitle: '데이터 기반 월간 액션플랜',
                 description: '사용자 행동 데이터로 월간 액션 플랜을 설계하고, 1년간 지속 가능한 운영 사이클을 운영했습니다.',
@@ -69,6 +75,7 @@ export const SECTIONS = [
             },
 			{
 				id: 'release-note',
+				role: '릴리즈 노트 운영 설계 · 재개',
 				title: '릴리즈 노트 재개 & 시스템화',
 				subtitle: '출시 흐름 정비 • 누락률 0%',
 				description: 'VoC→개선→공지 흐름을 정착시켜 출시 정보의 비대칭을 해소했습니다.',
@@ -84,6 +91,7 @@ export const SECTIONS = [
 		projects: [
 		  {
 			id: 'team-building',
+			role: 'CX팀 구축 · 채용·온보딩·루틴 설계',
 			title: 'CX 팀 빌딩 & 리더십',
 			subtitle: '0명 → 3명 팀 구축',
 			description: 'CX팀의 문화와 운영 구조를 바닥부터 설계했습니다.',
@@ -93,6 +101,7 @@ export const SECTIONS = [
 		  },
 		  {
 			id: 'channeltalk-optimization',
+			role: '절감 실험 설계·리드',
 			title: '채널톡 운영 최적화',
 			subtitle: '고객 경험 유지하며 77.6% 절감',
 			description: '사용 패턴 분석을 기반으로 점진적 비용 절감을 실험했습니다.',
@@ -108,6 +117,7 @@ export const SECTIONS = [
 		projects: [
 		  {
 			id: 'cx-translator',
+			role: '기획 · 플로우·프롬프트 설계 · 구현',
 			title: 'CX Translator',
 			subtitle: '개발자 ↔ 고객 언어 변환',
 			description: '개발자 용어를 고객 언어로 변환하는 AI 기반 도구를 개발했습니다.',
@@ -118,6 +128,7 @@ export const SECTIONS = [
 		  },
 		  {
 			id: 'release-note-skill',
+			role: '스킬 설계 · 톤앤매너 가이드 정립 · 팀 배포',
 			title: '릴리즈 노트 자동화',
 			subtitle: 'Claude Skills + Notion MCP',
 			description: '스프린트마다 반복되는 노트 초안 작성을 AI로 자동화해 팀 내 배포했습니다.',
@@ -127,7 +138,19 @@ export const SECTIONS = [
 			group: 'AI 업무 도구',
 		  },
 		  {
+			id: 'urgency-bot',
+			role: '시급도 기준 설계 · 구축 · 운영',
+			title: 'CS 시급도 봇',
+			subtitle: '요청 시급도 자동 판정',
+			description: '담당자마다 달랐던 우선순위를 "사용자가 겪는 피해" 기준으로 통일하는 슬랙 봇을 만들었습니다.',
+			metrics: '일치율 68% → 90% • Jev·OpenAI 모델 비교',
+			tags: ['AI', '자동화'],
+			component: 'UrgencyBot',
+			group: 'AI 업무 도구',
+		  },
+		  {
 			id: 'lawform',
+			role: '기획 · 개발 · 배포 (바이브코딩)',
 			title: 'Lonelylawly',
 			subtitle: '서비스 문서 준법 자동 검토',
 			description: '이용약관·개인정보처리방침을 AI로 검토해 법적 리스크와 개정 초안을 즉시 생성하는 도구를 만들었습니다.',
@@ -138,6 +161,7 @@ export const SECTIONS = [
 		  },
 		  {
 			id: 'beforestatus',
+			role: '기획 · 개발 · 배포 (바이브코딩)',
 			title: 'Beforestatus',
 			subtitle: 'LLM 서비스 상태 모니터링 대시보드',
 			description: 'OpenAI·Claude·Gemini·AWS 등 주요 LLM 서비스 장애를 실시간 감지하고 Slack으로 자동 알림을 보내는 모니터링 도구를 만들었습니다.',
