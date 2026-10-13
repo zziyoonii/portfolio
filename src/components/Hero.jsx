@@ -74,29 +74,8 @@ export default function Hero({ showArrow = true }) {
 						transition={{ duration: 0.6, ease: 'easeOut', delay: 0.22 }}
 						className="mt-4 text-sm text-gray-400 md:text-base"
 					>
-						CX 매니저 · 팀 리더 | 고객의 목소리를 제품으로 연결
+						CX Manager, CX Team Leader @ goorm
 					</motion.p>
-
-					<motion.ul
-						initial={{ opacity: 0, y: 8 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.6, ease: 'easeOut', delay: 0.28 }}
-						className="mt-6 flex flex-wrap items-center justify-center gap-2 md:gap-3"
-					>
-						{[
-							{ value: '87%↓', label: '응답시간' },
-							{ value: '연 3,540만원', label: '비용 절감' },
-							{ value: '48회', label: 'VoC 리포트 발행' },
-						].map((s) => (
-							<li
-								key={s.label}
-								className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-gray-300 md:text-sm"
-							>
-								<span className="font-semibold text-blue-300">{s.value}</span>
-								<span className="ml-1.5 text-gray-400">{s.label}</span>
-							</li>
-						))}
-					</motion.ul>
 				</motion.div>
 			</div>
 
