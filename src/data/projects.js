@@ -35,7 +35,6 @@ export const SECTIONS = [
 			},
 			{
 				id: 'trust-safety',
-				featured: 1,
 				title: '플랫폼 Trust & Safety 운영 체계 구축',
 				subtitle: '정책 기준 수립 & 어뷰징 대응 체계화',
 				description: '법적 근거가 없던 비매너 행위에 제재 기준을 세우고, 어뷰징 탐지 기준을 수립해 플랫폼 신뢰를 지켰습니다.',
@@ -85,7 +84,6 @@ export const SECTIONS = [
 		projects: [
 		  {
 			id: 'team-building',
-			featured: 2,
 			title: 'CX 팀 빌딩 & 리더십',
 			subtitle: '0명 → 3명 팀 구축',
 			description: 'CX팀의 문화와 운영 구조를 바닥부터 설계했습니다.',
@@ -110,7 +108,6 @@ export const SECTIONS = [
 		projects: [
 		  {
 			id: 'cx-translator',
-			featured: 4,
 			title: 'CX Translator',
 			subtitle: '개발자 ↔ 고객 언어 변환',
 			description: '개발자 용어를 고객 언어로 변환하는 AI 기반 도구를 개발했습니다.',
@@ -121,7 +118,6 @@ export const SECTIONS = [
 		  },
 		  {
 			id: 'release-note-skill',
-			featured: 3,
 			title: '릴리즈 노트 자동화',
 			subtitle: 'Claude Skills + Notion MCP',
 			description: '스프린트마다 반복되는 노트 초안 작성을 AI로 자동화해 팀 내 배포했습니다.',
@@ -132,7 +128,6 @@ export const SECTIONS = [
 		  },
 		  {
 			id: 'urgency-bot',
-			featured: 5,
 			title: 'CS 시급도 봇',
 			subtitle: '요청 시급도 자동 판정',
 			description: '담당자마다 달랐던 우선순위를 "사용자가 겪는 피해" 기준으로 통일하는 슬랙 봇을 만들었습니다.',
