@@ -5,6 +5,8 @@ import ProjectModal from './ProjectModal'
 
 // 모든 카드가 동일한 크기를 갖도록 공통 2열 그리드를 사용한다. (칸을 꽉 채우는 원래 크기)
 const GRID_CLASS = 'grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-4xl mx-auto'
+// 카드가 홀수일 때 마지막 한 장만 가운데로 놓는다. 너비는 다른 카드와 동일(한 칸 = 50% - gap의 절반).
+const LONE_CLASS = 'md:col-span-2 md:w-[calc(50%-1rem)] md:justify-self-center'
 
 export default function ScrollKeywords() {
 	const [selectedProject, setSelectedProject] = useState(null)
@@ -92,7 +94,7 @@ export default function ScrollKeywords() {
 		})
 	}
 
-	const renderProjectCard = (project, index) => (
+	const renderProjectCard = (project, index, extraClass = '') => (
 		<motion.div
 			key={project.id}
 			initial={{ opacity: 0, y: 20 }}
@@ -102,7 +104,7 @@ export default function ScrollKeywords() {
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 0.98 }}
 			onClick={() => openModal(project.id)}
-			className="bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full min-h-[240px] touch-manipulation"
+			className={`bg-navy-800/50 border border-white/10 p-6 rounded-lg cursor-pointer transition-all hover:border-white/30 active:border-white/40 active:bg-navy-800/70 flex flex-col h-full min-h-[240px] touch-manipulation ${extraClass}`}
 		>
 			<h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
 			<p className="text-sm text-blue-400 mb-3">{project.subtitle}</p>
@@ -138,7 +140,9 @@ export default function ScrollKeywords() {
 	// 카드 목록을 공통 2열 그리드로 렌더링 (칸을 꽉 채우는 원래 크기)
 	const renderGrid = (list) => (
 		<div className={GRID_CLASS}>
-			{list.map((project, index) => renderProjectCard(project, index))}
+			{list.map((project, index) =>
+				renderProjectCard(project, index, list.length % 2 === 1 && index === list.length - 1 ? LONE_CLASS : '')
+			)}
 		</div>
 	)
 
